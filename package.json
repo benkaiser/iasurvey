@@ -10,6 +10,8 @@
     "express": "4.x",
     "express-session": "1.x",
     "mongojs": "0.x",
+    "node-schedule": "0.1.x",
+    "nodemailer": "1.x",
     "password-hash": "1.x",
     "socket.io": "1.x",
     "swig": "1.x"
