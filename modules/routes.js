@@ -8,10 +8,7 @@ module.exports = function(app, io) {
 
   // define the routes
   app.get('/', function(req, res) {
-    // res.send('stub for landing page (survey selection)');
-    controller.getSurveys(function(docs) {
-      res.send(docs);
-    });
+    res.render('landing');
   });
   // landing page for staff
   app.get('/admin', function(req, res) {
