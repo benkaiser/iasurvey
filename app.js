@@ -13,12 +13,14 @@ var mongo_connection_string = 'mongodb://127.0.0.1:27017/iasurvey';
 
 var db = mongojs(mongo_connection_string, ['staff', 'survey', 'result', 'log']);
 
-require('./modules/db_init')(db, function() {
+// start the app now that we have the db
+var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 
-  // start the app now that we have the db
-  var app = express();
-  var http = require('http').Server(app);
-  var io = require('socket.io')(http);
+module.exports = app;
+
+require('./modules/db_init')(db, function() {
 
   // set db variables
   app.set('db', db);
