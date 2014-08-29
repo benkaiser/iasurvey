@@ -10,4 +10,11 @@ module.exports = function Controller(app, io) {
     });
   };
 
+  this.createSurvey = function(data, callback) {
+
+  };
+
+  this.createResult = function(data, callback) {
+
+  };
 };
