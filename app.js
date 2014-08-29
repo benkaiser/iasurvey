@@ -46,7 +46,9 @@ require('./modules/db_init')(db, function() {
   require("./modules/routes")(app, io);
 
   http.listen(app.get('port'), function() {
-    console.log('listening on ' + app.get('port'));
+    if(process.env.NODE_ENV != 'mocha'){
+      console.log('listening on ' + app.get('port'));
+    }
   });
 
 });
