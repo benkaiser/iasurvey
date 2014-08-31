@@ -29,21 +29,25 @@ describe('IA App', function() {
       }
     };
 
+    // remove all the surveys
     db.survey.remove({}, {multi: true}, function(err, numRemoved){
       (err === null).should.be.equal(true);
       completed();
     });
 
+    // remove all the staff
     db.staff.remove({}, {multi: true}, function(err, numRemoved){
       (err === null).should.be.equal(true);
       completed();
     });
 
+    // remove all the results
     db.result.remove({}, {multi: true}, function(err, numRemoved){
       (err === null).should.be.equal(true);
       completed();
     });
 
+    // remove all the logs
     db.log.remove({}, {multi: true}, function(err, numRemoved){
       (err === null).should.be.equal(true);
       completed();
