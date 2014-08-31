@@ -9,7 +9,7 @@ var MongoStore = require('connect-mongo')(session);
 // custom modules
 var Controller = require("./modules/controller");
 
-var mongo_connection_string = 'mongodb://127.0.0.1:27017/iasurvey';
+var mongo_connection_string = 'mongodb://127.0.0.1:27017/' + (process.env.DB || 'iasurvey');
 
 var db = mongojs(mongo_connection_string, ['staff', 'survey', 'result', 'log']);
 

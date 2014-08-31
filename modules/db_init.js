@@ -9,8 +9,10 @@ module.exports = function(db, callback) {
         {id: 0, username: 'dev', password: passwordHash.generate('SecretDevPass')},
         {id: 1, username: 'admin', password: passwordHash.generate('iaadminpass')}
         ], function(err, docs) {
-          console.log('Added staff:');
-          console.log(docs);
+          if(process.env.NODE_ENV != 'mocha'){
+            console.log('Added staff:');
+            console.log(docs);
+          }
           callback();
         });
     } else {

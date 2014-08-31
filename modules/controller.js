@@ -11,10 +11,26 @@ module.exports = function Controller(app, io) {
   };
 
   this.createSurvey = function(data, callback) {
+    this.db.survey.save(data, function(err, doc) {
+      if(err)
+        console.log(err);
+      callback(doc);
+    });
+  };
 
+  this.removeSurvey = function(survey_id, callback) {
+    this.db.survey.remove({_id: this.db.ObjectId(survey_id)}, function(err, numRemoved) {
+      if(err)
+        console.log(err);
+      callback(numRemoved.n);
+    });
   };
 
   this.createResult = function(data, callback) {
-
+    this.db.result.save(data, function(err, doc) {
+      if(err)
+        console.log(err);
+      callback(doc);
+    });
   };
 };
