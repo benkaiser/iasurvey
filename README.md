@@ -50,6 +50,7 @@ Server-side
 - [password-hash](https://github.com/davidwood/node-password-hash) for encrypting passwords
 - [socket.io](https://github.com/Automattic/socket.io) for easy websocket connections (making for a fast and easy to develop client-side app)
 - [swig](http://paularmstrong.github.io/swig/docs/) templating engine for node and javascript (server-side and client-side)
+- [supertest](https://github.com/visionmedia/supertest) for testing calls to webpages
 
 Client-side
 
