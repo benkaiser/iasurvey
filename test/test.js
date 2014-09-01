@@ -2,20 +2,24 @@ var should = require('should');
 process.env.NODE_ENV = 'mocha';
 process.env.DB = 'test_iasurvey';
 var app = require('../app.js');
+var request = require('supertest');
+
+// used to wait for app before starting test
+var waitOnApp = function(done){
+  // wait for the controller to become available
+  var checkFinished = function() {
+    if(app.get('controller') === undefined) {
+      setTimeout(checkFinished, 10);
+    } else {
+      done();
+    }
+  };
+  checkFinished();
+};
 
 // wait for server to start before testing
-describe('IA App', function() {
-  before(function(done) {
-    // wait for the controller to become available
-    var checkFinished = function() {
-      if(app.get('controller') === undefined) {
-        setTimeout(checkFinished, 10);
-      } else {
-        done();
-      }
-    };
-    checkFinished();
-  });
+describe('IA Controller', function() {
+  before(waitOnApp);
 
   it('should be able to clear the database', function(done) {
     // get a handle on the controller
@@ -102,5 +106,18 @@ describe('IA App', function() {
       result.msg.should.be.equal('test');
       done();
     });
+  });
+});
+
+describe('Website View', function() {
+  before(waitOnApp);
+
+  it('should be able to fetch the home page', function(done) {
+    request(app)
+      .get('/')
+      .expect(200)
+      .end(function(){
+        done();
+      });
   });
 });

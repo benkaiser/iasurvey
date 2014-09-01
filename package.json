@@ -17,6 +17,7 @@
     "swig": "1.x"
   },
   "devDependencies": {
-    "should": "4.x"
+    "should": "4.x",
+    "supertest": "0.13.x"
   }
 }
