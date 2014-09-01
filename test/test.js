@@ -93,4 +93,14 @@ describe('IA App', function() {
       done();
     });
   });
+
+  it('should be able to create a log', function(done) {
+    var controller = app.get('controller');
+    // test adding a new sample survey
+    controller.log('test', function(result) {
+      result.should.have.property('_id');
+      result.msg.should.be.equal('test');
+      done();
+    });
+  });
 });

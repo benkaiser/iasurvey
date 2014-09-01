@@ -33,4 +33,12 @@ module.exports = function Controller(app, io) {
       callback(doc);
     });
   };
+
+  this.log = function(msg, callback){
+    this.db.log.save({msg: msg}, function(err, doc) {
+      if(err)
+        console.log(err);
+      callback(doc);
+    });
+  };
 };
