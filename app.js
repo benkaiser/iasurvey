@@ -8,6 +8,8 @@ var mongojs = require('mongojs');
 var MongoStore = require('connect-mongo')(session);
 // custom modules
 var Controller = require("./modules/controller");
+var login = require('./modules/routes');
+var survey = require('./modules/routes');  
 
 var mongo_connection_string = 'mongodb://127.0.0.1:27017/' + (process.env.DB || 'iasurvey');
 

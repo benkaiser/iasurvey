@@ -86,4 +86,16 @@ module.exports = function Controller(app, io) {
     callback(numRemoved.n);
     });
   };
+
+  // this part is to get user information by search username
+  this.getUser = function(name,callback){
+    this.db.staff.findOne({username: name}, function(err,result){
+      if (err){
+        console.log(err);
+        return null;
+      }
+      callback(null,result);
+    });
+  };
+  
 };
