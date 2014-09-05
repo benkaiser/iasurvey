@@ -107,6 +107,66 @@ describe('IA Controller', function() {
       done();
     });
   });
+  
+  
+  
+  var user_id='';
+  var test_username = 'tester';
+  var test_password = 'test';
+  
+  it('should be able to create an account', function(done){
+    var controller = app.get('controller');
+    //test adding a new IA staff account
+    controller.createAccount({username: test_username,password: test_password}, function(result) {
+    result.should.have.property('username');
+    user_id=result._id;
+    done();
+    });
+  });
+  
+  it('should be able to identify the IA staff', function(done){
+    var controller = app.get('controller');
+    //test login function, but I need a complete login function
+    controller.login(test_username,function(result) {
+    result.should.be.equal(test_password);
+    done();
+    });
+  });
+  
+  it('should be able to manage an account', function(done){
+    var controller = app.get('controller');
+    //test change the name of an existing account
+    controller.manageAccount(user_id, function(result) {
+    result.should.be.equal(true);
+    done();
+    });
+  });
+  
+  it('should be able to remove an account', function(done) {
+    var controller = app.get('controller');
+    // test removing an account
+    controller.removeAccount(user_id, function(result) {
+    result.should.be.greaterThan(0);
+    done();
+    });
+  });
+  
+  it('should be able to return the e-mail address', function(done) {
+    var controller = app.get('controller');
+    var result_id="";
+    // but this one won't work 
+    // as I don't know how to callback the email address as "abc@123" rather than "(email:'abc@123')"
+    // submit a new result first
+    controller.createResult({email: 'abc@123'}, function(result) {
+    result.should.have.property('email');
+	result_id=result._id;
+    });
+    // Then, check whether we can find that email from the database
+    controller.queryResult(result_id, function(result){
+    result.should.be.equal('abc@123');
+	done();
+	});
+  });
 });
 
 describe('Website View', function() {
