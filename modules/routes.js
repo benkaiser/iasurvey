@@ -2,7 +2,6 @@
 var db = null;
 var controller = null;
 var passwordHash = require('password-hash');
-var islogin = false;
 
 module.exports = function(app, io) {
   db = app.get('db');
@@ -15,7 +14,7 @@ module.exports = function(app, io) {
 
   //ADMIN
   app.get('/admin', function(req, res) {
-    if(islogin == false)
+    if(req.session.loggedIn == false)
       res.render('login');
     else
       res.render('admin');
@@ -23,32 +22,29 @@ module.exports = function(app, io) {
 
   //LOGIN
   app.get('/login', function(req, res) {
-    if(req.session.islogin){
-      res.locals.islogin = req.session.islogin;
+    if(req.session.loggedIn){
       res.render('admin');
     }
-    res.render('login');
+    else
+      res.render('login');
   });
 
   app.post('/login', function(req, res) {
-    var userName = req.body['txtUserName'],
-        userPwd = req.body['txtUserPwd'],
-        isRem = req.body['pwdRem'];
+    var userName = req.body.txtUserName,
+        userPwd = req.body.txtUserPwd,
+        isRem = req.body.pwdRem;
 
     controller.getUser(userName, function (err, results) { 
+      console.log(results);
         if(results == null)
         {
-            res.locals.error = 'User does not exist.';
-            console.log('User does not exist.');
-            res.render('login');
+            res.render('login', {error: 'User does not exist!'});
             return;
         }
 
          if(passwordHash.verify(userPwd,results.password)==false)
          {
-             res.locals.error = 'Username or password invalid.';
-             console.log('Username or password invalid.');
-             res.render('login');
+             res.render('login', {error: 'Username or password invalid!'})
              return;
          }
          else
@@ -57,7 +53,7 @@ module.exports = function(app, io) {
              {
                 res.cookie('islogin', userName, { maxAge: 60000 });                 
              }
-             islogin = true;
+             req.session.loggedIn = true;
              res.locals.username = userName;
              req.session.username = res.locals.username;
              console.log(req.session.username + ' log in.');                        
@@ -71,7 +67,6 @@ module.exports = function(app, io) {
     app.get('/logout', function (req, res) {
         // clear user session
         req.session.loggedIn = false;
-        islogin = false;
         res.render('landing');
     });
 

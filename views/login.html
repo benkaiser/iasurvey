@@ -7,9 +7,8 @@
     <title>IA staff admin</title>
 
     <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/signin.css" />
-    <link href="css/admin.css" rel="stylesheet">
+    <link href="static/css/libs/bootstrap.min.css" rel="stylesheet">
+    <link href="static/css/admin.css" rel="stylesheet">
   </head>
 
   <body>
@@ -27,6 +26,9 @@
         </div> 
       <% } %> 
     -->
+    {% if error %}
+    <p>{error}</p>
+    {% endif %}
       <div class="header">
         <h3>INTERNS AUSTRALIA</h3>
       </div>
@@ -61,7 +63,7 @@
   </body>
 </html>
 <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
+<script src="static/js/libs/bootstrap.min.js"></script>
 <script type="text/javascript">
 
     $(function(){

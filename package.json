@@ -14,7 +14,7 @@
     "nodemailer": "1.x",
     "password-hash": "1.x",
     "socket.io": "1.x",
-    "swig": "1.x"
+    "swig": "^1.4.2"
   },
   "devDependencies": {
     "should": "4.x",
