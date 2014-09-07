@@ -8,19 +8,25 @@ module.exports = function(app, io) {
   db = app.get('db');
   controller = app.get('controller');
 
-  // define the routes
+  //HOMEPAGE
   app.get('/', function(req, res) {
     res.render('landing');
   });
 
+  //ADMIN
   app.get('/admin', function(req, res) {
     if(islogin == false)
-      res.send('stub for staff login page');
+      res.render('login');
     else
       res.render('admin');
   });
 
+  //LOGIN
   app.get('/login', function(req, res) {
+    if(req.session.islogin){
+      res.locals.islogin = req.session.islogin;
+      res.render('admin');
+    }
     res.render('login');
   });
 
@@ -33,6 +39,7 @@ module.exports = function(app, io) {
         if(results == null)
         {
             res.locals.error = 'User does not exist.';
+            console.log('User does not exist.');
             res.render('login');
             return;
         }
@@ -40,6 +47,7 @@ module.exports = function(app, io) {
          if(passwordHash.verify(userPwd,results.password)==false)
          {
              res.locals.error = 'Username or password invalid.';
+             console.log('Username or password invalid.');
              res.render('login');
              return;
          }
@@ -52,11 +60,19 @@ module.exports = function(app, io) {
              islogin = true;
              res.locals.username = userName;
              req.session.username = res.locals.username;
-             console.log(req.session.username);                        
+             console.log(req.session.username + ' log in.');                        
              res.redirect('admin');
              return;
          }     
-      });              
+      });      
+    });
+
+    // LOGOUT
+    app.get('/logout', function (req, res) {
+        // clear user session
+        req.session.loggedIn = false;
+        islogin = false;
+        res.render('landing');
     });
 
 };

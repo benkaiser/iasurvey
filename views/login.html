@@ -1,49 +1,68 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>IA staff admin</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/signin.css" />
+    <link href="css/admin.css" rel="stylesheet">
   </head>
-  <body>    
-      
-      <form method="post">
-          Username：<input type="text" id="txtUserName" name="txtUserName" />
-          Password：<input type="password" id="txtUserPwd" name="txtUserPwd" />
-          <label class="checkbox">
-          <input name="pwdRem" id="pwdRem" type="checkbox" value="remember-me"> 
-          Remember password
-          </label>
-          <button id="btnSub" class="btn btn-lg btn-primary" type="submit">Log in</button>
-      </form>
-    
+
+  <body>
+    <div class="container" id="container">
+      <!--
+      <% if (locals.success) { %> 
+          <div id="alt_sucess" class="alert alert-success"> 
+            <%= success %> 
+          </div> 
+       <% } %> 
+
+      <% if (locals.error) { %> 
+        <div id="alt_warning" class="alert alert-warning"> 
+          <%= error %> 
+        </div> 
+      <% } %> 
+    -->
+      <div class="header">
+        <h3>INTERNS AUSTRALIA</h3>
+      </div>
+      <div class="test">
+      <div class="sign_in">
+        <form class="form" role="form" method="post">
+          <h3>Sign In</h3>
+          <div class="form-group">
+            <label for="inputUsername">Username</label>
+            <!-- input username -->
+            <input type="username" class="form-control" id="txtUserName" placeholder="Username" name="txtUserName"><span id="name_error"></span>
+          </br>
+            <label for="inputPassword">Password</label>
+            <!-- input password -->
+            <input type="password" class="form-control" id="txtUserPwd" placeholder="Password" name="txtUserPwd"><span id="pwd_error"></span>
+            <div class="checkbox">
+              <label>
+                <!-- checkbox remember me -->
+                <input type="checkbox" name="pwdRem" id="pwdRem"> Remember me
+              </label>
+            </div>
+            <button type="submit" class="btn btn-primary" id="btnSub">Sign in</button>
+          </div>
+        </form>
+      </div>
+      </div>
+      <div class="footer">
+        <p>© Company 2014</p>
+      </div>
+    </div>
+
   </body>
 </html>
-
-<script src="/javascripts/jquery-1.11.1.min.js" type="text/javascript"></script>
-
+<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 <script type="text/javascript">
-     String.prototype.format = function (args) {
-            var result = this;
-            if (arguments.length > 0) {
-                if (arguments.length == 1 && typeof (args) == "object") {
-                    for (var key in args) {
-                        if (args[key] != undefined) {
-                            var reg = new RegExp("({" + key + "})", "g");
-                            result = result.replace(reg, args[key]);
-                        }
-                    }
-                }
-                else {
-                    for (var i = 0; i < arguments.length; i++) {
-                        if (arguments[i] != undefined) {
-                            var reg = new RegExp("({)" + i + "(})", "g");
-                            result = result.replace(reg, arguments[i]);
-                        }
-                    }
-                }
-            }
-            return result;
-    }
 
     $(function(){
         $('#btnSub').on('click',function(){           
@@ -58,6 +77,7 @@
             
             if(txtUserNameVal.length == 0)
             {
+                document.getElementById('name_error').innerHTML='<font style="color:red">User name can not be empty.</font>';
                 $("#container").prepend(errorTip.format('User name can not be empty.'));                
                 $txtUserName.focus();
                 return false;
@@ -65,6 +85,7 @@
 
             if(txtUserPwdVal.length == 0)
             {                
+                document.getElementById('pwd_error').innerHTML='<font style="color:red">Password can not be empty.</font>';
                 $("#container").prepend(errorTip.format('Password can not be empty.'));
                 $txtUserPwd.focus();
                 return false;
@@ -75,4 +96,3 @@
     });
 
 </script>
-
