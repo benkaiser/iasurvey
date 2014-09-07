@@ -1,0 +1,65 @@
+/* Space out content a bit */
+body {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.page {
+	position: relative;
+	width: 1020px;
+	margin: 0 auto;    
+}
+
+/* Customize container */
+@media (min-width: 768px) {
+  .container {
+    max-width: 1020px;
+  }
+}
+
+.header,.footer {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.header{
+	border-bottom: 1px solid #e5e5e5;
+  /*margin-bottom: 30px;*/
+}
+
+.header h3{
+	padding-bottom: 19px;
+  color: #96D4D0;
+}
+
+.footer {
+  padding-top: 19px;
+  color: #777;
+  border-top: 1px solid #e5e5e5;
+  margin-top: 30px;
+}
+
+.test {
+    text-align: center;
+}
+.sign_in {
+	display: inline-block;
+  border: 1px solid #e5e5e5;
+  border-radius: 5px;
+  width: 500px;
+  padding-left: 30px;
+  padding-right: 30px;
+  text-align: left;
+  margin-top: 30px;
+}
+
+.sign_in h3 {
+  color: #468CC8;
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+
+.form-group label{
+  padding-top: 15px;
+
+}
