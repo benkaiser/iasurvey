@@ -69,8 +69,8 @@ module.exports = function Controller(app, io) {
 
   this.queryResult = function (data, callback) {
     this.db.result.findOne(data, function(err, doc) {
-	    if(err)
-	      console.log(err);
+      if(err)
+        console.log(err);
       callback(doc);
     });
   };

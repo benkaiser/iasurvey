@@ -159,8 +159,8 @@ describe('IA Controller', function() {
     // Then, check whether we can find that email from the database
     controller.queryResult(result_id, function(result){
       result.email.should.be.equal('abc@123');
-  	  done();
-	  });
+      done();
+    });
   });
 });
 
