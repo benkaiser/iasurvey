@@ -1,4 +1,8 @@
-// this module creates all the individial routes for the server
+/*
+This module creates all the individial routes for the server
+@para <express>app <socket.io>io
+@return function
+*/
 var db = null;
 var controller = null;
 var passwordHash = require('password-hash');
@@ -6,7 +10,6 @@ var passwordHash = require('password-hash');
 module.exports = function(app, io) {
   db = app.get('db');
   controller = app.get('controller');
-
   //HOMEPAGE
   app.get('/', function(req, res) {
     res.render('landing');
@@ -34,7 +37,7 @@ module.exports = function(app, io) {
         userPwd = req.body.txtUserPwd,
         isRem = req.body.pwdRem;
 
-    controller.getUser(userName, function (err, results) { 
+    controller.getUser(userName, function (err, results) {
       console.log(results);
         if(results == null)
         {
@@ -51,16 +54,16 @@ module.exports = function(app, io) {
          {
              if(isRem)
              {
-                res.cookie('islogin', userName, { maxAge: 60000 });                 
+                res.cookie('islogin', userName, { maxAge: 60000 });
              }
              req.session.loggedIn = true;
              res.locals.username = userName;
              req.session.username = res.locals.username;
-             console.log(req.session.username + ' log in.');                        
+             console.log(req.session.username + ' log in.');
              res.redirect('admin');
              return;
-         }     
-      });      
+         }
+      });
     });
 
     // LOGOUT

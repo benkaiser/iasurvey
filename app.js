@@ -1,3 +1,8 @@
+/*
+app.js
+Entrance of system
+*/
+
 var path = require('path');
 var express = require('express');
 var session = require('express-session');
@@ -10,6 +15,7 @@ var MongoStore = require('connect-mongo')(session);
 var Controller = require("./modules/controller");
 var login = require('./modules/routes');
 var survey = require('./modules/routes');  
+var survey = require('./modules/routes');
 
 var mongo_connection_string = 'mongodb://127.0.0.1:27017/' + (process.env.DB || 'iasurvey');
 
