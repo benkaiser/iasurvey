@@ -65,9 +65,11 @@ Record system log
       callback(doc);
     });
   };
-
-<<<<<<< HEAD
-  //the function below is just for test
+/*
+This function below is just for test
+createAccount
+@para <json>data <function>callback
+*/
   this.createAccount = function(data, callback) {
     this.db.staff.save(data, function(err, doc) {
       if(err)
@@ -75,52 +77,16 @@ Record system log
       callback(doc);
     });
   };
-
-  this.manageAccount = function(user_id, callback) {
-    this.db.staff.update({_id:this.db.ObjectId(user_id)}, {$set:{username:'Changed'}}, function(err, numRemoved) {
-      if(err)
-        console.log(err);
-      callback(numRemoved.updatedExisting);
-    });
-  };
-
-  this.removeAccount = function(user_id, callback) {
-    this.db.staff.remove({_id: this.db.ObjectId(user_id)}, function(err, numRemoved) {
-      if(err)
-        console.log(err);
-      callback(numRemoved.n);
-    });
-  };
-
-  this.queryResult = function (data, callback) {
-    this.db.result.findOne(data, function(err, doc) {
-      if(err)
-        console.log(err);
-      callback(doc);
-=======
-
-/*
-This function below is just for test
-createAccount
-@para <json>data <function>callback
-*/
-  this.createAccount = function(data, callback){
-    this.db.staff.save(data, function(err, doc){
-    if(err)
-      console.log(err);
-    callback(doc);
-    });
-  };
 /*
 manageAccount
 Update a existing user name to 'Changed' by user_id
 @para <String>user_id <function>callback
 */
-  this.manageAccount = function(user_id,callback) {
-    this.db.staff.update({_id:this.db.ObjectId(user_id)},{$set:{username:'Changed'}},function(err, numRemoved) {
-    if(err)
-      console.log(err);
-    callback(numRemoved.updatedExisting);
+  this.manageAccount = function(user_id, callback) {
+    this.db.staff.update({_id:this.db.ObjectId(user_id)}, {$set:{username:'Changed'}}, function(err, numRemoved) {
+      if(err)
+        console.log(err);
+      callback(numRemoved.updatedExisting);
     });
   };
 /*
@@ -130,37 +96,20 @@ Remove a user account by user_id
 */
   this.removeAccount = function(user_id, callback) {
     this.db.staff.remove({_id: this.db.ObjectId(user_id)}, function(err, numRemoved) {
-    if(err)
-      console.log(err);
-    callback(numRemoved.n);
+      if(err)
+        console.log(err);
+      callback(numRemoved.n);
     });
   };
 /*
 queryResult
 @para <jsonString>data <function>callback
 */
-  this.queryResult = function (data, callback){
-    this.db.result.find(data,{_id:0,email:1}, function(err, doc){
-	//There is still an error here.
-	//I don't know how to write this controllers.
-	//As I want it to return a value of this collection, not the whole.
-	if(err)
-	  console.log(err);
-    callback(doc);
-    });
-  };
-/*
-removeResult
-Remove result from database by result_id
-@para <String>result_id <function>callback
-*/
-  this.removeResult = function (result_id,callback){
-    //this function is for test only as staff can't delete results
-    this.db.result.remove ({_id: this.db.ObjectId(result_id)}, function(err, numRemoved){
-    if(err)
-      console.log(err);
-    callback(numRemoved.n);
->>>>>>> Add comments
+  this.queryResult = function (data, callback) {
+    this.db.result.findOne(data, function(err, doc) {
+      if(err)
+        console.log(err);
+      callback(doc);
     });
   };
 /*
