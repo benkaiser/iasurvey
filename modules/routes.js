@@ -80,9 +80,9 @@ module.exports = function(app, io) {
  * Direct to /staff or redirect to login page
  */
   app.get('/staff', function(req, res) {
-    // if(req.session.loggedIn == false)
-    //   res.render('login');
-    // else
+    if(req.session.loggedIn == false)
+      res.render('login');
+    else
       res.render('staff');
   });
 
@@ -91,9 +91,9 @@ module.exports = function(app, io) {
  * Direct to /user-create or redirect to login page
  */
   app.get('/user-create', function(req, res) {
-    // if(req.session.loggedIn == false)
-    //   res.render('login');
-    // else
+    if(req.session.loggedIn == false)
+      res.render('login');
+    else
       res.render('user-create');
   });
 
@@ -110,11 +110,11 @@ module.exports = function(app, io) {
         ,email = req.body.email
         ,isAdmin = req.body.isAdmin;
     controller.createAccount(
-      {user_name:userName, first_name:firstName, last_name:lastName, email:email, is_admin:isAdmin},
+      {username:userName, firstname:firstName, lastname:lastName, email:email, is_admin:isAdmin},
       function (saved) {
       console.log(saved+" saved");
     });
-    res.render('staff-operation-success', {user_uame: 'momomomo'});
+    res.render('staff-operation-success', {title: "User Create Successful", user_name: userName});
   });
 
 /**
@@ -122,10 +122,15 @@ module.exports = function(app, io) {
  * Direct to /user-delete or redirect to login page
  */
   app.get('/user-delete', function(req, res) {
-    // if(req.session.loggedIn == false)
-    //   res.render('login');
-    // else
-      res.render('user-delete');
+    controller.getAllUser(
+      function (users) {
+        console.log(users);
+        if(req.session.loggedIn == false)
+          res.render('login');
+        else
+          res.render('user-delete', {users: users});
+      }
+    );
   });
 
 /**
@@ -135,11 +140,22 @@ module.exports = function(app, io) {
  * @throw delete faliure error infomation
  */
   app.post('/user-delete', function(req, res) {
-    var user_id = req.body.userId;
-    controller.removeAccount(user_id,
-      function (numRemoved) {
-      console.log(numRemoved+" Removed");
-    });
+    var userChoosen = req.body.userChoosen;
+    if( typeof userChoosen === 'string' ) {
+      controller.removeAccount(userChoosen,
+        function (numRemoved) {
+        console.log(numRemoved+" Removed");
+      });
+      res.render('staff-operation-success', {title: "User Delete Successful", user_name: userChoosen});
+    }
+    else
+      userChoosen.forEach(function(userId) {
+        controller.removeAccount(userId,
+          function (numRemoved) {
+          console.log(numRemoved+" Removed");
+        });
+        res.render('staff-operation-success', {title: "User Delete Successful", user_name: userId});
+      });
   });
 
 /**
@@ -147,9 +163,9 @@ module.exports = function(app, io) {
  * Direct to /account-update or redirect to login page
  */
   app.get('/account-update', function(req, res) {
-    // if(req.session.loggedIn == false)
-    //   res.render('login');
-    // else
+    if(req.session.loggedIn == false)
+      res.render('login');
+    else
       res.render('account-update');
   });
 };

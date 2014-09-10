@@ -126,5 +126,19 @@ this part is to get user information by search username
       callback(null,result);
     });
   };
+/*
+getAllUser
+this part is to get user information by search username
+@para <String>name <function>callback
+*/
+  this.getAllUser = function(callback){
+    this.db.staff.find(function(err,result){
+      if (err){
+        console.log(err);
+        return null;
+      }
+      callback(result);
+    });
+  };
 
 };

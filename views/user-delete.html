@@ -6,12 +6,15 @@
 <div class="container">
   <h1>Welcome</h1>
   <p>This is the user-delete page</p>
+  <form action="user-delete" method="post">
+    <select name="userChoosen" multiple="multiple" size="10">
+      {% for person in users %}
+        {% if loop.first %}<ol>{% endif %}
+          <option value = {{person._id.toString()}}>{{person.username}}</option>
+        {% if loop.last %}</ol>{% endif %}
+      {% endfor %}
+    </select>
+    <input type="submit" value="Delete" />
+  </form>
 </div>
-
-<select multiple="multiple" size="5">
-  <option value ="volvo">Volvo</option>
-  <option value ="saab">Saab</option>
-  <option value="opel">Opel</option>
-  <option value="audi">Audi</option>
-</select>
 {% endblock %}
