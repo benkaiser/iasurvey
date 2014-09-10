@@ -1,7 +1,7 @@
 /*
 this module manages the data in the surveys and feeds them to the routes
 @para <express>app <socket.io>io
-@return function
+@return <object>Controller
 */
 module.exports = function Controller(app, io) {
 
@@ -66,8 +66,8 @@ Record system log
     });
   };
 /*
-This function below is just for test
 createAccount
+Creat IA Staff user account
 @para <json>data <function>callback
 */
   this.createAccount = function(data, callback) {
