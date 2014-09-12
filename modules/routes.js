@@ -10,21 +10,21 @@ var passwordHash = require('password-hash');
 module.exports = function(app, io) {
   db = app.get('db');
   controller = app.get('controller');
-  //HOMEPAGE
+  // homepage
   app.get('/', function(req, res) {
     res.render('landing');
   });
 
-  //ADMIN
+  // admin
   app.get('/admin', function(req, res) {
-    if(req.session.loggedIn == false)
+    if(req.session.loggedIn === false)
       res.render('login');
     else
       res.render('admin');
   });
 
   /**
-   *LOGIN routes and post
+   * login routes and post
    *
    */
   app.get('/login', function(req, res) {
@@ -40,21 +40,23 @@ module.exports = function(app, io) {
         userPwd = req.body.txtUserPwd,
         isRem = req.body.pwdRem;
 
-    controller.getUser(userName, function (err, results) {
-      console.log(results);
-        if(results == null)
-        {
-            res.render('login', {error: 'User does not exist!'});
-            return;
+        if(userName.length === 0){
+          res.render('login', {error: 'User name can not be empty.'});
+          return;
+        } if(userPwd.length === 0){
+          res.render('login', {error: 'Password can not be empty.'});
+          return;
         }
 
-         if(passwordHash.verify(userPwd,results.password)==false)
-         {
-             res.render('login', {error: 'Username or password invalid!'})
+    controller.getUserByName(userName, function (err, results) {
+      console.log(results);
+        if(results === null){
+            res.render('login', {error: 'User does not exist!'});
+            return;
+        } if(passwordHash.verify(userPwd,results.password) === false) {
+             res.render('login', {error: 'Username or password invalid!'});
              return;
-         }
-         else
-         {
+         } else {
              if(isRem)
              {
                 res.cookie('islogin', userName, { maxAge: 60000 });
@@ -68,7 +70,7 @@ module.exports = function(app, io) {
          }
     });
   });
-  // LOGOUT
+  // logout
   app.get('/logout', function (req, res) {
       // clear user session
       req.session.loggedIn = false;
@@ -80,7 +82,7 @@ module.exports = function(app, io) {
  * Direct to /staff or redirect to login page
  */
   app.get('/staff', function(req, res) {
-    if(req.session.loggedIn == false)
+    if(req.session.loggedIn === false)
       res.render('login');
     else
       res.render('staff');
@@ -91,7 +93,7 @@ module.exports = function(app, io) {
  * Direct to /user-create or redirect to login page
  */
   app.get('/user-create', function(req, res) {
-    if(req.session.loggedIn == false)
+    if(req.session.loggedIn === false)
       res.render('login');
     else
       res.render('user-create');
@@ -104,12 +106,12 @@ module.exports = function(app, io) {
  * @throw save faliure error infomation
  */
   app.post('/user-create', function(req, res) {
-    var userName = req.body.uname
-        ,password = req.body.password
-        ,firstName = req.body.fname
-        ,lastName = req.body.lname
-        ,email = req.body.email
-        ,isAdmin = req.body.isAdmin;
+    var userName = req.body.uname,
+        password = req.body.password,
+        firstName = req.body.fname,
+        lastName = req.body.lname,
+        email = req.body.email,
+        isAdmin = req.body.isAdmin;
     if (typeof isAdmin === 'undefined') {
       isAdmin = "User";
     }

@@ -122,9 +122,9 @@ this part is to get user information by search username
     this.db.staff.findOne({username: name}, function(err,result){
       if (err){
         console.log(err);
-        return null;
+        callback(err, null);
       }
-      callback(null,result);
+      callback(null, result);
     });
   };
 /*
