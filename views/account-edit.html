@@ -1,0 +1,31 @@
+{% extends 'base/public_base.html' %}
+
+{% block title %}Surveys - Interns Australia{% endblock %}
+
+{% block content %}
+<script>
+  function returnStaff(){
+    window.location.href='/account-update';
+  }
+</script>
+<div class="container">
+  <h1>Welcome</h1>
+  <p>This is the account-edit page</p>
+  <form action="account-edit" method="post">
+    <input type="hidden" name="userId" value="{{user._id.toString()}}"/></br>
+    User name: <input type="text" name="uname" value="{{user.username}}" readonly="readonly"/></br>
+    Password: <input type="text" name="password" value="{{user.password}}"/></br>
+    First name: <input type="text" name="fname" value="{{user.firstname}}"/></br>
+    Last name: <input type="text" name="lname" value="{{user.lastname}}"/></br>
+    Email: <input type="text" name="email" value="{{user.email}}"/></br>
+    Authorization:
+    {% if user.is_admin == 'Admin' %}
+      <input type="checkbox" name="isAdmin" value="Admin" checked="checked"></br>
+    {% else %}
+      <input type="checkbox" name="isAdmin" value="Admin"></br>
+    {% endif %}
+    <input type="submit" value="Submit" />
+    <input type="button" value="Back" onclick="returnStaff()"/>
+  </form>
+</div>
+{% endblock %}

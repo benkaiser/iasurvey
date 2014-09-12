@@ -79,6 +79,7 @@ Creat IA Staff user account
   };
 /*
 manageAccount
+this is a test function
 Update a existing user name to 'Changed' by user_id
 @para <String>user_id <function>callback
 */
@@ -113,11 +114,11 @@ queryResult
     });
   };
 /*
-removeResult
+getUserByName
 this part is to get user information by search username
 @para <String>name <function>callback
 */
-  this.getUser = function(name,callback){
+  this.getUserByName = function(name,callback){
     this.db.staff.findOne({username: name}, function(err,result){
       if (err){
         console.log(err);
@@ -140,5 +141,31 @@ this part is to get user information by search username
       callback(result);
     });
   };
-
+/*
+getUserById
+this part is to get user information by search username
+@para <String>name <function>callback
+*/
+  this.getUserById = function(user_id,callback){
+    this.db.staff.findOne({_id: this.db.ObjectId(user_id)}, function(err,result){
+      if (err){
+        console.log(err);
+        return null;
+      }
+      callback(result);
+    });
+  };
+/*
+updateAccount
+Update a existing user by user_id
+@para <String>user_id <jsonString>data <function>callback
+*/
+  this.updateAccount = function(user_id, data, callback) {
+    this.db.staff.update({_id:this.db.ObjectId(user_id)}, {$set:data}, function(err, result) {
+      if(err)
+        console.log(err);
+      console.log(result);
+      callback(result.ok);
+    });
+  };
 };

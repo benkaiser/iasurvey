@@ -105,16 +105,20 @@ module.exports = function(app, io) {
  */
   app.post('/user-create', function(req, res) {
     var userName = req.body.uname
+        ,password = req.body.password
         ,firstName = req.body.fname
         ,lastName = req.body.lname
         ,email = req.body.email
         ,isAdmin = req.body.isAdmin;
+    if (typeof isAdmin === 'undefined') {
+      isAdmin = "User";
+    }
     controller.createAccount(
-      {username:userName, firstname:firstName, lastname:lastName, email:email, is_admin:isAdmin},
+      {username:userName, password:password, firstname:firstName, lastname:lastName, email:email, is_admin:isAdmin},
       function (saved) {
-      console.log(saved+" saved");
+      console.log(JSON.stringify(saved) + " saved");
     });
-    res.render('staff-operation-success', {title: "User Create Successful", user_name: userName});
+    res.render('staff-operation-success', {title: "User Create Successful", buttonValue: "ContinueCreate", page: "/user-create"});
   });
 
 /**
@@ -124,7 +128,6 @@ module.exports = function(app, io) {
   app.get('/user-delete', function(req, res) {
     controller.getAllUser(
       function (users) {
-        console.log(users);
         if(req.session.loggedIn == false)
           res.render('login');
         else
@@ -146,7 +149,7 @@ module.exports = function(app, io) {
         function (numRemoved) {
         console.log(numRemoved+" Removed");
       });
-      res.render('staff-operation-success', {title: "User Delete Successful", user_name: userChoosen});
+      res.render('staff-operation-success', {title: "User Delete Successful", buttonValue: "ContinueDelete", page: "/user-delete"});
     }
     else
       userChoosen.forEach(function(userId) {
@@ -154,7 +157,7 @@ module.exports = function(app, io) {
           function (numRemoved) {
           console.log(numRemoved+" Removed");
         });
-        res.render('staff-operation-success', {title: "User Delete Successful", user_name: userId});
+        res.render('staff-operation-success', {title: "User Delete Successful", buttonValue: "ContinueDelete", page: "/user-delete"});
       });
   });
 
@@ -166,6 +169,41 @@ module.exports = function(app, io) {
     if(req.session.loggedIn == false)
       res.render('login');
     else
-      res.render('account-update');
+      controller.getAllUser(
+        function (users) {
+          res.render('account-update', {users: users});
+        }
+      );
+  });
+/**
+ * account-update post handler
+ */
+  app.post('/account-update', function(req, res) {
+    var userId = req.body.userId;
+    controller.getUserById(userId,
+      function (user) {
+        res.render('account-edit', {user: user});
+      }
+    );
+  });
+/**
+ * account-edit post handler
+ */
+  app.post('/account-edit', function(req, res) {
+    var userId = req.body.userId
+        ,userName = req.body.uname
+        ,password = req.body.password
+        ,firstName = req.body.fname
+        ,lastName = req.body.lname
+        ,email = req.body.email
+        ,isAdmin = req.body.isAdmin;
+    var data = {username:userName, password:password, firstname:firstName, lastname:lastName, email:email, is_admin:isAdmin}
+    controller.updateAccount(userId, data,
+      function (result) {
+        if(result == true){
+          res.render('staff-operation-success', {title: "Account Update Successful", buttonValue: "ContinueUpdate", page: "/account-update"});
+        }
+      }
+    );
   });
 };

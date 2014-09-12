@@ -3,6 +3,11 @@
 {% block title %}Surveys - Interns Australia{% endblock %}
 
 {% block content %}
+<script>
+  function returnStaff(){
+    window.location.href='/staff';
+  }
+</script>
 <div class="container">
   <h1>Welcome</h1>
   <p>This is the user-delete page</p>
@@ -15,6 +20,7 @@
       {% endfor %}
     </select>
     <input type="submit" value="Delete" />
+    <input type="button" value="Back" onclick="returnStaff()"/>
   </form>
 </div>
 {% endblock %}

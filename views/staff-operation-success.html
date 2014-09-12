@@ -1,10 +1,19 @@
-<head>
-  <title>{{title}}</title>
-</head>
+{% extends 'base/public_base.html' %}
 
-<body>
+{% block title %}Surveys - Interns Australia{% endblock %}
+
+{% block content %}
+<script>
+  function backStaff(){
+    window.location.href='/staff';
+  }
+  function continueOperation(){
+    window.location.href= '{{page}}';
+  }
+</script>
 <div class="container">
   <h1>{{title}} </h1>
-  <p>{{user_name}}</p>
+  <input type="button" value="BackToManagement" onclick="backStaff()"/>
+  <input type="button" value= '{{buttonValue}}' onclick="continueOperation()"/>
 </div>
-</body>
+{% endblock %}

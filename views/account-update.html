@@ -3,8 +3,40 @@
 {% block title %}Surveys - Interns Australia{% endblock %}
 
 {% block content %}
+
+<script>
+  function returnStaff(){
+    window.location.href='/staff';
+  }
+</script>
+
 <div class="container">
   <h1>Welcome</h1>
   <p>This is the account update page</p>
+    <form action="account-update" method="post">
+      <table border="1">
+        <tr>
+          <td>User Name</td>
+          <td>First Name</td>
+          <td>Last Name</td>
+          <td>Email</td>
+          <td>Authorization</td>
+          <td>select</td>
+        </tr>
+        {% for person in users %}
+          <tr>
+            <td>{{person.username}}</td>
+            <td>{{person.firstname}}</td>
+            <td>{{person.lastname}}</td>
+            <td>{{person.email}}</td>
+            <td>{{person.is_admin}}</td>
+            <td><input type="radio" name="userId" value="{{person._id.toString()}}"/></td>
+          </tr>
+        {% endfor %}
+      </table>
+      <input type="submit" value="Edit"/>
+      <input type="button" value="Back" onclick="returnStaff()"/>
+    </form>
 </div>
+
 {% endblock %}
