@@ -5,11 +5,16 @@
 {% block content %}
 
 <script>
+  var userChoosen;
   function returnStaff(){
     window.location.href='/staff';
   }
+  function chooseUser(user_choosen){
+    userChoosen = user_choosen;
+  }
 </script>
-
+<body>
+  <a href="javascript:alert()">demo</a>
 <div class="container">
   <h1>Welcome</h1>
   <p>This is the account update page</p>
@@ -30,13 +35,14 @@
             <td>{{person.lastname}}</td>
             <td>{{person.email}}</td>
             <td>{{person.is_admin}}</td>
-            <td><input type="radio" name="userId" value="{{person._id.toString()}}"/></td>
+            <td><input type="radio" name="userId" value="{{person._id.toString()}}" onclick="chooseUser('{{person._id.toString()}}')"/></td>
           </tr>
         {% endfor %}
       </table>
+      <input type="button" value="Update PassWord" onclick="javascript:window.location.href='/password-update?userId='+userChoosen"/>
       <input type="submit" value="Edit"/>
       <input type="button" value="Back" onclick="returnStaff()"/>
     </form>
 </div>
-
+</body>
 {% endblock %}

@@ -40,7 +40,7 @@ module.exports = function(app, io) {
         userPwd = req.body.txtUserPwd,
         isRem = req.body.pwdRem;
 
-    controller.getUser(userName, function (err, results) {
+    controller.getUserByName(userName, function (err, results) {
       console.log(results);
         if(results == null)
         {
@@ -110,11 +110,12 @@ module.exports = function(app, io) {
         ,lastName = req.body.lname
         ,email = req.body.email
         ,isAdmin = req.body.isAdmin;
+    var hashedPw = passwordHash.generate(password);
     if (typeof isAdmin === 'undefined') {
       isAdmin = "User";
     }
     controller.createAccount(
-      {username:userName, password:password, firstname:firstName, lastname:lastName, email:email, is_admin:isAdmin},
+      {username:userName, password:hashedPw, firstname:firstName, lastname:lastName, email:email, is_admin:isAdmin},
       function (saved) {
       console.log(JSON.stringify(saved) + " saved");
     });
@@ -162,7 +163,7 @@ module.exports = function(app, io) {
   });
 
 /**
- * account-update direct function
+ * account-update get handler
  * Direct to /account-update or redirect to login page
  */
   app.get('/account-update', function(req, res) {
@@ -192,17 +193,54 @@ module.exports = function(app, io) {
   app.post('/account-edit', function(req, res) {
     var userId = req.body.userId
         ,userName = req.body.uname
-        ,password = req.body.password
         ,firstName = req.body.fname
         ,lastName = req.body.lname
         ,email = req.body.email
         ,isAdmin = req.body.isAdmin;
-    var data = {username:userName, password:password, firstname:firstName, lastname:lastName, email:email, is_admin:isAdmin}
+    var data = {username:userName, firstname:firstName, lastname:lastName, email:email, is_admin:isAdmin}
     controller.updateAccount(userId, data,
       function (result) {
         if(result == true){
           res.render('staff-operation-success', {title: "Account Update Successful", buttonValue: "ContinueUpdate", page: "/account-update"});
         }
+      }
+    );
+  });
+/**
+ * password-update get handler
+ * Direct to /account-update or redirect to login page
+ */
+  app.get('/password-update', function(req, res) {
+    var userId = req.query.userId;
+    console.log(userId);
+    if(req.session.loggedIn == false)
+      res.render('login');
+    else
+      res.render('password-update', {userId: userId});
+  });
+/**
+ * password-update post handler
+ */
+  app.post('/password-update', function(req, res) {
+    var userId = req.body.userId,
+        oldPw = req.body.oldpw,
+        newPw = req.body.newpw;
+    //Verify old password
+    controller.getUserById(userId,
+      function (user) {
+        if(!passwordHash.verify(oldPw, user.password)){
+          res.render('password-update', {userId: userId, error: 'Please enter the correct old password!'});
+          return;
+        }
+        var hashedNewPw = passwordHash.generate(newPw),
+            data = {password: hashedNewPw};
+        controller.updateAccount(userId, data,
+          function (result) {
+            if(result == true){
+              res.render('staff-operation-success', {title: "Password Update Successful", buttonValue: "ContinueUpdate", page: "/account-update"});
+            }
+          }
+        );
       }
     );
   });
