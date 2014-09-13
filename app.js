@@ -42,6 +42,7 @@ require('./modules/db_init')(db, function() {
   app.use(bodyParser.urlencoded({extended: true}));
   app.use(cookieParser());
   app.use(session({
+    name: "connect.sid_iasurvey",
     secret: "encryptionsecretforissurvey",
     saveUninitialized: true,
     resave: true,
