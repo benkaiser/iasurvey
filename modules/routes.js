@@ -16,26 +16,28 @@ module.exports = function(app, io) {
   });
 
   // admin
-  app.get('/admin', function(req, res) {
-    if(req.session.loggedIn === false)
-      res.render('login');
-    else
-      res.render('admin');
+  app.get('/admin', loginMask, function(req, res) {
+    res.render('admin');
   });
 
   /**
    * login routes and post
    *
    */
-  app.get('/login', function(req, res) {
+  app.get('/admin/login', function(req, res) {
+    // if they want to be logged out
+    if(req.query.hasOwnProperty('logout')){
+      delete req.session.loggedIn;
+      delete req.session.user;
+    }
     if(req.session.loggedIn){
       res.render('admin');
-    }
-    else
+    } else {
       res.render('login');
+    }
   });
 
-  app.post('/login', function(req, res) {
+  app.post('/admin/login', function(req, res) {
     var userName = req.body.txtUserName,
         userPwd = req.body.txtUserPwd,
         isRem = req.body.pwdRem;
@@ -57,46 +59,29 @@ module.exports = function(app, io) {
              res.render('login', {error: 'Username or password invalid!'});
              return;
          } else {
-             if(isRem)
-             {
-                res.cookie('islogin', userName, { maxAge: 60000 });
-             }
              req.session.loggedIn = true;
-             res.locals.username = userName;
              req.session.username = res.locals.username;
              console.log(req.session.username + ' log in.');
-             res.redirect('admin');
+             res.redirect('/admin');
              return;
          }
     });
   });
-  // logout
-  app.get('/logout', function (req, res) {
-      // clear user session
-      req.session.loggedIn = false;
-      res.render('landing');
-  });
 
 /**
  * Staff User management page direct function
- * Direct to /staff or redirect to login page
+ * Direct to /admin/staff or redirect to login page
  */
-  app.get('/staff', function(req, res) {
-    if(req.session.loggedIn === false)
-      res.render('login');
-    else
-      res.render('staff');
+  app.get('/admin/staff', loginMask, function(req, res) {
+    res.render('staff');
   });
 
 /**
  * user-create direct function
  * Direct to /user-create or redirect to login page
  */
-  app.get('/user-create', function(req, res) {
-    if(req.session.loggedIn === false)
-      res.render('login');
-    else
-      res.render('user-create');
+  app.get('/admin/user-create', loginMask, function(req, res) {
+    res.render('user-create');
   });
 
 /**
@@ -105,7 +90,7 @@ module.exports = function(app, io) {
  * into database
  * @throw save faliure error infomation
  */
-  app.post('/user-create', function(req, res) {
+  app.post('/admin/user-create', loginMask, function(req, res) {
     var userName = req.body.uname,
         password = req.body.password,
         firstName = req.body.fname,
@@ -127,13 +112,10 @@ module.exports = function(app, io) {
  * user-delete direct function
  * Direct to /user-delete or redirect to login page
  */
-  app.get('/user-delete', function(req, res) {
+  app.get('/admin/user-delete', loginMask, function(req, res) {
     controller.getAllUser(
       function (users) {
-        if(req.session.loggedIn == false)
-          res.render('login');
-        else
-          res.render('user-delete', {users: users});
+        res.render('user-delete', {users: users});
       }
     );
   });
@@ -144,7 +126,7 @@ module.exports = function(app, io) {
  * into database
  * @throw delete faliure error infomation
  */
-  app.post('/user-delete', function(req, res) {
+  app.post('/admin/user-delete', loginMask, function(req, res) {
     var userChoosen = req.body.userChoosen;
     if( typeof userChoosen === 'string' ) {
       controller.removeAccount(userChoosen,
@@ -152,8 +134,7 @@ module.exports = function(app, io) {
         console.log(numRemoved+" Removed");
       });
       res.render('staff-operation-success', {title: "User Delete Successful", buttonValue: "ContinueDelete", page: "/user-delete"});
-    }
-    else
+    } else {
       userChoosen.forEach(function(userId) {
         controller.removeAccount(userId,
           function (numRemoved) {
@@ -161,27 +142,25 @@ module.exports = function(app, io) {
         });
         res.render('staff-operation-success', {title: "User Delete Successful", buttonValue: "ContinueDelete", page: "/user-delete"});
       });
+    }
   });
 
 /**
  * account-update direct function
  * Direct to /account-update or redirect to login page
  */
-  app.get('/account-update', function(req, res) {
-    if(req.session.loggedIn == false)
-      res.render('login');
-    else
-      controller.getAllUser(
-        function (users) {
-          res.render('account-update', {users: users});
-        }
-      );
+  app.get('/admin/account-update', loginMask, function(req, res) {
+    controller.getAllUser(
+      function (users) {
+        res.render('account-update', {users: users});
+      }
+    );
   });
 /**
  * account-update post handler
  */
-  app.post('/account-update', function(req, res) {
-    var userId = req.body.userId;
+  app.get('/admin/account-edit/:id', loginMask, function(req, res) {
+    var userId = req.params.id;
     controller.getUserById(userId,
       function (user) {
         res.render('account-edit', {user: user});
@@ -191,21 +170,29 @@ module.exports = function(app, io) {
 /**
  * account-edit post handler
  */
-  app.post('/account-edit', function(req, res) {
-    var userId = req.body.userId
-        ,userName = req.body.uname
-        ,password = req.body.password
-        ,firstName = req.body.fname
-        ,lastName = req.body.lname
-        ,email = req.body.email
-        ,isAdmin = req.body.isAdmin;
-    var data = {username:userName, password:password, firstname:firstName, lastname:lastName, email:email, is_admin:isAdmin}
+  app.post('/admin/account-edit/:id', loginMask, function(req, res) {
+    var userId = req.body.userId,
+    userName = req.body.uname,
+    password = req.body.password,
+    firstName = req.body.fname,
+    lastName = req.body.lname,
+    email = req.body.email,
+    isAdmin = req.body.isAdmin;
+    var data = {username:userName, password:password, firstname:firstName, lastname:lastName, email:email, is_admin:isAdmin};
     controller.updateAccount(userId, data,
       function (result) {
-        if(result == true){
+        if(result === true){
           res.render('staff-operation-success', {title: "Account Update Successful", buttonValue: "ContinueUpdate", page: "/account-update"});
         }
       }
     );
   });
+};
+
+var loginMask = function(req, res, next){
+  if(req.session.loggedIn) {
+    next();
+  } else {
+    res.redirect('/admin/login');
+  }
 };

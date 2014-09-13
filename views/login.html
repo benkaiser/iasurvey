@@ -14,29 +14,21 @@
         </div>
         {% endif %}
       <div class="sign_in">
-        <form class="form" role="form" method="post" action="/login">
+        <form class="form" role="form" method="post" action="/admin/login">
           <h3>Sign In</h3>
           <div class="form-group">
             <label for="inputUsername">Username</label>
             <!-- input username -->
             <input type="username" class="form-control" id="txtUserName" placeholder="Username" name="txtUserName"><span id="name_error"></span>
-          </br>
+            </br>
             <label for="inputPassword">Password</label>
             <!-- input password -->
             <input type="password" class="form-control" id="txtUserPwd" placeholder="Password" name="txtUserPwd"><span id="pwd_error"></span>
-            <div class="checkbox">
-              <label>
-                <!-- checkbox remember me -->
-                <input type="checkbox" name="pwdRem" id="pwdRem"> Remember me
-              </label>
-            </div>
+            <br/>
             <button type="submit" class="btn btn-primary" id="btnSub">Sign in</button>
           </div>
         </form>
       </div>
-      </div>
-      <div class="footer">
-        <p>© Company 2014</p>
       </div>
     </div>
 {% endblock %}

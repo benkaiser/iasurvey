@@ -6,8 +6,8 @@ module.exports = function(db, callback) {
     if (!err && count === 0) {
       // create the default staff
       db.staff.insert([
-        {id: 0, username: 'dev', password: passwordHash.generate('SecretDevPass')},
-        {id: 1, username: 'admin', password: passwordHash.generate('iaadminpass')}
+        {id: 0, username: 'dev', password: passwordHash.generate('SecretDevPass'), is_admin: true},
+        {id: 1, username: 'admin', password: passwordHash.generate('iaadminpass'), is_admin: true}
         ], function(err, docs) {
           if(process.env.NODE_ENV != 'mocha'){
             console.log('Added staff:');

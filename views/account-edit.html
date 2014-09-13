@@ -1,31 +1,19 @@
-{% extends 'base/public_base.html' %}
+{% extends 'base/backend_base.html' %}
 
 {% block title %}Surveys - Interns Australia{% endblock %}
 
 {% block content %}
-<script>
-  function returnStaff(){
-    window.location.href='/account-update';
-  }
-</script>
 <div class="container">
   <h1>Welcome</h1>
   <p>This is the account-edit page</p>
-  <form action="account-edit" method="post">
+  <form action="/admin/account-edit" method="post" class="form-inline">
     <input type="hidden" name="userId" value="{{user._id.toString()}}"/></br>
-    User name: <input type="text" name="uname" value="{{user.username}}" readonly="readonly"/></br>
-    Password: <input type="text" name="password" value="{{user.password}}"/></br>
-    First name: <input type="text" name="fname" value="{{user.firstname}}"/></br>
-    Last name: <input type="text" name="lname" value="{{user.lastname}}"/></br>
-    Email: <input type="text" name="email" value="{{user.email}}"/></br>
+    User name: <input class="form-control" type="text" name="uname" value="{{user.username}}" readonly="readonly"/></br>
+    Password: <input class="form-control" type="text" name="password" value="{{user.password}}"/></br>
     Authorization:
-    {% if user.is_admin == 'Admin' %}
-      <input type="checkbox" name="isAdmin" value="Admin" checked="checked"></br>
-    {% else %}
-      <input type="checkbox" name="isAdmin" value="Admin"></br>
-    {% endif %}
-    <input type="submit" value="Submit" />
-    <input type="button" value="Back" onclick="returnStaff()"/>
+    <input class="form-control" type="checkbox" name="isAdmin" value="Admin" {% if user.is_admin == 'Admin' %}checked="checked"{% endif %}></br>
+    <input class="btn btn-primary" type="submit" value="Submit" />
+    <a class="btn btn-default" href="/admin/account-update">Back</a>
   </form>
 </div>
 {% endblock %}

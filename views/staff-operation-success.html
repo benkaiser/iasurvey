@@ -1,19 +1,11 @@
-{% extends 'base/public_base.html' %}
+{% extends 'base/backend_base.html' %}
 
 {% block title %}Surveys - Interns Australia{% endblock %}
 
 {% block content %}
-<script>
-  function backStaff(){
-    window.location.href='/staff';
-  }
-  function continueOperation(){
-    window.location.href= '{{page}}';
-  }
-</script>
 <div class="container">
   <h1>{{title}} </h1>
-  <input type="button" value="BackToManagement" onclick="backStaff()"/>
-  <input type="button" value= '{{buttonValue}}' onclick="continueOperation()"/>
+  <a href="/admin/staff">Back To Staff</a>
+  <a href="{{page}}">{{buttonValue}}</a>
 </div>
 {% endblock %}

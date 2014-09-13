@@ -1,17 +1,12 @@
-{% extends 'base/public_base.html' %}
+{% extends 'base/backend_base.html' %}
 
 {% block title %}Surveys - Interns Australia{% endblock %}
 
 {% block content %}
-<script>
-  function returnStaff(){
-    window.location.href='/staff';
-  }
-</script>
 <div class="container">
   <h1>Welcome</h1>
   <p>This is the user-create page</p>
-  <form action="user-create" method="post">
+  <form action="/admin/user-create" method="post">
     User name: <input type="text" name="uname" /></br>
     Password: <input type="text" name="password" /></br>
     First name: <input type="text" name="fname" /></br>
@@ -19,7 +14,7 @@
     Email: <input type="text" name="email" /></br>
     Authorization: <input type="checkbox" name="isAdmin" value="Admin">Administrator</br>
     <input type="submit" value="Submit" />
-    <input type="button" value="Back" onclick="returnStaff()"/>
+    <a href="/admin/staff">Back</a>
   </form>
 </div>
 {% endblock %}

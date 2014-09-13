@@ -1,4 +1,4 @@
-{% extends 'base/public_base.html' %}
+{% extends 'base/backend_base.html' %}
 
 {% block title %}Surveys - Interns Australia{% endblock %}
 
@@ -9,6 +9,6 @@
   <p>This is the admin page</p>
   <a href="/" class="btn btn-primary">Create survey</a>
   <a href="/" class="btn btn-primary">View result</a>
-  <a href="/logout" class="btn btn-primary">Log out</a>
+  <a href="/admin/login?logout" class="btn btn-primary">Log out</a>
 </div>
 {% endblock %}
