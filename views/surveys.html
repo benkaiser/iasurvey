@@ -1,0 +1,29 @@
+{% extends 'base/backend_base.html' %}
+
+{% block title %}Surveys - Interns Australia{% endblock %}
+
+{% block content %}
+  <h1>Manage Surveys</h1>
+  <p>
+    <a class='btn btn-primary' href="/admin/surveys/create">Create New</a>
+  </p>
+  <form action="/admin/account-update" method="post">
+    <table class="table">
+      <tr>
+        <th>Survey Name</th>
+        <th>Prompt</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+      {% for survey in surveys %}
+        <tr>
+          <td>{{survey.title}}</td>
+          <td>{{survey.prompt}}</td>
+          <td>{{survey.status}}</td>
+          <td><a class='btn btn-primary' href="/admin/surveys/edit/{{person._id.toString()}}">Edit</a></td>
+        </tr>
+      {% endfor %}
+    </table>
+  </form>
+
+{% endblock %}

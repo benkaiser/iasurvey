@@ -31,7 +31,7 @@ module.exports = function(app, io) {
       delete req.session.user;
     }
     if(req.session.loggedIn){
-      res.render('admin');
+      res.render('admin', {loggedIn: true});
     } else {
       res.render('login');
     }
@@ -50,21 +50,27 @@ module.exports = function(app, io) {
           return;
         }
 
-    controller.getUserByName(userName, function (err, results) {
-      console.log(results);
-        if(results === null){
+    controller.getUserByName(userName, function (err, result) {
+      console.log(result);
+        if(result === null){
             res.render('login', {error: 'User does not exist!'});
             return;
-        } if(passwordHash.verify(userPwd,results.password) === false) {
+        } if(passwordHash.verify(userPwd,result.password) === false) {
              res.render('login', {error: 'Username or password invalid!'});
              return;
          } else {
              req.session.loggedIn = true;
-             req.session.username = res.locals.username;
+             req.session.username = result.username;
              console.log(req.session.username + ' log in.');
              res.redirect('/admin');
              return;
          }
+    });
+  });
+
+  app.get('/admin/surveys', loginMask, function(req, res) {
+    controller.getSurveys(function(surveys){
+      res.render('surveys', {surveys: surveys});
     });
   });
 
@@ -101,7 +107,7 @@ module.exports = function(app, io) {
       isAdmin = "User";
     }
     controller.createAccount(
-      {username:userName, password:password, firstname:firstName, lastname:lastName, email:email, is_admin:isAdmin},
+      {username:userName, password: passwordHash.generate(password), is_admin:isAdmin},
       function (saved) {
       console.log(JSON.stringify(saved) + " saved");
     });
@@ -191,6 +197,7 @@ module.exports = function(app, io) {
 
 var loginMask = function(req, res, next){
   if(req.session.loggedIn) {
+    res.locals.loggedIn = true;
     next();
   } else {
     res.redirect('/admin/login');
