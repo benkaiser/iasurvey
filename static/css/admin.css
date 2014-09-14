@@ -66,3 +66,20 @@ body {
   padding-top: 15px;
 
 }
+
+.register {
+  display: inline-block;
+  border: 1px solid #e5e5e5;
+  border-radius: 5px;
+  width: 500px;
+  padding-left: 30px;
+  padding-right: 30px;
+  text-align: left;
+  margin-top: 30px;
+}
+
+.register h3 {
+  color: #468CC8;
+  margin-top: 30px;
+  margin-bottom: 15px;
+}

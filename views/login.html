@@ -15,22 +15,15 @@
           <div class="form-group">
             <label for="inputUsername">Username</label>
             <!-- input username -->
-            <input type="username" class="form-control" id="txtUserName" placeholder="Username" name="txtUserName"><span id="name_error"></span>
+            <input type="username" class="form-control" id="txtUserName" placeholder="Username" name="txtUserName">
             </br>
             <label for="inputPassword">Password</label>
             <!-- input password -->
-            <input type="password" class="form-control" id="txtUserPwd" placeholder="Password" name="txtUserPwd"><span id="pwd_error"></span>
+            <input type="password" class="form-control" id="txtUserPwd" placeholder="Password" name="txtUserPwd">
             <br/>
             <button type="submit" class="btn btn-primary" id="btnSub">Sign in</button>
           </div>
         </form>
       </div>
       </div>
-{% endblock %}
-
-{% block scripts %}
-<script type="text/javascript">
-  head.js(
-  "/static/js/login.js");
-</script>
 {% endblock %}

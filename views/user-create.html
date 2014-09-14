@@ -3,7 +3,7 @@
 {% block title %}Surveys - Interns Australia{% endblock %}
 
 {% block content %}
-<div class="container">
+<!--div class="container">
   <h1>Welcome</h1>
   <p>This is the user-create page</p>
   <form action="/admin/user-create" method="post">
@@ -15,6 +15,28 @@
     Authorization: <input type="checkbox" name="isAdmin" value="Admin">Administrator</br>
     <input type="submit" value="Submit" />
     <a href="/admin/staff">Back</a>
+  </form-->
+  <div class="test">
+  <div class="register">
+  <form class="form" role="form" method="post" action="/admin/user-create">
+    <h3>Create user</h3>
+    <div class="form-group">
+      <label for="inputUsername">User name</label>
+      <input type="text" name="uname" class="form-control">
+      <label for="inputPassword">Password</label>
+      <input type="password" name="password" class="form-control">
+      <label for="inputFirstname">First name</label>
+      <input type="text" name="fname" class="form-control">
+      <label for="inputLastname">Last name</label>
+      <input type="text" name="lname" class="form-control">
+      <label for="inputEmail">Email</label>
+      <input type="text" name="email" class="form-control">
+      <label>Authorization:</label>
+      <input type="checkbox" name="isAdmin" value="Admin"> Administrator</br>
+      <button type="submit" class="btn btn-primary" value="Submit">Submit</button>
+      <button class="btn btn-primary" href="/admin/staff" value="back">Back</button>
+    </div>
   </form>
-</div>
+  </div>
+  </div>
 {% endblock %}
