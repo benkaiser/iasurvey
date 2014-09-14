@@ -74,6 +74,10 @@ module.exports = function(app, io) {
     });
   });
 
+  app.get('/admin/surveys/create', loginMask, function(req, res){
+    res.render('survey_create');
+  });
+
 /**
  * Staff User management page direct function
  * Direct to /admin/staff or redirect to login page
