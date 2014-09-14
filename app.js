@@ -34,7 +34,7 @@ require('./modules/db_init')(db, function() {
   app.set('db', db);
   app.set('controller', new Controller(app, io));
   // all environments
-  app.set('port', process.env.PORT || 2020);
+  app.set('port', process.env.PORT || 2000);
   app.set('views', path.join(__dirname, 'views'));
   app.set('view engine', 'html');
   app.set('root', __dirname);
