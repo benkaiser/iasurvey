@@ -1,30 +1,33 @@
-{% extends 'base/public_base.html' %}
+{% extends 'base/backend_base.html' %}
 
 {% block title %}Surveys - Interns Australia{% endblock %}
 
 {% block content %}
 <script>
-  function returnStaff(){
-    window.location.href='/account-update';
+  function submitForm(){
+    var newpw = document.getElementById("password");
+    var confirmpw = document.getElementById("confirmPwd");
+    var form = document.getElementById("userEditForm");
+    if(newpw.value != confirmpw.value){
+      alert("Oops! New Password and Confirm Password do not match");
+      return
+    }
+    else{
+      form.submit();
+    }
   }
 </script>
 <div class="container">
-  <h1>Welcome</h1>
-  <p>This is the account-edit page</p>
-  <form action="account-edit" method="post">
-    <input type="hidden" name="userId" value="{{user._id.toString()}}"/></br>
-    User name: <input type="text" name="uname" value="{{user.username}}" readonly="readonly"/></br>
-    First name: <input type="text" name="fname" value="{{user.firstname}}"/></br>
-    Last name: <input type="text" name="lname" value="{{user.lastname}}"/></br>
-    Email: <input type="text" name="email" value="{{user.email}}"/></br>
-    Authorization:
-    {% if user.is_admin == 'Admin' %}
-      <input type="checkbox" name="isAdmin" value="Admin" checked="checked"></br>
-    {% else %}
-      <input type="checkbox" name="isAdmin" value="Admin"></br>
-    {% endif %}
-    <input type="submit" value="Submit" />
-    <input type="button" value="Back" onclick="returnStaff()"/>
+  <p>This is the account-edit page, leave new password blank to remain old password</p>
+  <form id="userEditForm" action="/admin/account-edit" method="post" class="form-inline">
+    <input type="hidden" name="userId" value="{{user._id.toString()}}"/>
+    User name: <br> <input class="form-control" type="text" name="uname" placeholder="User Name" value="{{user.username}}" readonly="readonly"/></br>
+    New Password: <br> <input class="form-control" type="text" id="password" placeholder="New Password" name="password" /></br>
+    Confirm Password: <br> <input class="form-control" type="text" placeholder="Confirm Password" id="confirmPwd"/></br>
+    Administrator:
+    <input class="form-control" type="checkbox" name="isAdmin" value="Admin" {% if user.is_admin == 'Admin' %}checked="checked"{% endif %}></br>
+    <input class="btn btn-primary" type="button" value="Update" onclick="submitForm()"/>
+    <a class="btn btn-default" href="/admin/account-update">Back</a>
   </form>
 </div>
 {% endblock %}

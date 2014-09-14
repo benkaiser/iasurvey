@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title class="header">{% block title %}Interns Australia Staff Admin{% endblock %}</title>
+    <title>{% block title %}Interns Australia Admin{% endblock %}</title>
 
-    <script type="text/javascript" src="/static/js/libs/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/js/libs/head.load.min.js"></script>
 
     <script type="text/javascript">
       head.load(
@@ -18,20 +18,37 @@
     {% endblock %}
   </head>
   <body>
+
   <nav class="navbar navbar-default container no_bottom_margin" role="navigation">
-    <a class="navbar-brand" href="#">Interns Australia</a>
+    <a class="navbar-brand">Interns Australia</a>
+    {% if loggedIn %}
+    <ul class="nav navbar-nav">
+      <li><a href="/admin/surveys">Manage Surveys</a></li>
+      <li><a href="/admin/results">View Results</a></li>
+      {% if isAdmin %}
+      <li><a href="/admin/staff">Manage Staff</a></li>
+      {% endif %}
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="/admin/password-update">{{username}}, Change Password</a></li>
+      <li><a href="/admin/login?logout">Logout</a></li>
+    </ul>
+    {% endif %}
     {%block navbar %}
     {% endblock %}
   </nav>
-  {% block content %}
-  {% endblock %}
+  <div class="container">
+    {% block content %}
+    {% endblock %}
+  </div>
+
   <script type="text/javascript">
     head.js(
-      "/static/js/libs/jquery.min.js",
-      "/static/js/libs/bootstrap.min.js"
+      "static/js/libs/bootstrap.min.js",
+      "static/js/libs/jquery.min.js"
       );
   </script>
   {% block scripts %}
   {% endblock %}
-</body>
+  </body>
 </html>

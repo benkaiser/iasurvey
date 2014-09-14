@@ -99,7 +99,7 @@ Remove a user account by user_id
     this.db.staff.remove({_id: this.db.ObjectId(user_id)}, function(err, numRemoved) {
       if(err)
         console.log(err);
-      callback(numRemoved.n);
+      callback(err, numRemoved.n);
     });
   };
 /*
@@ -122,9 +122,9 @@ this part is to get user information by search username
     this.db.staff.findOne({username: name}, function(err,result){
       if (err){
         console.log(err);
-        return null;
+        callback(err, null);
       }
-      callback(null,result);
+      callback(null, result);
     });
   };
 /*

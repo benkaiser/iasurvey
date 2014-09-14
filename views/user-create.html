@@ -1,25 +1,35 @@
-{% extends 'base/public_base.html' %}
+{% extends 'base/backend_base.html' %}
 
 {% block title %}Surveys - Interns Australia{% endblock %}
 
 {% block content %}
 <script>
-  function returnStaff(){
-    window.location.href='/staff';
+  function submitForm(){
+    var newpw = document.getElementById("password");
+    var confirmpw = document.getElementById("confirmPwd");
+    var form = document.getElementById("userCreateForm");
+    if(newpw.value != confirmpw.value){
+      alert("Oops! New Password and Confirm Password do not match");
+      return
+    }
+    else if(newpw.value == ''){
+      alert("Sorry! Password cannot be empty!");
+      return
+    }
+    else{
+      form.submit();
+    }
   }
 </script>
 <div class="container">
-  <h1>Welcome</h1>
   <p>This is the user-create page</p>
-  <form action="user-create" method="post">
-    User name: <input type="text" name="uname" /></br>
-    Password: <input type="text" name="password" /></br>
-    First name: <input type="text" name="fname" /></br>
-    Last name: <input type="text" name="lname" /></br>
-    Email: <input type="text" name="email" /></br>
-    Authorization: <input type="checkbox" name="isAdmin" value="Admin">Administrator</br>
-    <input type="submit" value="Submit" />
-    <input type="button" value="Back" onclick="returnStaff()"/>
+  <form id="userCreateForm" action="/admin/user-create" method="post" class="form-inline">
+    User name: <br> <input type="text" class="form-control" placeholder="User Name" name="uname" /></br>
+    Password: <br> <input type="password" placeholder="Password" class="form-control" id="password" name="password" /></br>
+    Confirm Password: <br> <input type="password" placeholder="Confirm Password" class="form-control" id="confirmPwd" /></br>
+    Authorization: <input type="checkbox" class="form-control" name="isAdmin" value="Admin">Administrator</br>
+    <input type="button" class='btn btn-primary' value="Create" onclick="submitForm()"/>
+    <a href="/admin/staff" class='btn btn-default' >Back</a>
   </form>
 </div>
 {% endblock %}

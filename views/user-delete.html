@@ -1,26 +1,20 @@
-{% extends 'base/public_base.html' %}
+{% extends 'base/backend_base.html' %}
 
 {% block title %}Surveys - Interns Australia{% endblock %}
 
 {% block content %}
-<script>
-  function returnStaff(){
-    window.location.href='/staff';
-  }
-</script>
 <div class="container">
-  <h1>Welcome</h1>
-  <p>This is the user-delete page</p>
-  <form action="user-delete" method="post">
-    <select name="userChoosen" multiple="multiple" size="10">
+  <p>To delete a user, click on it or you can hold shift/ctrl button to make a multiple choice</p>
+  <form action="/admin/user-delete" method="post">
+    <select class="form-control" style="width: 40%" name="userChoosen" multiple="multiple" size="10">
       {% for person in users %}
         {% if loop.first %}<ol>{% endif %}
           <option value = {{person._id.toString()}}>{{person.username}}</option>
         {% if loop.last %}</ol>{% endif %}
       {% endfor %}
     </select>
-    <input type="submit" value="Delete" />
-    <input type="button" value="Back" onclick="returnStaff()"/>
+    <input type="submit" class='btn btn-primary' value="Delete" />
+    <a href="/admin/staff" class='btn btn-default' >Back</a>
   </form>
 </div>
 {% endblock %}

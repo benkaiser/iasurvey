@@ -14,7 +14,7 @@ var MongoStore = require('connect-mongo')(session);
 // custom modules
 var Controller = require("./modules/controller");
 var login = require('./modules/routes');
-var survey = require('./modules/routes');  
+var survey = require('./modules/routes');
 var survey = require('./modules/routes');
 
 var mongo_connection_string = 'mongodb://127.0.0.1:27017/' + (process.env.DB || 'iasurvey');
@@ -34,13 +34,15 @@ require('./modules/db_init')(db, function() {
   app.set('db', db);
   app.set('controller', new Controller(app, io));
   // all environments
-  app.set('port', process.env.PORT || 2000);
+  app.set('port', process.env.PORT || 2020);
   app.set('views', path.join(__dirname, 'views'));
   app.set('view engine', 'html');
   app.set('root', __dirname);
   app.engine('html', require('swig').renderFile);
   app.use(bodyParser.urlencoded({extended: true}));
+  app.use(cookieParser());
   app.use(session({
+    name: "connect.sid_iasurvey",
     secret: "encryptionsecretforissurvey",
     saveUninitialized: true,
     resave: true,
@@ -48,7 +50,6 @@ require('./modules/db_init')(db, function() {
       db: db.client
     })
   }));
-  app.use(cookieParser());
   app.use('/static', express.static(__dirname + '/static'));
 
   require("./modules/routes")(app, io);
