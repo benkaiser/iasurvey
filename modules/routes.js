@@ -99,7 +99,7 @@ module.exports = function(app, io) {
  * user-create direct function
  * Direct to /user-create or redirect to login page
  */
-  app.get('/admin/user-create', adminMask, function(req, res) {
+  app.get('/admin/user-create', loginMask, function(req, res) {
     res.render('user-create');
   });
 
@@ -109,7 +109,7 @@ module.exports = function(app, io) {
  * into database
  * @throw save faliure error infomation
  */
-  app.post('/admin/user-create', adminMask, function(req, res) {
+  app.post('/admin/user-create', loginMask, function(req, res) {
     var userName = req.body.uname,
         password = req.body.password,
         isAdmin = req.body.isAdmin,
@@ -129,7 +129,7 @@ module.exports = function(app, io) {
  * user-delete direct function
  * Direct to /user-delete or redirect to login page
  */
-  app.get('/admin/user-delete', adminMask, function(req, res) {
+  app.get('/admin/user-delete', loginMask, function(req, res) {
     controller.getAllUser(
       function (users) {
         res.render('user-delete', {users: users});
@@ -143,7 +143,7 @@ module.exports = function(app, io) {
  * into database
  * @throw delete faliure error infomation
  */
-  app.post('/admin/user-delete', adminMask, function(req, res) {
+  app.post('/admin/user-delete', loginMask, function(req, res) {
     var userChoosen = req.body.userChoosen;
     if( typeof userChoosen === 'string' ) {
       controller.removeAccount(userChoosen,
@@ -171,7 +171,7 @@ module.exports = function(app, io) {
  * account-update get handler
  * Direct to /account-update or redirect to login page
  */
-  app.get('/admin/account-update', adminMask, function(req, res) {
+  app.get('/admin/account-update', loginMask, function(req, res) {
     controller.getAllUser(
       function (users) {
         res.render('account-update', {users: users});
@@ -181,7 +181,7 @@ module.exports = function(app, io) {
 /**
  * account-update post handler
  */
-  app.get('/admin/account-edit/:id', adminMask, function(req, res) {
+  app.get('/admin/account-edit/:id', loginMask, function(req, res) {
     var userId = req.params.id;
     controller.getUserById(userId,
       function (user) {
@@ -253,15 +253,6 @@ var loginMask = function(req, res, next){
     res.locals.loggedIn = true;
     res.locals.isAdmin = req.session.isAdmin;
     res.locals.username = req.session.username;
-    next();
-  } else {
-    res.redirect('/admin/login');
-  }
-};
-
-var adminMask = function(req, res, next){
-  if(req.session.loggedIn) {
-    res.locals.loggedIn = true;
     next();
   } else {
     res.redirect('/admin/login');

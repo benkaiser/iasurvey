@@ -5,16 +5,16 @@
 {% block content %}
 <script>
   function submitForm(){
-    var newpw = document.getElementById("password");
-    var confirmpw = document.getElementById("confirmPwd");
+    var password = document.getElementById("password");
+    var confirmPwd = document.getElementById("confirmPwd");
     var form = document.getElementById("userCreateForm");
-    if(newpw.value != confirmpw.value){
+    if(password.value !== confirmPwd.value){
       alert("Oops! New Password and Confirm Password do not match");
-      return
+      return;
     }
-    else if(newpw.value == ''){
+    else if(password.value === ''){
       alert("Sorry! Password cannot be empty!");
-      return
+      return;
     }
     else{
       form.submit();
