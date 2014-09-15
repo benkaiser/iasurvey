@@ -5,7 +5,11 @@
 {% block content %}
 <div class="container">
   <h1> {{title}} </h1>
+  {% if buttonValue %}
   <a href="/admin/staff" class='btn btn-default'>Back To Staff</a>
   <a href="{{page}}" class='btn btn-primary'>{{buttonValue}}</a>
+  {% else %}
+  <a href="/admin" class='btn btn-default'>Back To Home</a>
+  {% endif %}
 </div>
 {% endblock %}

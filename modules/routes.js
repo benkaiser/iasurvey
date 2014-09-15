@@ -272,7 +272,7 @@ module.exports = function(app, io) {
         controller.updateAccount(user._id.toString(), data,
           function (result) {
             if(result == true){
-              res.render('staff-operation-success', {title: "Password Update Successful", buttonValue: "ContinueUpdate", page: "/admin/account-update"});
+              res.render('staff-operation-success', {title: "Password Update Successful"});
             }
           }
         );
