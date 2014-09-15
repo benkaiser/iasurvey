@@ -60,9 +60,6 @@ module.exports = function(app, io) {
              res.render('login', {error: 'Username or password invalid!'});
              return;
          } else {
-             if(result.is_admin == true){
-               res.session.admin = true;
-             }
              req.session.loggedIn = true;
              req.session.username = result.username;
              if(result.is_admin === 'Admin'){
