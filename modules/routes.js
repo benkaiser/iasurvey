@@ -87,18 +87,28 @@ module.exports = function(app, io) {
     res.render('survey_create');
   });
 
+  app.get('/admin/surveys/edit/:id', loginMask, function(req, res){
+    controller.getSurveyBy_id(req.params.id, function(doc){
+      if(doc && doc.status == 'draft'){
+        // found the doc, render the edit page
+        res.render('survey_create', {survey: doc});
+      } else {
+        // redirect back to manage page
+        res.redirect('/admin/surveys');
+      }
+    });
+  });
+
   app.post('/admin/surveys/create', loginMask, function(req, res){
     if(req.body.title){
       // form was submitted and data present, save the data
       controller.createSurvey({
         title: req.body.title,
         prompt: req.body.prompt,
-        num_pages: req.body.num_pages,
         end_page: req.body.end_page_html,
         form: req.body.form_json,
         status: 'draft'
       }, function(data){
-        console.log(data);
         res.redirect('/admin/surveys');
       });
     } else {

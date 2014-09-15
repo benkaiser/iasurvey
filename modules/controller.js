@@ -17,6 +17,17 @@ Fetch survey content from database
       callback(docs);
     });
   };
+
+/*
+getSurveys
+Fetch survey content from database
+@para <json>data <function>callback
+*/
+  this.getSurveyBy_id = function(_id, callback) {
+    this.db.survey.findOne({_id: this.db.ObjectId(_id)}, function(err, doc) {
+      callback(doc);
+    });
+  };
 /*
 createSurvey
 Sava a survey content into database

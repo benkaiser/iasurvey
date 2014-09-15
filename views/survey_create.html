@@ -8,25 +8,21 @@
   <h2>Overall Info</h2>
     <div class="form-group">
       <label class="control-label" for="title">Title</label>
-      <input class="form-control" id="title" name="title" type="text" placeholder="Starting Out">
+      <input class="form-control" id="title" name="title" type="text" placeholder="Starting Out" value="{{survey.title}}">
     </div>
     <div class="form-group">
       <label class="control-label" for="prompt">Prompt Text</label>
-      <input class="form-control" id="prompt" name="prompt" type="text" placeholder="I am an intern starting out">
-    </div>
-    <div class="form-group">
-      <label class="control-label" for="num_pages">Number of Pages (for questions to be split across)</label>
-      <input class="form-control" id="num_pages" name="num_pages" type="number" min="0" step="1" pattern="\d+" placeholder="3">
+      <input class="form-control" id="prompt" name="prompt" type="text" placeholder="I am an intern starting out" value="{{survey.prompt}}">
     </div>
     <div class="form-group">
       <label class="control-label" for="endpage">End Page</label>
-      <div class="summernote" id="endpage">End Page Content</div>
+      <div class="summernote" id="endpage">{{survey.end_page_html}}</div>
       <input type="hidden" name="end_page_html" id="end_page_html">
     </div>
   <h2>Survey Components</h2>
 
   <div id='formbuilder'></div>
-  <input type="hidden" name="form_json" id="form_json">
+  <input type="hidden" name="form_json" id="form_json" value="{{survey.form}}">
   <h2>Finish</h2>
   <input type="submit" class="btn btn-primary" value="Save">
 </form>
@@ -35,7 +31,7 @@
 <script type="text/javascript">
 head.js(
   "/static/js/libs/formbuilder-vendor.js",
-  "/static/js/libs/formbuilder.min.js",
+  "/static/js/libs/formbuilder.js",
   "/static/js/libs/tooltip.min.js",
   "/static/js/libs/summernote.min.js",
   "/static/js/form_creator.js"

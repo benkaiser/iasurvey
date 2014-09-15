@@ -1,12 +1,14 @@
-var formbuilder = new Formbuilder({ selector: '#formbuilder' });
 
 var latest = null;
-formbuilder.on('save', function(payload){
-  latest = payload;
-});
+var formbuilder;
 
 $(document).ready(function(){
   $('#endpage').summernote();
+
+  formbuilder = new Formbuilder({ selector: '#formbuilder', bootstrapData: JSON.parse($("#form_json").val()).fields});
+  formbuilder.on('save', function(payload){
+    latest = payload;
+  });
 });
 
 // handle form submission
