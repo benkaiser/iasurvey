@@ -20,6 +20,7 @@ $("#main_form").submit(function( event ) {
     // set the form values
     $("#form_json").val(latest);
     $("#end_page_html").val($("#endpage").code());
-    return false;
+    // let the form submission complete
+    return true;
   }
 });

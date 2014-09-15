@@ -87,6 +87,33 @@ module.exports = function(app, io) {
     res.render('survey_create');
   });
 
+  app.post('/admin/surveys/create', loginMask, function(req, res){
+    if(req.body.title){
+      // form was submitted and data present, save the data
+      controller.createSurvey({
+        title: req.body.title,
+        prompt: req.body.prompt,
+        num_pages: req.body.num_pages,
+        end_page: req.body.end_page_html,
+        form: req.body.form_json,
+        status: 'draft'
+      }, function(data){
+        console.log(data);
+        res.redirect('/admin/surveys');
+      });
+    } else {
+      // render the manage page
+      res.redirect('/admin/surveys');
+    }
+  });
+
+  app.get('/admin/surveys/publish/:id', loginMask, function(req, res){
+    controller.publishSurvey(req.params.id, function(){
+      // render the manage page again with the updated data
+      res.redirect('/admin/surveys');
+    });
+  });
+
 /**
  * Staff User management page direct function
  * Direct to /admin/staff or redirect to login page

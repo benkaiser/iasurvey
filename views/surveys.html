@@ -20,7 +20,15 @@
           <td>{{survey.title}}</td>
           <td>{{survey.prompt}}</td>
           <td>{{survey.status}}</td>
-          <td><a class='btn btn-primary' href="/admin/surveys/edit/{{person._id.toString()}}">Edit</a></td>
+          <td>
+            {% if survey.status == 'draft' %}
+            <a class='btn btn-primary' href="/admin/surveys/edit/{{survey._id.toString()}}">Edit</a>
+            <a class='btn btn-success' href="/admin/surveys/publish/{{survey._id.toString()}}">Publish</a>
+            {% endif %}
+            {% if survey.status == 'active' %}
+            <a class='btn btn-danger' href="/admin/surveys/deactivate/{{person._id.toString()}}">Deactivate</a>
+            {% endif %}
+          </td>
         </tr>
       {% endfor %}
     </table>

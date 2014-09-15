@@ -29,6 +29,17 @@ Sava a survey content into database
       callback(doc);
     });
   };
+
+/*
+publishSurvey
+Update the status of a survey to active
+@para <ObjectId>_id <function>callback
+*/
+  this.publishSurvey = function(_id, callback) {
+    this.db.survey.update({_id: this.db.ObjectId(_id)}, {$set: {status: 'active'}}, function(){
+      callback();
+    });
+  };
 /*
 removeSurvey
 Remove a survey from database
