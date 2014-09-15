@@ -30,7 +30,6 @@ module.exports = function(app, io) {
       delete req.session.loggedIn;
       delete req.session.username;
       delete req.session.isAdmin;
-      delete req.session.admin;
     }
     if(req.session.loggedIn){
       res.render('admin', {loggedIn: true, isAdmin: req.session.isAdmin, username: res.locals.isAdmin});
@@ -125,7 +124,7 @@ module.exports = function(app, io) {
  * Staff User management page direct function
  * Direct to /admin/staff or redirect to login page
  */
-  app.get('/admin/staff', loginMask, function(req, res) {
+  app.get('/admin/staff', loginMask, adminMask, function(req, res) {
     res.render('staff');
   });
 
@@ -133,7 +132,7 @@ module.exports = function(app, io) {
  * user-create direct function
  * Direct to /user-create or redirect to login page
  */
-  app.get('/admin/user-create', loginMask, function(req, res) {
+  app.get('/admin/user-create', loginMask, adminMask, function(req, res) {
     res.render('user-create');
   });
 
@@ -143,7 +142,7 @@ module.exports = function(app, io) {
  * into database
  * @throw save faliure error infomation
  */
-  app.post('/admin/user-create', loginMask, function(req, res) {
+  app.post('/admin/user-create', loginMask, adminMask, function(req, res) {
     var userName = req.body.uname,
         password = req.body.password,
         isAdmin = req.body.isAdmin,
@@ -163,7 +162,7 @@ module.exports = function(app, io) {
  * user-delete direct function
  * Direct to /user-delete or redirect to login page
  */
-  app.get('/admin/user-delete', loginMask, function(req, res) {
+  app.get('/admin/user-delete', loginMask, adminMask, function(req, res) {
     controller.getAllUser(
       function (users) {
         res.render('user-delete', {users: users});
@@ -177,7 +176,7 @@ module.exports = function(app, io) {
  * into database
  * @throw delete faliure error infomation
  */
-  app.post('/admin/user-delete', loginMask, function(req, res) {
+  app.post('/admin/user-delete', loginMask, adminMask, function(req, res) {
     var userChoosen = req.body.userChoosen;
     if( typeof userChoosen === 'string' ) {
       controller.removeAccount(userChoosen,
@@ -205,7 +204,7 @@ module.exports = function(app, io) {
  * account-update get handler
  * Direct to /account-update or redirect to login page
  */
-  app.get('/admin/account-update', loginMask, function(req, res) {
+  app.get('/admin/account-update', loginMask, adminMask, function(req, res) {
     controller.getAllUser(
       function (users) {
         res.render('account-update', {users: users});
@@ -215,7 +214,7 @@ module.exports = function(app, io) {
 /**
  * account-update post handler
  */
-  app.get('/admin/account-edit/:id', loginMask, function(req, res) {
+  app.get('/admin/account-edit/:id', loginMask, adminMask, function(req, res) {
     var userId = req.params.id;
     controller.getUserById(userId,
       function (user) {
@@ -226,7 +225,7 @@ module.exports = function(app, io) {
 /**
  * account-edit post handler
  */
-  app.post('/admin/account-edit', loginMask, function(req, res) {
+  app.post('/admin/account-edit', loginMask, adminMask, function(req, res) {
     var userId = req.body.userId,
         userName = req.body.uname,
         password = req.body.password,
@@ -257,7 +256,7 @@ module.exports = function(app, io) {
 /**
  * password-update post handler
  */
-  app.post('/admin/password-update', function(req, res) {
+  app.post('/admin/password-update', loginMask, function(req, res) {
     var username = req.body.username,
         oldPw = req.body.oldpw,
         newPw = req.body.newpw;
@@ -291,4 +290,11 @@ var loginMask = function(req, res, next){
   } else {
     res.redirect('/admin/login');
   }
+};
+
+var adminMask = function(req, res, next){
+  if(!req.session.isAdmin) {
+    res.redirect('/admin');
+  }
+  next();
 };
