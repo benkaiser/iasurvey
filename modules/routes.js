@@ -91,7 +91,7 @@ module.exports = function(app, io) {
     controller.getSurveyBy_id(req.params.id, function(doc){
       if(doc && doc.status == 'draft'){
         // found the doc, render the edit page
-        res.render('survey_create', {survey: doc});
+        res.render('survey_create', {survey: doc, edit: true});
       } else {
         // redirect back to manage page
         res.redirect('/admin/surveys');

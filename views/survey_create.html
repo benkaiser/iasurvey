@@ -4,7 +4,10 @@
 
 {% block content %}
   <h1>Create Survey</h1>
-<form method="post" id="main_form">
+<form method="post" id="main_form" action="/admin/surveys/create">
+  {% if edit %}
+  <input type="hidden" id="edit" name="edit" value="true" />
+  {% endif %}
   <h2>Overall Info</h2>
     <div class="form-group">
       <label class="control-label" for="title">Title</label>
@@ -16,7 +19,7 @@
     </div>
     <div class="form-group">
       <label class="control-label" for="endpage">End Page</label>
-      <div class="summernote" id="endpage">{{survey.end_page_html}}</div>
+      <div class="summernote" id="endpage">{{survey.end_page|safe}}</div>
       <input type="hidden" name="end_page_html" id="end_page_html">
     </div>
   <h2>Survey Components</h2>
