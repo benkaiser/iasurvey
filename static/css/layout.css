@@ -1,0 +1,43 @@
+/* Space out content a bit */
+body {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.page {
+  position: relative;
+  width: 1020px;
+  margin: 0 auto;
+}
+/* disable the save item in formbuilder */
+.fb-save-wrapper{
+  display: none;
+}
+/* Customize container */
+@media (min-width: 768px) {
+  .container {
+    max-width: 1020px;
+  }
+}
+
+.header,.footer {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.header{
+  border-bottom: 1px solid #e5e5e5;
+  /*margin-bottom: 30px;*/
+}
+
+.header h3{
+  padding-bottom: 19px;
+  color: #96D4D0;
+}
+
+.footer {
+  padding-top: 19px;
+  color: #777;
+  border-top: 1px solid #e5e5e5;
+  margin-top: 30px;
+}
