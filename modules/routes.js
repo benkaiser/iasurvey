@@ -295,6 +295,7 @@ var loginMask = function(req, res, next){
 var adminMask = function(req, res, next){
   if(!req.session.isAdmin) {
     res.redirect('/admin');
+  } else {
+    next();
   }
-  next();
 };
