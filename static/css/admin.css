@@ -1,7 +1,7 @@
 .context{
     text-align: center;
 }
-.sign_in, .pass_update{
+.sign_in, .pass_update {
   display: inline-block;
   border: 1px solid #e5e5e5;
   border-radius: 5px;
@@ -37,4 +37,11 @@
   color: #468CC8;
   margin-top: 30px;
   margin-bottom: 15px;
+}
+
+.create_user {
+  width: 500px;
+  padding-left: 30px;
+  padding-right: 30px;
+  text-align: left;
 }

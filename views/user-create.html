@@ -3,6 +3,7 @@
 {% block title %}Surveys - Interns Australia{% endblock %}
 
 {% block content %}
+<div class="container">
 <script>
   function submitForm(){
     var password = document.getElementById("password");
@@ -21,15 +22,60 @@
     }
   }
 </script>
-<div class="container">
-  <p>This is the user-create page</p>
-  <form id="userCreateForm" action="/admin/user-create" method="post" class="form-inline">
+
+
+  <div class="row">
+    <div class="col-md-3">
+      <ul class="nav nav-pills nav-stacked" role="tablist">
+        <li role="createUser" class="active"><a href="/admin/user-create">Create User</a></li>
+        <li role="deleteUser"><a href="/admin/user-delete">Delete User</a></li>
+        <li role="accountUpdate"><a href="/admin/account-update">Account Update</a></li>
+      </ul>
+    </div>
+    <div class="col-md-9" role="main">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <div class="panel-title">This is the user-create page</div>
+        </div>
+        <div class="panel-body">
+          <div class="create_user">
+            <form id="userCreateForm" class="form" role="form" method="post" action="/admin/user-create">
+            <div class="form-group">
+              <label for="inputUsername">Username</label>
+              <!-- input username -->
+              <input type="text" class="form-control" placeholder="User Name" name="uname">
+              </br>
+              <label for="inputPassword">Password</label>
+              <!-- input password -->
+              <input type="password" placeholder="Password" class="form-control" id="password" name="password"/>
+              <br/>
+              <label for="confirmPassword">Confirm Password</label>
+              <!-- confirm password -->
+              <input type="password" placeholder="Confirm Password" class="form-control" id="confirmPwd"/>
+              <br/>
+              <!--checkbox -->
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox">Administrator
+                </label>
+              </div>
+              </br>
+              <button type="button" class='btn btn-primary' value="Create" onclick="submitForm()"/>Create</button>
+              <a href="/admin/staff" class='btn btn-default'>Back</a>
+            </div>
+            </form>
+         </div>
+        </div>
+  <!--form id="userCreateForm" action="/admin/user-create" method="post" class="form-inline">
     User name: <br> <input type="text" class="form-control" placeholder="User Name" name="uname" /></br>
     Password: <br> <input type="password" placeholder="Password" class="form-control" id="password" name="password" /></br>
     Confirm Password: <br> <input type="password" placeholder="Confirm Password" class="form-control" id="confirmPwd" /></br>
     Authorization: <input type="checkbox" class="form-control" name="isAdmin" value="Admin">Administrator</br>
     <input type="button" class='btn btn-primary' value="Create" onclick="submitForm()"/>
     <a href="/admin/staff" class='btn btn-default' >Back</a>
-  </form>
+  </form-->
+        </div>
+      </div>
+    </div>
 </div>
 {% endblock %}
