@@ -3,6 +3,7 @@
 {% block title %}Surveys - Interns Australia{% endblock %}
 
 {% block content %}
+<div class="container">
   <h1>Create Survey</h1>
 <form method="post" id="main_form" action="/admin/surveys/create">
   {% if edit %}
@@ -29,6 +30,7 @@
   <h2>Finish</h2>
   <input type="submit" class="btn btn-primary" value="Save">
 </form>
+<div>
 {% endblock %}
 {% block scripts %}
 <script type="text/javascript">
