@@ -1,7 +1,7 @@
-.test {
+.context{
     text-align: center;
 }
-.sign_in {
+.sign_in, .pass_update{
   display: inline-block;
   border: 1px solid #e5e5e5;
   border-radius: 5px;
@@ -12,7 +12,7 @@
   margin-top: 30px;
 }
 
-.sign_in h3 {
+.sign_in h3, .pass_update h3 {
   color: #468CC8;
   margin-top: 30px;
   margin-bottom: 15px;

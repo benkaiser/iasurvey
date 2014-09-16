@@ -4,11 +4,6 @@ body {
   padding-bottom: 20px;
 }
 
-.page {
-  position: relative;
-  width: 1020px;
-  margin: 0 auto;
-}
 /* disable the save item in formbuilder */
 .fb-save-wrapper{
   display: none;
