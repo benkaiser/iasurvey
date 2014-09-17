@@ -35,7 +35,7 @@
           <div class="edit_user">
             <form class="form" role="form" id="userEditForm" action="/admin/account-edit" method="post">
             <div class="form-group">
-              <input type="hidden" name="userId" value="{{user._id.toString()}}"/>
+              <input type="hidden" name="userId" value="{{user._id|safe}}"/>
               <label for="Username">Username</label>
               <!-- input username -->
               <input class="form-control" type="text" name="uname" placeholder="User Name" value="{{user.username}}" readonly="readonly"/>

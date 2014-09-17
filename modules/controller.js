@@ -10,7 +10,7 @@ module.exports = function Controller(app, io) {
 /*
 getSurveys
 Fetch survey content from database
-@para <json>data <function>callback
+@para <Object>data <function>callback
 */
   this.getSurveys = function(callback) {
     this.db.survey.find({}, function(err, docs) {
@@ -21,7 +21,7 @@ Fetch survey content from database
 /*
 getSurveys
 Fetch survey content from database
-@para <json>data <function>callback
+@para <Object>data <function>callback
 */
   this.getSurveyBy_id = function(_id, callback) {
     this.db.survey.findOne({_id: this.db.ObjectId(_id)}, function(err, doc) {
@@ -31,7 +31,7 @@ Fetch survey content from database
 /*
 createSurvey
 Sava a survey content into database
-@para <json>data <function>callback
+@para <Object>data <function>callback
 */
   this.createSurvey = function(data, callback) {
     this.db.survey.save(data, function(err, doc) {
@@ -51,6 +51,17 @@ Update the status of a survey to active
       callback();
     });
   };
+
+/*
+updateSurvey
+Update the contents of a survey
+@para <ObjectId>_id <Object>data <function>callback
+*/
+  this.updateSurvey = function(_id, data, callback) {
+    this.db.survey.update({_id: this.db.ObjectId(_id)}, {$set: data}, function(){
+      callback();
+    });
+  };
 /*
 removeSurvey
 Remove a survey from database
@@ -66,7 +77,7 @@ Remove a survey from database
 /*
 createResult
 Remove a survey from database
-@para <json>data <function>callback
+@para <Object>data <function>callback
 */
   this.createResult = function(data, callback) {
     this.db.result.save(data, function(err, doc) {
@@ -90,7 +101,7 @@ Record system log
 /*
 createAccount
 Creat IA Staff user account
-@para <json>data <function>callback
+@para <Object>data <function>callback
 */
   this.createAccount = function(data, callback) {
     this.db.staff.save(data, function(err, doc) {

@@ -23,7 +23,7 @@
               <select class="form-control" style="width: 40%" name="userChoosen" multiple="multiple" size="10">
               {% for person in users %}
               {% if loop.first %}<ol>{% endif %}
-              <option value = {{person._id.toString()}}>{{person.username}}</option>
+              <option value = {{person._id|safe}}>{{person.username}}</option>
               {% if loop.last %}</ol>{% endif %}
               {% endfor %}
               </select>

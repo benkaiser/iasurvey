@@ -21,13 +21,22 @@
           <td>{{survey.prompt}}</td>
           <td>{{survey.status}}</td>
           <td>
-            {% if survey.status == 'draft' %}
-            <a class='btn btn-primary' href="/admin/surveys/edit/{{survey._id.toString()}}">Edit</a>
-            <a class='btn btn-success' href="/admin/surveys/publish/{{survey._id.toString()}}">Publish</a>
-            {% endif %}
-            {% if survey.status == 'active' %}
-            <a class='btn btn-danger' href="/admin/surveys/deactivate/{{person._id.toString()}}">Deactivate</a>
-            {% endif %}
+            <div class="btn-group">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                Actions <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Action</a></li>
+                {% if survey.status == 'draft' %}
+                <li><a class='btn btn-primary' href="/admin/surveys/edit/{{survey._id|safe}}">Edit</a></li>
+                <li><a class='btn btn-primary' href="/admin/surveys/edit/{{survey._id|safe}}?clone=true">Clone</a></li>
+                <li><a class='btn btn-success' href="/admin/surveys/publish/{{survey._id|safe}}">Publish</a></li>
+                {% endif %}
+                {% if survey.status == 'active' %}
+                <li><a class='btn btn-danger' href="/admin/surveys/deactivate/{{survey._id|safe}}">Deactivate</a></li>
+                {% endif %}
+              </ul>
+            </div>
           </td>
         </tr>
       {% endfor %}

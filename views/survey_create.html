@@ -6,7 +6,7 @@
   <h1>Create Survey</h1>
 <form method="post" id="main_form" action="/admin/surveys/create">
   {% if edit %}
-  <input type="hidden" id="edit" name="edit" value="true" />
+  <input type="hidden" id="edit" name="edit" value="{{survey._id|safe}}" />
   {% endif %}
   <h2>Overall Info</h2>
     <div class="form-group">

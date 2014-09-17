@@ -31,8 +31,8 @@
             <tr>
               <td>{{person.username}}</td>
               <td>{{person.is_admin}}</td>
-              <td><a class='btn btn-primary' href="/admin/account-edit/{{person._id.toString()}}">Edit</a></td>
-            </tr> 
+              <td><a class='btn btn-primary' href="/admin/account-edit/{{person._id|safe}}">Edit</a></td>
+            </tr>
             {% endfor %}
             </tbody>
           </table>

@@ -32,7 +32,7 @@ $("#main_form").submit(function( event ) {
     // trigger a save
     $(".js-save-form.fb-button").click();
     // set the form values
-    $("#form_json").val(latest);
+    $("#form_json").val(JSON.stringify(latest));
     $("#end_page_html").val($("#endpage").code());
     // let the form submission complete
     return true;

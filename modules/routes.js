@@ -79,15 +79,22 @@ module.exports = function(app, io) {
     });
   });
 
-  app.get('/admin/surveys/create', loginMask, function(req, res){
+  app.get('/admin/surveys/create', loginMask, function(req, res) {
     res.render('survey_create');
   });
 
-  app.get('/admin/surveys/edit/:id', loginMask, function(req, res){
+  app.get('/admin/surveys/edit/:id', loginMask, function(req, res) {
     controller.getSurveyBy_id(req.params.id, function(doc){
-      if(doc && doc.status == 'draft'){
+      if(doc && doc.status == 'draft') {
         // found the doc, render the edit page
-        res.render('survey_create', {survey: doc, edit: true});
+        if(req.query.clone){
+          console.log("Cloning");
+          res.render('survey_create', {survey: doc});
+        } else {
+          console.log("Editing");
+          // only pass the edit flag if we aren't cloning
+          res.render('survey_create', {survey: doc, edit: true});
+        }
       } else {
         // redirect back to manage page
         res.redirect('/admin/surveys');
@@ -95,18 +102,27 @@ module.exports = function(app, io) {
     });
   });
 
-  app.post('/admin/surveys/create', loginMask, function(req, res){
-    if(req.body.title){
+  app.post('/admin/surveys/create', loginMask, function(req, res) {
+    if(req.body.title) {
       // form was submitted and data present, save the data
-      controller.createSurvey({
+      var doc = {
         title: req.body.title,
         prompt: req.body.prompt,
         end_page: req.body.end_page_html,
         form: req.body.form_json,
         status: 'draft'
-      }, function(data){
-        res.redirect('/admin/surveys');
-      });
+      };
+      if(req.body.edit) {
+        // if edit was passed in, it contains the _id
+        controller.updateSurvey(req.body.edit, doc, function(data) {
+          res.redirect('/admin/surveys');
+        });
+      } else {
+        // add it as a new document
+        controller.createSurvey(doc, function(data) {
+          res.redirect('/admin/surveys');
+        });
+      }
     } else {
       // render the manage page
       res.redirect('/admin/surveys');
