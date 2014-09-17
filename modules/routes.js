@@ -61,12 +61,7 @@ module.exports = function(app, io) {
          } else {
              req.session.loggedIn = true;
              req.session.username = result.username;
-             if(result.is_admin === 'Admin'){
-               req.session.isAdmin = true;
-             } else {
-               req.session.isAdmin = false;
-             }
-             console.log(result.is_admin+"->"+req.session.username + ' log in.');
+             req.session.isAdmin = result.is_admin;
              res.redirect('/admin');
              return;
          }
