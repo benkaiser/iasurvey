@@ -64,20 +64,4 @@
         </div>
       </div>
     </div>
-
-  <!--p>This is the account-edit page, leave new password blank to remain old password</p>
-  <form id="userEditForm" action="/admin/account-edit" method="post" class="form-inline">
-
-    <input type="hidden" name="userId" value="{{user._id.toString()}}"/>
-
-    User name: <br> 
-    <input class="form-control" type="text" name="uname" placeholder="User Name" value="{{user.username}}" readonly="readonly"/></br>
-    New Password: <br> <input class="form-control" type="text" id="password" placeholder="New Password" name="password" /></br>
-    Confirm Password: <br> <input class="form-control" type="text" placeholder="Confirm Password" id="confirmPwd"/></br>
-    Administrator:
-    <input class="form-control" type="checkbox" name="isAdmin" value="Admin" {% if user.is_admin == 'Admin' %}checked="checked"{% endif %}></br>
-    <input class="btn btn-primary" type="button" value="Update" onclick="submitForm()"/>
-    <a class="btn btn-default" href="/admin/account-update">Back</a>
-  </form-->
-
 {% endblock %}
