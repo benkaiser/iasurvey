@@ -33,9 +33,13 @@
                 <li><a href="/admin/surveys/publish/{{survey._id|safe}}">Publish</a></li>
                 {% endif %}
                 {% if survey.status == 'active' %}
+                <li><a href="/admin/surveys/edit/{{survey._id|safe}}?clone=true">Clone</a></li>
+                <li class="divider"></li>
                 <li><a href="/admin/surveys/deactivate/{{survey._id|safe}}">Deactivate</a></li>
                 {% endif %}
                 {% if survey.status == 'deactive' %}
+                <li><a href="/admin/surveys/edit/{{survey._id|safe}}?clone=true">Clone</a></li>
+                <li class="divider"></li>
                 <li><a href="/admin/surveys/activate/{{survey._id|safe}}">Activate</a></li>
                 {% endif %}
               </ul>
