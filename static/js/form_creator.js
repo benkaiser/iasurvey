@@ -9,9 +9,12 @@ $(document).ready(function(){
   var bootstrap_data = null;
   if(json_val){
     bootstrap_data = JSON.parse(json_val);
+    // sometimes it needs to be escaped twice
+    if(typeof bootstrap_data !== "object"){
+      bootstrap_data = JSON.parse(bootstrap_data);
+    }
   }
   if(bootstrap_data){
-    console.log(bootstrap_data);
     formbuilder = new Formbuilder({ selector: '#formbuilder', bootstrapData: bootstrap_data.fields});
     latest = bootstrap_data;
   } else {
