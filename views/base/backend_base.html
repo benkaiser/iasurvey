@@ -20,7 +20,7 @@
     {% endblock %}
   </head>
   <body>
-
+  <div class="container">
   <nav class="navbar navbar-default container no_bottom_margin" role="navigation">
     <a class="navbar-brand">Interns Australia</a>
     {% if loggedIn %}
@@ -43,7 +43,10 @@
     {% block content %}
     {% endblock %}
   </div>
-
+  <div class="footer">
+    <p>© Company 2014</p>
+  </div>
+  </div>
   <script type="text/javascript">
     head.js(
       "/static/js/libs/jquery.min.js",

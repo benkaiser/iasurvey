@@ -39,7 +39,7 @@
   margin-bottom: 15px;
 }
 
-.create_user, .delete_user {
+.create_user, .delete_user, .edit_user {
   width: 500px;
   padding-left: 30px;
   padding-right: 30px;

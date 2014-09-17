@@ -3,13 +3,18 @@
 {% block title %}Surveys - Interns Australia{% endblock %}
 
 {% block content %}
-<div class="container">
-  <h1>Welcome</h1>
+	<div class="jumbotron">
+  		<h1>Welcome!</h1>
+  	    </br>
+		<p>This is a page where admin management will be presented</p>
+		<br/>
+		<p>
+			<a href="/admin/surveys" class="btn btn-primary">Manage Surveys</a>
+  			<a href="/admin/results" class="btn btn-primary">View result</a>
+  			{% if isAdmin %}
+  			<a href="/admin/staff" class="btn btn-primary">Manage Staff</a>
+			{% endif %}
+		</p>  
+  	</div>
 
-  <a href="/admin/surveys" class="btn btn-primary">Manage Surveys</a>
-  <a href="/admin/results" class="btn btn-primary">View result</a>
-  {% if isAdmin %}
-  <a href="/admin/staff" class="btn btn-primary">Manage Staff</a>
-  {% endif %}
-</div>
 {% endblock %}

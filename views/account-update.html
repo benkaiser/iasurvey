@@ -3,7 +3,6 @@
 {% block title %}Surveys - Interns Australia{% endblock %}
 
 {% block content %}
-<div class="container">
   <div class="row">
     <div class="col-md-3">
       <ul class="nav nav-pills nav-stacked" role="tablist">
@@ -19,31 +18,30 @@
         </div>
         <div class="panel-body">
           <div class="account_update">
-        <!-- table -->
-        <table class="table table-striped">
-          <thead>
+          <!-- table -->
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>User Name</th>
+                <th>Is Admin</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for person in users %}
             <tr>
-              <th>User Name</th>
-              <th>Is Admin</th>
-            </tr>
-          </thead>
-          <tbody>
-          {% for person in users %}
-            <tr>
-            <td>{{person.username}}</td>
-            <td>{{person.is_admin}}</td>
-            <td><a class='btn btn-primary' href="/admin/account-edit/{{person._id.toString()}}">Edit</a></td>
-          </tr> 
-          {% endfor %}
-          </tbody>
-        </table>
-        <br/>
-        <a class='btn btn-default' href="/admin/staff">Back</a>
-        </div>
-        </div>
+              <td>{{person.username}}</td>
+              <td>{{person.is_admin}}</td>
+              <td><a class='btn btn-primary' href="/admin/account-edit/{{person._id.toString()}}">Edit</a></td>
+            </tr> 
+            {% endfor %}
+            </tbody>
+          </table>
+          <br/>
+          <a class='btn btn-default' href="/admin/staff">Back</a>
+          </div>
         </div>
       </div>
     </div>
-</div>
-</body>
+  </div>
+
 {% endblock %}

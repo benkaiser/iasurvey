@@ -3,13 +3,18 @@
 {% block title %}Surveys - Interns Australia{% endblock %}
 
 {% block content %}
-<div class="container">
-  <h1> {{title}} </h1>
+<div class="jumbotron">
+  <h1>Successful!</h1>
+  <br/>
+  <p>{{title}}</p>
+  <br/>
   {% if buttonValue %}
-  <a href="/admin/staff" class='btn btn-default'>Back To Staff</a>
-  <a href="{{page}}" class='btn btn-primary'>{{buttonValue}}</a>
-  {% else %}
-  <a href="/admin" class='btn btn-default'>Back To Home</a>
-  {% endif %}
+  <p>
+  	<a href="/admin/staff" class='btn btn-default'>Back To Staff</a>
+  	<a href="{{page}}" class='btn btn-primary'>{{buttonValue}}</a>
+  	{% else %}
+  	<a href="/admin" class='btn btn-default'>Back To Home</a>
+  </p>
+  	{% endif %}
 </div>
 {% endblock %}
