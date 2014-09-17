@@ -44,10 +44,10 @@ Sava a survey content into database
 /*
 publishSurvey
 Update the status of a survey to active
-@para <ObjectId>_id <function>callback
+@para <ObjectId>_id <String>status <function>callback
 */
-  this.publishSurvey = function(_id, callback) {
-    this.db.survey.update({_id: this.db.ObjectId(_id)}, {$set: {status: 'active'}}, function(){
+  this.setSurveyStatus = function(_id, status, callback) {
+    this.db.survey.update({_id: this.db.ObjectId(_id)}, {$set: {status: status}}, function(){
       callback();
     });
   };
