@@ -80,7 +80,7 @@ module.exports = function(app, io) {
 
   app.get('/admin/surveys/edit/:id', loginMask, function(req, res) {
     controller.getSurveyBy_id(req.params.id, function(doc){
-      if(doc && doc.status == 'draft') {
+      if(doc) {
         // found the doc, render the edit page
         if(req.query.clone){
           console.log("Cloning");
@@ -125,7 +125,21 @@ module.exports = function(app, io) {
   });
 
   app.get('/admin/surveys/publish/:id', loginMask, function(req, res){
-    controller.publishSurvey(req.params.id, function(){
+    controller.setSurveyStatus(req.params.id, 'active', function(){
+      // render the manage page again with the updated data
+      res.redirect('/admin/surveys');
+    });
+  });
+
+  app.get('/admin/surveys/deactivate/:id', loginMask, function(req, res){
+    controller.setSurveyStatus(req.params.id, 'deactive', function(){
+      // render the manage page again with the updated data
+      res.redirect('/admin/surveys');
+    });
+  });
+
+  app.get('/admin/surveys/activate/:id', loginMask, function(req, res){
+    controller.setSurveyStatus(req.params.id, 'active', function(){
       // render the manage page again with the updated data
       res.redirect('/admin/surveys');
     });

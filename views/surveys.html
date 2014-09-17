@@ -19,21 +19,24 @@
         <tr>
           <td>{{survey.title}}</td>
           <td>{{survey.prompt}}</td>
-          <td>{{survey.status}}</td>
+          <td><span class="label {% if survey.status == 'draft' %}label-primary{% elseif survey.status == 'active' %}label-success{% else %}label-danger{% endif %}">{{survey.status}}</span></td>
           <td>
             <div class="btn-group">
               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                 Actions <span class="caret"></span>
               </button>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Action</a></li>
                 {% if survey.status == 'draft' %}
-                <li><a class='btn btn-primary' href="/admin/surveys/edit/{{survey._id|safe}}">Edit</a></li>
-                <li><a class='btn btn-primary' href="/admin/surveys/edit/{{survey._id|safe}}?clone=true">Clone</a></li>
-                <li><a class='btn btn-success' href="/admin/surveys/publish/{{survey._id|safe}}">Publish</a></li>
+                <li><a href="/admin/surveys/edit/{{survey._id|safe}}">Edit</a></li>
+                <li><a href="/admin/surveys/edit/{{survey._id|safe}}?clone=true">Clone</a></li>
+                <li class="divider"></li>
+                <li><a href="/admin/surveys/publish/{{survey._id|safe}}">Publish</a></li>
                 {% endif %}
                 {% if survey.status == 'active' %}
-                <li><a class='btn btn-danger' href="/admin/surveys/deactivate/{{survey._id|safe}}">Deactivate</a></li>
+                <li><a href="/admin/surveys/deactivate/{{survey._id|safe}}">Deactivate</a></li>
+                {% endif %}
+                {% if survey.status == 'deactive' %}
+                <li><a href="/admin/surveys/activate/{{survey._id|safe}}">Activate</a></li>
                 {% endif %}
               </ul>
             </div>
