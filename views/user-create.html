@@ -25,9 +25,9 @@
   <div class="row">
     <div class="col-md-3">
       <ul class="nav nav-pills nav-stacked" role="tablist">
-        <li role="createUser" class="active"><a href="/admin/user-create">Create User</a></li>
-        <li role="deleteUser"><a href="/admin/user-delete">Delete User</a></li>
-        <li role="accountUpdate"><a href="/admin/account-update">Account Update</a></li>
+        <li role="createUser" class="active"><a href="/admin/staff/create">Create User</a></li>
+
+        <li role="accountUpdate"><a href="/admin/staff">Account Update</a></li>
       </ul>
     </div>
     <div class="col-md-9" role="main">
@@ -37,7 +37,7 @@
         </div>
         <div class="panel-body">
           <div class="create_user">
-            <form id="userCreateForm" class="form" role="form" method="post" action="/admin/user-create">
+            <form id="userCreateForm" class="form" role="form" method="post">
             <div class="form-group">
               <label for="inputUsername">Username</label>
               <!-- input username -->
@@ -54,7 +54,7 @@
               <!--checkbox -->
               <div class="checkbox">
                 <label>
-                  <input type="checkbox">Administrator
+                  <input type="checkbox" name="isAdmin">Administrator
                 </label>
               </div>
               </br>

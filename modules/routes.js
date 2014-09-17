@@ -146,18 +146,22 @@ module.exports = function(app, io) {
   });
 
 /**
- * Staff User management page direct function
- * Direct to /admin/staff or redirect to login page
+ * staff get handler
+ * Direct to /staff or redirect to login page
  */
   app.get('/admin/staff', loginMask, adminMask, function(req, res) {
-    res.render('staff');
+    controller.getAllUser(
+      function (users) {
+        res.render('staff', {users: users});
+      }
+    );
   });
 
 /**
  * user-create direct function
  * Direct to /user-create or redirect to login page
  */
-  app.get('/admin/user-create', loginMask, adminMask, function(req, res) {
+  app.get('/admin/staff/create', loginMask, adminMask, function(req, res) {
     res.render('user-create');
   });
 
@@ -167,32 +171,22 @@ module.exports = function(app, io) {
  * into database
  * @throw save faliure error infomation
  */
-  app.post('/admin/user-create', loginMask, adminMask, function(req, res) {
+  app.post('/admin/staff/create', loginMask, adminMask, function(req, res) {
     var userName = req.body.uname,
         password = req.body.password,
-        isAdmin = req.body.isAdmin,
+        isAdmin,
         hashedPw = passwordHash.generate(password);
-    if (typeof isAdmin === 'undefined') {
-      isAdmin = "User";
+    if(req.body.isAdmin === undefined) {
+      isAdmin = false;
+    } else {
+      isAdmin = true;
     }
     controller.createAccount(
-      {username:userName, password:hashedPw, is_admin:isAdmin},
+      {username: userName, password: hashedPw, is_admin: isAdmin},
       function (saved) {
       console.log(JSON.stringify(saved) + " saved");
+      res.redirect('/admin/staff');
     });
-    res.render('staff-operation-success', {title: "User Create Successful", buttonValue: "ContinueCreate", page: "/admin/user-create"});
-  });
-
-/**
- * user-delete direct function
- * Direct to /user-delete or redirect to login page
- */
-  app.get('/admin/user-delete', loginMask, adminMask, function(req, res) {
-    controller.getAllUser(
-      function (users) {
-        res.render('user-delete', {users: users});
-      }
-    );
   });
 
 /**
@@ -201,43 +195,19 @@ module.exports = function(app, io) {
  * into database
  * @throw delete faliure error infomation
  */
-  app.post('/admin/user-delete', loginMask, adminMask, function(req, res) {
-    var userChoosen = req.body.userChoosen;
-    if( typeof userChoosen === 'string' ) {
-      controller.removeAccount(userChoosen,
-        function (err, numRemoved) {
-        console.log(numRemoved+" Removed");
-        if(!err){
-          res.render('staff-operation-success', {title: "User Delete Successful", buttonValue: "ContinueDelete", page: "/admin/user-delete"});
-        }
-      });
-    } else {
-      userChoosen.forEach(function(userId) {
-        controller.removeAccount(userId,
-          function (err, numRemoved) {
-          console.log(numRemoved+" Removed");
-          if(err != null){
-            return;
-          }
-        });
-      });
-      res.render('staff-operation-success', {title: "User Delete Successful", buttonValue: "ContinueDelete", page: "/admin/user-delete"});
-    }
+  app.get('/admin/staff/delete/:id', loginMask, adminMask, function(req, res) {
+    var userChoosen = req.params.id;
+    controller.removeAccount(userChoosen,
+      function (err, numRemoved) {
+      console.log(numRemoved+" Removed");
+      if(!err){
+        res.redirect('/admin/staff');
+      }
+    });
   });
 
 /**
- * account-update get handler
- * Direct to /account-update or redirect to login page
- */
-  app.get('/admin/account-update', loginMask, adminMask, function(req, res) {
-    controller.getAllUser(
-      function (users) {
-        res.render('account-update', {users: users});
-      }
-    );
-  });
-/**
- * account-update post handler
+ * staff post handler
  */
   app.get('/admin/account-edit/:id', loginMask, adminMask, function(req, res) {
     var userId = req.params.id;
@@ -250,30 +220,33 @@ module.exports = function(app, io) {
 /**
  * account-edit post handler
  */
-  app.post('/admin/account-edit', loginMask, adminMask, function(req, res) {
-    var userId = req.body.userId,
+  app.post('/admin/account-edit/:id', loginMask, adminMask, function(req, res) {
+    var userId = req.params.id,
         userName = req.body.uname,
         password = req.body.password,
-        isAdmin = req.body.isAdmin;
-    if (typeof isAdmin === 'undefined') {
-      isAdmin = "User";
-    }
-    if(password==""){
-      var data = {username:userName, is_admin:isAdmin};
+        isAdmin;
+    if(req.body.isAdmin === undefined) {
+      isAdmin = false;
     } else {
-      var data = {username:userName, password:passwordHash.generate(password), is_admin:isAdmin};
+      isAdmin = true;
+    }
+    var data;
+    if(password){
+      data = {username:userName, password:passwordHash.generate(password), is_admin:isAdmin};
+    } else {
+      data = {username:userName, is_admin:isAdmin};
     }
     controller.updateAccount(userId, data,
       function (result) {
         if(result === true){
-          res.render('staff-operation-success', {title: "Account Update Successful", buttonValue: "ContinueUpdate", page: "/admin/account-update"});
+          res.redirect('/admin/staff');
         }
       }
     );
   });
 /**
  * password-update get handler
- * Direct to /account-update or redirect to login page
+ * Direct to /staff or redirect to login page
  */
   app.get('/admin/password-update', loginMask, function(req, res) {
       res.render('password-update');
@@ -289,15 +262,15 @@ module.exports = function(app, io) {
     controller.getUserByName(username,
       function (nullfunc, user) {
         if(!passwordHash.verify(oldPw, user.password)){
-          res.render('password-update', {username: username, error: 'Please enter the correct old password!'});
+          res.render('password-update', {username: username, error: 'Please enter the correct old password'});
           return;
         }
         var hashedNewPw = passwordHash.generate(newPw),
             data = {password: hashedNewPw};
         controller.updateAccount(user._id.toString(), data,
           function (result) {
-            if(result == true){
-              res.render('staff-operation-success', {title: "Password Update Successful"});
+            if(result){
+              res.redirect('/admin/staff');
             }
           }
         );

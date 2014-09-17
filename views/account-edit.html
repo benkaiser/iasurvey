@@ -21,9 +21,9 @@
 <div class="row">
     <div class="col-md-3">
       <ul class="nav nav-pills nav-stacked" role="tablist">
-        <li role="createUser"><a href="/admin/user-create">Create User</a></li>
-        <li role="deleteUser"><a href="/admin/user-delete">Delete User</a></li>
-        <li role="accountUpdate" class="active"><a href="/admin/account-update">Account Update</a></li>
+        <li role="createUser"><a href="/admin/staff/create">Create User</a></li>
+
+        <li role="accountUpdate" class="active"><a href="/admin/staff">Account Update</a></li>
       </ul>
     </div>
     <div class="col-md-9" role="main">
@@ -33,30 +33,29 @@
         </div>
         <div class="panel-body">
           <div class="edit_user">
-            <form class="form" role="form" id="userEditForm" action="/admin/account-edit" method="post">
+            <form class="form" role="form" id="userEditForm" method="post">
             <div class="form-group">
-              <input type="hidden" name="userId" value="{{user._id|safe}}"/>
               <label for="Username">Username</label>
               <!-- input username -->
               <input class="form-control" type="text" name="uname" placeholder="User Name" value="{{user.username}}" readonly="readonly"/>
               </br>
               <label for="inputPassword">New Password</label>
               <!-- input password -->
-              <input class="form-control" type="text" id="password" placeholder="New Password" name="password"/>
+              <input class="form-control" type="password" id="password" placeholder="New Password" name="password"/>
               <br/>
               <label for="confirmPassword">Confirm Password</label>
               <!-- confirm password -->
-              <input class="form-control" type="text" placeholder="Confirm Password" id="confirmPwd"/>
+              <input class="form-control" type="password" placeholder="Confirm Password" id="confirmPwd"/>
               <br/>
               <!--checkbox -->
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" name="isAdmin" value="Admin" {% if user.is_admin == 'Admin' %}checked="checked"{% endif %}>Administrator
+                  <input type="checkbox" name="isAdmin" value="Admin" {% if user.is_admin %}checked="checked"{% endif %}>Administrator
                 </label>
               </div>
               </br>
               <button type="button" class='btn btn-primary' value="Update" onclick="submitForm()"/>Update</button>
-              <a href="/admin/account-update" class='btn btn-default'>Back</a>
+              <a href="/admin/staff" class='btn btn-default'>Back</a>
             </div>
             </form>
          </div>
