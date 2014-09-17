@@ -10,10 +10,10 @@ module.exports = function Controller(app, io) {
 /*
 getSurveys
 Fetch survey content from database
-@para <Object>data <function>callback
+@para <Object>where <function>callback
 */
-  this.getSurveys = function(callback) {
-    this.db.survey.find({}, function(err, docs) {
+  this.getSurveys = function(where, callback) {
+    this.db.survey.find(where, function(err, docs) {
       callback(docs);
     });
   };

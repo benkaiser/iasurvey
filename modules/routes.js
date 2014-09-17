@@ -12,7 +12,9 @@ module.exports = function(app, io) {
   controller = app.get('controller');
   // homepage
   app.get('/', function(req, res) {
-    res.render('landing');
+    controller.getSurveys({status: 'active'}, function(surveys){
+      res.render('landing', {surveys: surveys});
+    });
   });
 
   // admin
@@ -69,7 +71,7 @@ module.exports = function(app, io) {
   });
 
   app.get('/admin/surveys', loginMask, function(req, res) {
-    controller.getSurveys(function(surveys){
+    controller.getSurveys({}, function(surveys){
       res.render('surveys', {surveys: surveys});
     });
   });

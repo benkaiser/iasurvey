@@ -6,7 +6,15 @@
 <div class="container">
   <h1>Welcome</h1>
 
-  <p>Please select the survey that best-fits your role:</p>
-  <a href="/survey" class="btn btn-primary">Survey</a>
+  <p>Please select the survey that best-fits your role:
+
+  <ul>
+    {% for survey in surveys %}
+    <li><a href="/survey/{{survey._id|safe}}">{{survey.prompt}}</a></li>
+    {% endfor %}
+  <ul>
+
+  </p>
+
 </div>
 {% endblock %}
