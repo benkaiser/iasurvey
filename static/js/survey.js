@@ -1,3 +1,8 @@
+// utility functions
+function render(template, data){
+  return swig.render($(template).html(), {locals: data});
+}
+
 // setup the backbone app and router
 IAApp = new Backbone.Marionette.Application();
 
@@ -22,9 +27,25 @@ var SurveyView = Backbone.View.extend({
   },
   initialize: function() {
     // initialise survey
+    this.count = 0;
+    this.current_fields = [];
   },
   render: function() {
-    // render survey
+    if(this.count < sections.length){
+      // draw the current question page
+      // grab the current fields
+      this.current_fields = sections[this.count];
+      // render each of them
+      var field_html = [];
+      for(var cnt = 0; cnt < this.current_fields.length; cnt++){
+        field_html.push(render("#" + this.current_fields[cnt].field_type + "_question_template", this.current_fields[cnt]));
+      }
+      console.log(field_html);
+      this.$el.html(render(this.template, {title: survey.title, fields: field_html}));
+    } else {
+      // draw the end page
+
+    }
   }
 });
 
