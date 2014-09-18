@@ -5,18 +5,9 @@ var formbuilder;
 $(document).ready(function(){
   $('#endpage').summernote();
 
-  var json_val = $("#form_json").val();
-  var bootstrap_data = null;
-  if(json_val){
-    bootstrap_data = JSON.parse(json_val);
-    // sometimes it needs to be escaped twice
-    if(typeof bootstrap_data !== "object"){
-      bootstrap_data = JSON.parse(bootstrap_data);
-    }
-  }
   if(bootstrap_data){
     formbuilder = new Formbuilder({ selector: '#formbuilder', bootstrapData: bootstrap_data.fields});
-    latest = bootstrap_data;
+    latest = JSON.stringify(bootstrap_data);
   } else {
     formbuilder = new Formbuilder({ selector: '#formbuilder'});
   }
@@ -35,7 +26,7 @@ $("#main_form").submit(function( event ) {
     // trigger a save
     $(".js-save-form.fb-button").click();
     // set the form values
-    $("#form_json").val(JSON.stringify(latest));
+    $("#form_json").val(latest);
     $("#end_page_html").val($("#endpage").code());
     // let the form submission complete
     return true;

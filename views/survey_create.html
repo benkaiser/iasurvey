@@ -25,7 +25,7 @@
   <h2>Survey Components</h2>
 
   <div id='formbuilder'></div>
-  <input type="hidden" name="form_json" id="form_json" value="{{survey.form}}">
+  <input type="hidden" name="form_json" id="form_json">
   <h2>Finish</h2>
   <input type="submit" class="btn btn-primary" value="Save">
 </form>
@@ -43,5 +43,10 @@ head.load(
   "/static/css/libs/formbuilder-min.css",
   "/static/css/libs/summernote.css"
 );
+{% if survey %}
+var bootstrap_data = JSON.parse("{{survey.form|safe|json|addslashes}}");
+{% else %}
+var bootstrap_data = null;
+{% endif %}
 </script>
 {% endblock %}

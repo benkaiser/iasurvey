@@ -112,9 +112,10 @@ module.exports = function(app, io) {
         title: req.body.title,
         prompt: req.body.prompt,
         end_page: req.body.end_page_html,
-        form: req.body.form_json,
+        form: JSON.parse(req.body.form_json),
         status: 'draft'
       };
+      console.log(doc);
       if(req.body.edit) {
         // if edit was passed in, it contains the _id
         controller.updateSurvey(req.body.edit, doc, function(data) {
