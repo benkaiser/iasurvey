@@ -1,0 +1,23 @@
+{% extends 'base/public_base.html' %}
+
+{% block title %}Surveys - Interns Australia{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div id="surveyContainer">
+
+  </div>
+  <script type="text/javascript">var survey = JSON.parse("{{survey|safe|json|addslashes}}")</script>
+</div>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+  head.js(
+    "/static/js/libs/underscore-min.js",
+    "/static/js/libs/backbone-min.js",
+    "/static/js/libs/backbone.marionette.min.js",
+    "/static/js/libs/swig.min.js",
+    "/static/js/survey.js"
+    );
+</script>
+{% endblock %}

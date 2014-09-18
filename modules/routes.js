@@ -17,6 +17,12 @@ module.exports = function(app, io) {
     });
   });
 
+  app.get('/survey/:id', function(req, res) {
+    controller.getSurveyBy_id(req.params.id, function(survey) {
+      res.render('complete_survey', {survey: survey});
+    });
+  });
+
   // admin
   app.get('/admin', loginMask, function(req, res) {
     res.render('admin');
