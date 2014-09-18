@@ -1052,7 +1052,7 @@ __p += '\n        <a data-field-type="' +
 ((__t = ( f.addButton )) == null ? '' : __t) +
 '\n        </a>\n      ';
  }); ;
-__p += '\n    </div>\n  </div>\n</div>';
+__p += '\n    </div>\n  </div>\n</div>\n';
 
 }
 return __p
@@ -1126,7 +1126,13 @@ this["Formbuilder"]["templates"]["view/base_non_input"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '';
+__p += '<div class=\'subtemplate-wrapper\'>\n  <div class=\'cover\'></div>\n  ' +
+((__t = ( Formbuilder.templates['view/label']({rf: rf}) )) == null ? '' : __t) +
+'\n\n  ' +
+((__t = ( Formbuilder.templates['view/description']({rf: rf}) )) == null ? '' : __t) +
+'\n  ' +
+((__t = ( Formbuilder.templates['view/duplicate_remove']({rf: rf}) )) == null ? '' : __t) +
+'\n</div>\n';
 
 }
 return __p
