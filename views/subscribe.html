@@ -1,0 +1,33 @@
+{% extends 'base/public_base.html' %}
+
+{% block title %}Surveys - Interns Australia{% endblock %}
+
+{% block content %}
+      <div class="context">
+        {% if error %}
+        <div class="alert alert-danger" role="alert">
+          <p>{{error}}</p>
+        </div>
+        {% endif %}
+        {% if success %}
+        <div class="alert alert-success" role="alert">
+          <p>{{success}}</p>
+        </div>
+        {% endif %}
+        <form class="form" role="form" method="post" action="/subscribe">
+          <h3>Email subscibe</h3>
+          <div class="form-group">
+            <label for="inputEmail">Email</label>
+            <!-- input Email -->
+            <input type="text" class="form-control" id="txtEmail" name="txtEmail">
+            </br>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" name="isAgree">I agree to the terms of use of Interns Australia
+              </label>
+            </div>
+            <button type="submit" class="btn btn-primary" value="Subscribe" onclick="submitForm()">Subscribe</button>
+          </div>
+        </form>
+      </div>
+{% endblock %}
