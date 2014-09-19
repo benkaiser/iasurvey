@@ -201,4 +201,27 @@ Update a existing user by user_id
       callback(result.ok);
     });
   };
+/*
+Verify the email input legal or not
+*/
+  this.verifyEmail = function(email, callback) {
+    var reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+    var error = false;
+    if(!reg.test(email)){
+      console.log('Illegal email address!');
+      error = true;
+    } else {
+      this.db.subscribe.insert({email: email}, function(err, result){
+        if(err){
+          console.log('Insert error' + err);
+          callback(err, null);
+        }
+        if(error){
+          console.log('Illegal email address' + err);
+          callback(err, null);
+        }
+        callback(null, result);
+      });
+    }
+  };
 };

@@ -285,6 +285,29 @@ module.exports = function(app, io) {
       }
     );
   });
+/**
+ * survey participants can subscribe further information
+ */
+  app.get('/subscribe',function(req,res){
+    res.render('subscribe');
+  });
+/**
+ * get user's email address and save
+ */
+  app.post('/subscribe',function(req,res){
+    var email = req.body.txtEmail;
+    if(req.body.isAgree === undefined){
+      res.render('subscribe', {error: 'Must agree to the terms of use before subscribe!'});
+      return;
+    } else {
+      controller.verifyEmail(email, function(err, result) {
+        if(err)
+          res.render('subscribe', {error: 'Illegal email address!'});
+        if(result !== null)
+          res.render('subscribe', {success: 'Thanks for subscribe our latest information'});
+      });
+    }
+  });
 };
 
 var loginMask = function(req, res, next){

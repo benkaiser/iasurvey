@@ -19,7 +19,7 @@ var survey = require('./modules/routes');
 
 var mongo_connection_string = 'mongodb://127.0.0.1:27017/' + (process.env.DB || 'iasurvey');
 
-var db = mongojs(mongo_connection_string, ['staff', 'survey', 'result', 'log']);
+var db = mongojs(mongo_connection_string, ['staff', 'survey', 'result', 'log', 'subscribe']);
 
 // start the app now that we have the db
 var app = express();
