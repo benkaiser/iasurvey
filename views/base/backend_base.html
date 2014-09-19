@@ -21,30 +21,36 @@
   </head>
   <body>
   <div class="container">
-  <nav class="navbar navbar-default container no_bottom_margin" role="navigation">
-    <a class="navbar-brand">Interns Australia</a>
-    {% if loggedIn %}
-    <ul class="nav navbar-nav">
-      <li><a href="/admin/surveys">Manage Surveys</a></li>
-      <li><a href="/admin/results">View Results</a></li>
-      {% if isAdmin %}
-      <li><a href="/admin/staff">Manage Staff</a></li>
-      {% endif %}
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-      <li><a href="/admin/password-update">{{username}}, Change Password</a></li>
-      <li><a href="/admin/login?logout">Logout</a></li>
-    </ul>
-    {% endif %}
-    {%block navbar %}
-    {% endblock %}
-  </nav>
+    <div class="header">
+      <nav class="navbar navbar-static-top" role="banner">
+        <div class="navbar-header">
+          <a href="/admin" class="navbar-brand">Interns Australia</a>
+        </div>
+        {% if loggedIn %}
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li><a href="/admin/surveys">Manage Surveys</a></li>
+            <li><a href="/admin/results">View Results</a></li>
+            {% if isAdmin %}
+            <li><a href="/admin/staff">Manage Staff</a></li>
+            {% endif %}
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/admin/password-update">{{username}},Change Password</a></li>
+            <li><a href="/admin/login?logout">Logout</a></li>
+          </ul>
+        </div>
+        {% endif %}
+        {%block navbar %}
+        {% endblock %}
+      </nav>
+    </div>
   <div class="content">
     {% block content %}
     {% endblock %}
   </div>
   <div class="footer">
-    <p>© Company 2014</p>
+    <p>© Interns Australia</p>
   </div>
   </div>
   <script type="text/javascript">

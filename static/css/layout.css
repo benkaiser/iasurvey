@@ -22,12 +22,15 @@ body {
 
 .header{
   border-bottom: 1px solid #e5e5e5;
-  /*margin-bottom: 30px;*/
 }
 
-.header h3{
-  padding-bottom: 19px;
+.navbar-brand{
+  font-size: 25px;
   color: #96D4D0;
+}
+
+.navbar-nav{
+  padding-top: 3px;
 }
 
 .footer {
