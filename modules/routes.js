@@ -301,7 +301,7 @@ module.exports = function(app, io) {
       return;
     } else {
       controller.verifyEmail(email, function(err, result) {
-        if(err)
+        if(err !== null)
           res.render('subscribe', {error: 'Illegal email address!'});
         if(result !== null)
           res.render('subscribe', {success: 'Thanks for subscribe our latest information'});

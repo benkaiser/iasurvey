@@ -206,18 +206,15 @@ Verify the email input legal or not
 */
   this.verifyEmail = function(email, callback) {
     var reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
-    var error = false;
+    var error = null;
     if(!reg.test(email)){
       console.log('Illegal email address!');
       error = true;
+      callback(error, null);
     } else {
       this.db.subscribe.insert({email: email}, function(err, result){
         if(err){
           console.log('Insert error' + err);
-          callback(err, null);
-        }
-        if(error){
-          console.log('Illegal email address' + err);
           callback(err, null);
         }
         callback(null, result);
