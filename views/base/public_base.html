@@ -12,6 +12,7 @@
   head.load(
     "/static/css/libs/bootstrap.min.css",
     "/static/css/libs/font-awesome.min.css",
+    "/static/css/layout.css",
     "/static/css/public.css"
     );
   </script>
@@ -20,24 +21,28 @@
 </head>
 <body>
   <div class="container">
-  <nav class="navbar navbar-default container no_bottom_margin" role="navigation">
-    <a class="navbar-brand" href="#">Interns Australia</a>
-    {%block navbar %}
-    {% endblock %}
-  </nav>
+    <div class="header">
+      <nav class="navbar navbar-default" role="banner">
+        <div class="navbar-header">
+          <a href="/admin" class="navbar-brand">Interns Australia</a>
+        </div>
+        {%block navbar %}
+        {% endblock %}
+      </nav>
+    </div>
   <div class="content">
     {% block content %}
     {% endblock %}
   </div>
   <div class="footer">
-    <p>© Company 2014</p>
+    <p>© Interns Australia</p>
   </div>
   </div>
   <script type="text/javascript">
     head.js(
       "/static/js/libs/jquery.min.js",
       "/static/js/libs/bootstrap.min.js"
-      );
+    );
   </script>
   {% block scripts %}
   {% endblock %}

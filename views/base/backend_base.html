@@ -22,23 +22,25 @@
   <body>
   <div class="container">
     <div class="header">
-      <nav class="navbar navbar-static-top" role="banner">
+      <nav class="navbar navbar-default" role="banner">
         <div class="navbar-header">
           <a href="/admin" class="navbar-brand">Interns Australia</a>
         </div>
         {% if loggedIn %}
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          <ul class="nav navbar-nav">
+          <ul class="nav navbar-nav navbar-right" id="nav_menu">
             <li><a href="/admin/surveys">Manage Surveys</a></li>
             <li><a href="/admin/results">View Results</a></li>
             {% if isAdmin %}
             <li><a href="/admin/staff">Manage Staff</a></li>
             {% endif %}
           </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="/admin/password-update">{{username}},Change Password</a></li>
-            <li><a href="/admin/login?logout">Logout</a></li>
-          </ul>
+          <p class="navbar-text">
+            {{username}}, 
+            <a href="/admin/password-update" class="navbar-link">Change Password</a>
+            /
+            <a href="/admin/login?logout" class="navbar-link">Logout</a>
+          </p>
         </div>
         {% endif %}
         {%block navbar %}

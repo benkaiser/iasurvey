@@ -24,13 +24,27 @@ body {
   border-bottom: 1px solid #e5e5e5;
 }
 
-.navbar-brand{
-  font-size: 25px;
-  color: #96D4D0;
+.navbar-default {
+  background-color: #FFFFFF;
+  border: none;
 }
 
-.navbar-nav{
+.navbar-default .navbar-brand {
+  font-size: 25px;
+  color: #96D4D0;
+  font-weight: bold;
+}
+
+.navbar-default .navbar-text, .navbar-nav{
   padding-top: 3px;
+}
+
+#nav_menu{
+  font-size: 18px;
+}
+
+.navbar-default .navbar-nav>li>a {
+  color: #428bca;
 }
 
 .footer {
