@@ -12,11 +12,17 @@
 {% endblock %}
 {% block scripts %}
 <script type="text/javascript">
+  head.load(
+    "/static/css/libs/datepicker3.css",
+    "/static/css/libs/bootstrap-timepicker.min.css"
+  );
   head.js(
     "/static/js/libs/underscore-min.js",
     "/static/js/libs/backbone-min.js",
     "/static/js/libs/backbone.marionette.min.js",
     "/static/js/libs/swig.min.js",
+    "/static/js/libs/bootstrap-datepicker.js",
+    "/static/js/libs/bootstrap-timepicker.min.js",
     "/static/js/survey.js"
     );
 </script>
@@ -26,6 +32,7 @@
 <div>
   <h1>{{title}}</h1>
 
+  <form id="current_form">
   {% for question in fields %}
   <div class='row'>
   <div class='col-sm-12'>
@@ -33,16 +40,105 @@
   </div>
   </div>
   {% endfor %}
+  </form>
 
   <p>
-    <div class='btn btn-primary'>Next</div>
+    {% if count > 0 %}
+    <div class='btn btn-default' id="prev">Prev</div>
+    {% endif %}
+    <div class='btn btn-primary' id="next">Next</div>
   </p>
 </div>
 </script>
 <script type="text/swig" id="text_question_template">
 <div class='well'>
   <h4 class='underline-header'>{{label}} {% if required %}<span class='text-danger'>*</span>{% endif %}</h4>
-  <input type="text" id="{{cid}}" />
+  {% if field_options.description %}<p class='text-muted'>{{field_options.description}}</p>{% endif %}
+  <input class="form-control" type="text" id="input_{{cid}}" value='{{last_value}}' />
+</div>
+</script>
+<script type="text/swig" id="paragraph_question_template">
+<div class='well'>
+  <h4 class='underline-header'>{{label}} {% if required %}<span class='text-danger'>*</span>{% endif %}</h4>
+  {% if field_options.description %}<p class='text-muted'>{{field_options.description}}</p>{% endif %}
+  <textarea class="form-control" id="input_{{cid}}">{{last_value}}</textarea>
+</div>
+</script>
+<script type="text/swig" id="checkboxes_question_template">
+<div class='well'>
+  <h4 class='underline-header'>{{label}} {% if required %}<span class='text-danger'>*</span>{% endif %}</h4>
+  {% if field_options.description %}<p class='text-muted'>{{field_options.description}}</p>{% endif %}
+  {% for option in  field_options.options %}
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" id="input_{{cid}}"  name="input_{{cid}}"
+        {% if last_value %}
+          {% for val in last_value %}
+            {% if val == option.label %}checked{% endif %}
+          {% endfor %}
+        {% else %}
+          {% if option.checked %}checked{% endif %}
+        {% endif %} value="{{option.label}}" />
+        {{option.label}}
+      </label>
+    </div>
+  {% endfor %}
+</div>
+</script>
+<script type="text/swig" id="radio_question_template">
+<div class='well'>
+  <h4 class='underline-header'>{{label}} {% if required %}<span class='text-danger'>*</span>{% endif %}</h4>
+  {% if field_options.description %}<p class='text-muted'>{{field_options.description}}</p>{% endif %}
+  {% for option in  field_options.options %}
+    <div class="checkbox">
+      <label>
+        <input type="radio" id="input_{{cid}}"  name="input_{{cid}}"
+        {% if last_value %}
+          {% if last_value == option.label %}checked{% endif %}
+        {% else %}
+          {% if option.checked %}checked{% endif %}
+        {% endif %} value="{{option.label}}" />
+        {{option.label}}
+      </label>
+    </div>
+  {% endfor %}
+</div>
+</script>
+<script type="text/swig" id="dropdown_question_template">
+<div class='well'>
+  <h4 class='underline-header'>{{label}} {% if required %}<span class='text-danger'>*</span>{% endif %}</h4>
+  {% if field_options.description %}<p class='text-muted'>{{field_options.description}}</p>{% endif %}
+  <select class="form-control" id="input_{{cid}}">
+    {% for option in  field_options.options %}
+      <option value="{{option.label}}"
+      {% if last_value %}
+        {% if last_value == option.label %}selected{% endif %}
+      {% else %}
+        {% if option.checked %}selected{% endif %}
+      {% endif %}>{{option.label}}</option>
+    {% endfor %}
+  </select>
+</div>
+</script>
+<script type="text/swig" id="number_question_template">
+<div class='well'>
+  <h4 class='underline-header'>{{label}} {% if required %}<span class='text-danger'>*</span>{% endif %}</h4>
+  {% if field_options.description %}<p class='text-muted'>{{field_options.description}}</p>{% endif %}
+  <input class="form-control" type="text" id="input_{{cid}}" name="input_{{cid}}" value='{{last_value}}' />
+</div>
+</script>
+<script type="text/swig" id="date_question_template">
+<div class='well'>
+  <h4 class='underline-header'>{{label}} {% if required %}<span class='text-danger'>*</span>{% endif %}</h4>
+  {% if field_options.description %}<p class='text-muted'>{{field_options.description}}</p>{% endif %}
+  <input class="datepicker form-control" type="text" id="input_{{cid}}" value='{{last_value}}' />
+</div>
+</script>
+<script type="text/swig" id="time_question_template">
+<div class='well'>
+  <h4 class='underline-header'>{{label}} {% if required %}<span class='text-danger'>*</span>{% endif %}</h4>
+  {% if field_options.description %}<p class='text-muted'>{{field_options.description}}</p>{% endif %}
+  <input class="timepicker form-control" type="text" id="input_{{cid}}" value='{{last_value}}' />
 </div>
 </script>
 {% endraw %}

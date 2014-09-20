@@ -23,7 +23,8 @@ IAApp.addInitializer(function(options) {
 var SurveyView = Backbone.View.extend({
   template: "#survey_template",
   events: {
-    "click #next": "nextSection"
+    "click #next": "nextSection",
+    "click #prev": "prevSection"
   },
   initialize: function() {
     // initialise survey
@@ -40,11 +41,91 @@ var SurveyView = Backbone.View.extend({
       for(var cnt = 0; cnt < this.current_fields.length; cnt++){
         field_html.push(render("#" + this.current_fields[cnt].field_type + "_question_template", this.current_fields[cnt]));
       }
-      console.log(field_html);
-      this.$el.html(render(this.template, {title: survey.title, fields: field_html}));
+      this.$el.html(render(this.template, {title: survey.title, fields: field_html, count: this.count}));
+      _.defer(function(){
+        // are there any datepickers that need to be created?
+        $('.datepicker').datepicker({
+            format: "dd-mm-yyyy"
+        });
+        $('.timepicker').timepicker();
+      });
     } else {
       // draw the end page
 
+    }
+  },
+  prevSection: function(){
+    if(this.checkValidity()){
+      // save values in current section
+      this.extractValues();
+      // move to previous section
+      this.count--;
+      this.render();
+    }
+  },
+  nextSection: function(){
+    if(this.checkValidity()){
+      // save values in current section
+      this.extractValues();
+      // move to next section
+      this.count++;
+      this.render();
+    }
+  },
+  checkValidity: function(){
+    for (index = 0; index < sections[this.count].length; ++index) {
+      var field = sections[this.count][index];
+      var elem = $("[name='input_" + field.cid + "']");
+      var value = elem.val();
+      if(field.field_type == "text" || field.field_type == "paragraph"){
+        if(field.field_options.minlength){
+          if(value.length < field.field_options.minlength){
+            // too short
+            elem.focus();
+            return false;
+          }
+        } else if(field.field_options.maxlength){
+          if(value.length > field.field_options.minlength){
+            // too long
+            elem.focus();
+            return false;
+          }
+        }
+      } else if(field.field_type == "number"){
+        if(isNaN(value)){
+          // not a number
+          alert("Please enter a valid number");
+          elem.focus();
+          return false;
+        }
+      } else if(field.field_type == "date"){
+
+      }
+    }
+    return true;
+  },
+  extractValues: function(){
+    for (index = 0; index < sections[this.count].length; ++index) {
+      var field = sections[this.count][index];
+      if(field.field_type == 'text'||
+        field.field_type == 'paragraph' ||
+        field.field_type == 'number' ||
+        field.field_type == 'dropdown' ||
+        field.field_type == 'date' ||
+        field.field_type == 'time'){
+        // these types can easily be extracted with .val()
+        field.last_value = $("#input_" + field.cid).val();
+      } else if(field.field_type == 'radio'){
+        // find the checked item
+        field.last_value = $("[name='input_"+field.cid+"']:checked").val();
+      } else if(field.field_type == 'checkboxes'){
+        // loop over them all until you find a
+        var selected = [];
+        $("[name='input_"+field.cid+"']:checked").each(function(){
+          selected.push($(this).val());
+        });
+        field.last_value = selected;
+      }
     }
   }
 });
