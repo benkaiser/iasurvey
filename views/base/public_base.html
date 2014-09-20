@@ -12,8 +12,8 @@
   head.load(
     "/static/css/libs/bootstrap.min.css",
     "/static/css/libs/font-awesome.min.css",
-    "/static/css/layout.css",
-    "/static/css/public.css"
+    "/static/css/public.css",
+    "/static/css/layout.css"
     );
   </script>
   {% block head %}
@@ -22,9 +22,9 @@
 <body>
   <div class="container">
     <div class="header">
-      <nav class="navbar navbar-default" role="banner">
+      <nav class="navbar navbar-default" role="navigation">
         <div class="navbar-header">
-          <a href="/admin" class="navbar-brand">Interns Australia</a>
+          <a class="navbar-brand" href="#">Interns Australia</a>
         </div>
         {%block navbar %}
         {% endblock %}
