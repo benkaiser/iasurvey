@@ -644,15 +644,15 @@
 
 }).call(this);
 
-(function() {
-  Formbuilder.registerField('address', {
-    order: 50,
-    view: "<div class='input-line'>\n  <span class='street'>\n    <input type='text' />\n    <label>Address</label>\n  </span>\n</div>\n\n<div class='input-line'>\n  <span class='city'>\n    <input type='text' />\n    <label>City</label>\n  </span>\n\n  <span class='state'>\n    <input type='text' />\n    <label>State / Province / Region</label>\n  </span>\n</div>\n\n<div class='input-line'>\n  <span class='zip'>\n    <input type='text' />\n    <label>Zipcode</label>\n  </span>\n\n  <span class='country'>\n    <select><option>United States</option></select>\n    <label>Country</label>\n  </span>\n</div>",
-    edit: "",
-    addButton: "<span class=\"symbol\"><span class=\"fa fa-home\"></span></span> Address"
-  });
-
-}).call(this);
+// (function() {
+//   Formbuilder.registerField('address', {
+//     order: 50,
+//     view: "<div class='input-line'>\n  <span class='street'>\n    <input type='text' />\n    <label>Address</label>\n  </span>\n</div>\n\n<div class='input-line'>\n  <span class='city'>\n    <input type='text' />\n    <label>City</label>\n  </span>\n\n  <span class='state'>\n    <input type='text' />\n    <label>State / Province / Region</label>\n  </span>\n</div>\n\n<div class='input-line'>\n  <span class='zip'>\n    <input type='text' />\n    <label>Zipcode</label>\n  </span>\n\n  <span class='country'>\n    <select><option>United States</option></select>\n    <label>Country</label>\n  </span>\n</div>",
+//     edit: "",
+//     addButton: "<span class=\"symbol\"><span class=\"fa fa-home\"></span></span> Address"
+//   });
+//
+// }).call(this);
 
 (function() {
   Formbuilder.registerField('checkboxes', {
@@ -679,7 +679,7 @@
 (function() {
   Formbuilder.registerField('date', {
     order: 20,
-    view: "<div class='input-line'>\n  <span class='month'>\n    <input type=\"text\" />\n    <label>MM</label>\n  </span>\n\n  <span class='above-line'>/</span>\n\n  <span class='day'>\n    <input type=\"text\" />\n    <label>DD</label>\n  </span>\n\n  <span class='above-line'>/</span>\n\n  <span class='year'>\n    <input type=\"text\" />\n    <label>YYYY</label>\n  </span>\n</div>",
+    view: "<div class='input-line'>\n  <span class='month'>\n    <input type=\"text\" />\n    <label>DD</label>\n  </span>\n\n  <span class='above-line'>/</span>\n\n  <span class='day'>\n    <input type=\"text\" />\n    <label>MM</label>\n  </span>\n\n  <span class='above-line'>/</span>\n\n  <span class='year'>\n    <input type=\"text\" />\n    <label>YYYY</label>\n  </span>\n</div>",
     edit: "",
     addButton: "<span class=\"symbol\"><span class=\"fa fa-calendar\"></span></span> Date"
   });
@@ -709,15 +709,15 @@
 
 }).call(this);
 
-(function() {
-  Formbuilder.registerField('email', {
-    order: 40,
-    view: "<input type='text' class='rf-size-<%= rf.get(Formbuilder.options.mappings.SIZE) %>' />",
-    edit: "",
-    addButton: "<span class=\"symbol\"><span class=\"fa fa-envelope-o\"></span></span> Email"
-  });
-
-}).call(this);
+// (function() {
+//   Formbuilder.registerField('email', {
+//     order: 40,
+//     view: "<input type='text' class='rf-size-<%= rf.get(Formbuilder.options.mappings.SIZE) %>' />",
+//     edit: "",
+//     addButton: "<span class=\"symbol\"><span class=\"fa fa-envelope-o\"></span></span> Email"
+//   });
+//
+// }).call(this);
 
 (function() {
 
@@ -748,15 +748,15 @@
 
 }).call(this);
 
-(function() {
-  Formbuilder.registerField('price', {
-    order: 45,
-    view: "<div class='input-line'>\n  <span class='above-line'>$</span>\n  <span class='dolars'>\n    <input type='text' />\n    <label>Dollars</label>\n  </span>\n  <span class='above-line'>.</span>\n  <span class='cents'>\n    <input type='text' />\n    <label>Cents</label>\n  </span>\n</div>",
-    edit: "",
-    addButton: "<span class=\"symbol\"><span class=\"fa fa-usd\"></span></span> Price"
-  });
-
-}).call(this);
+// (function() {
+//   Formbuilder.registerField('price', {
+//     order: 45,
+//     view: "<div class='input-line'>\n  <span class='above-line'>$</span>\n  <span class='dolars'>\n    <input type='text' />\n    <label>Dollars</label>\n  </span>\n  <span class='above-line'>.</span>\n  <span class='cents'>\n    <input type='text' />\n    <label>Cents</label>\n  </span>\n</div>",
+//     edit: "",
+//     addButton: "<span class=\"symbol\"><span class=\"fa fa-usd\"></span></span> Price"
+//   });
+//
+// }).call(this);
 
 (function() {
   Formbuilder.registerField('radio', {
@@ -815,15 +815,15 @@
 
 }).call(this);
 
-(function() {
-  Formbuilder.registerField('website', {
-    order: 35,
-    view: "<input type='text' placeholder='http://' />",
-    edit: "",
-    addButton: "<span class=\"symbol\"><span class=\"fa fa-link\"></span></span> Website"
-  });
-
-}).call(this);
+// (function() {
+//   Formbuilder.registerField('website', {
+//     order: 35,
+//     view: "<input type='text' placeholder='http://' />",
+//     edit: "",
+//     addButton: "<span class=\"symbol\"><span class=\"fa fa-link\"></span></span> Website"
+//   });
+//
+// }).call(this);
 
 this["Formbuilder"] = this["Formbuilder"] || {};
 this["Formbuilder"]["templates"] = this["Formbuilder"]["templates"] || {};
