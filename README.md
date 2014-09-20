@@ -54,7 +54,7 @@ Server-side
 
 Client-side
 
-- [formbuilder](https://github.com/dobtco/formbuilder) for the IA staff to construct surveys
+- [formbuilder](https://github.com/dobtco/formbuilder) for the IA staff to construct surveys ([Ben's fork](https://github.com/benkaiser/formbuilder))
 - [backbone.js](http://backbonejs.org/) for client-side MVC
 - [marionette](http://marionettejs.com/) for extra functionality on top of backbone.js
 - [jquery](http://jquery.com/) fast, small, and feature-rich javascript library that makes DOM-traversal easy
@@ -66,4 +66,6 @@ All other frameworks used are either part of the above, dependencies of the abov
 
 ## Other info
 
-[Javascript style-guide](https://github.com/airbnb/javascript)
+- [Javascript style-guide](https://github.com/airbnb/javascript)
+- [How to use mongoexport](http://docs.mongodb.org/manual/reference/program/mongoexport/)
+- [How to use mongoimport](http://docs.mongodb.org/manual/reference/program/mongoimport/)
