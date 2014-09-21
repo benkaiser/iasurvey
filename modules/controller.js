@@ -202,23 +202,40 @@ Update a existing user by user_id
     });
   };
 /*
-Verify the email input legal or not
+Verify the email input legal or not and current email address whether in list
 */
-  this.verifyEmail = function(email, callback) {
+  this.verifyExist = function(email, callback) {
     var reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
-    var error = null;
     if(!reg.test(email)){
       console.log('Illegal email address!');
       error = true;
       callback(error, null);
     } else {
-      this.db.subscribe.insert({email: email}, function(err, result){
-        if(err){
-          console.log('Insert error' + err);
-          callback(err, null);
-        }
+      this.db.subscribe.findOne({email: email}, function(err, result){
         callback(null, result);
       });
     }
+  };
+/*
+Insert the email address into database
+*/
+  this.insertEmail = function(email, callback){
+    this.db.subscribe.insert({email: email}, function(err, result){
+      if(err){
+        console.log('Insert error' + err);
+        callback(err, null);
+      }
+      callback(null, result);
+    });
+  };
+/*
+Delete the email address from database
+*/
+  this.deleteEmail = function(email, callback) {
+    this.db.subscribe.remove({email: email}, function(err, result){
+      if(err)
+        console.log(err);
+      callback(err, result);
+    });
   };
 };

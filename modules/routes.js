@@ -288,23 +288,63 @@ module.exports = function(app, io) {
 /**
  * survey participants can subscribe further information
  */
-  app.get('/subscribe',function(req,res){
+  app.get('/subscribe', function(req,res){
     res.render('subscribe');
   });
 /**
  * get user's email address and save
  */
-  app.post('/subscribe',function(req,res){
+  app.post('/subscribe', function(req, res){
     var email = req.body.txtEmail;
     if(req.body.isAgree === undefined){
       res.render('subscribe', {error: 'Must agree to the terms of use before subscribe!'});
       return;
     } else {
-      controller.verifyEmail(email, function(err, result) {
-        if(err !== null)
+      controller.verifyExist(email, function(err, result) {
+        console.log('Error:'+err+' Result:'+result);
+        if(err){
           res.render('subscribe', {error: 'Illegal email address!'});
-        if(result !== null)
-          res.render('subscribe', {success: 'Thanks for subscribe our latest information'});
+          return;
+        } if(result !== null) {
+          res.render('subscribe', {error: 'You have already subscribe!'});
+          return;
+        }
+        if(!err && result === null)
+          controller.insertEmail(email, function(err, result){
+            if(err === null)
+              res.render('subscribe', {success: 'Thanks for subscribe our latest information'});
+          });
+      });
+    }
+  });
+/**
+ * survey participants can unsubscribe from a link in the received email
+ */
+  app.get('/unsubscribe', function(req, res){
+    res.render('unsubscribe');
+  });
+/**
+ * remove user's email address from subscription list
+ */
+  app.post('/unsubscribe', function(req, res){
+    var email = req.body.txtEmail;
+    if(email.length === 0){
+      res.render('unsubscribe', {error: 'Input can not be empty!'});
+      return;
+    } else {
+      controller.verifyExist(email, function(err, result) {
+        console.log('Error:'+err+' Result:'+result);
+        if(err){
+          res.render('unsubscribe', {error: 'Illegal email address!'});
+          return;
+        } if(result === null){
+          res.render('unsubscribe', {error: 'Email address not found in subscribe list!'});
+          return;
+        } if(result !== null)
+          controller.deleteEmail(email, function(err, result){
+            if(err === null)
+              res.render('unsubscribe', {success: 'Unsubscribe success!'});
+          });
       });
     }
   });
