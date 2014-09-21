@@ -50,18 +50,25 @@
   </p>
 </div>
 </script>
+<script type="text/swig" id="end_template">
+<div>
+  <p>
+    {{content|safe}}
+  </p>
+</div>
+</script>
 <script type="text/swig" id="text_question_template">
 <div class='well'>
   <h4 class='underline-header'>{{label}} {% if required %}<span class='text-danger'>*</span>{% endif %}</h4>
   {% if field_options.description %}<p class='text-muted'>{{field_options.description}}</p>{% endif %}
-  <input class="form-control" type="text" id="input_{{cid}}" value='{{last_value}}' />
+  <input class="form-control" type="text" id="input_{{cid}}" name="input_{{cid}}" value='{{last_value}}' />
 </div>
 </script>
 <script type="text/swig" id="paragraph_question_template">
 <div class='well'>
   <h4 class='underline-header'>{{label}} {% if required %}<span class='text-danger'>*</span>{% endif %}</h4>
   {% if field_options.description %}<p class='text-muted'>{{field_options.description}}</p>{% endif %}
-  <textarea class="form-control" id="input_{{cid}}">{{last_value}}</textarea>
+  <textarea class="form-control" id="input_{{cid}}" name="input_{{cid}}">{{last_value}}</textarea>
 </div>
 </script>
 <script type="text/swig" id="checkboxes_question_template">
@@ -108,7 +115,7 @@
 <div class='well'>
   <h4 class='underline-header'>{{label}} {% if required %}<span class='text-danger'>*</span>{% endif %}</h4>
   {% if field_options.description %}<p class='text-muted'>{{field_options.description}}</p>{% endif %}
-  <select class="form-control" id="input_{{cid}}">
+  <select class="form-control" id="input_{{cid}}" name="input_{{cid}}">
     {% for option in  field_options.options %}
       <option value="{{option.label}}"
       {% if last_value %}
@@ -131,14 +138,14 @@
 <div class='well'>
   <h4 class='underline-header'>{{label}} {% if required %}<span class='text-danger'>*</span>{% endif %}</h4>
   {% if field_options.description %}<p class='text-muted'>{{field_options.description}}</p>{% endif %}
-  <input class="datepicker form-control" type="text" id="input_{{cid}}" value='{{last_value}}' />
+  <input class="datepicker form-control" type="text" id="input_{{cid}}" name="input_{{cid}}" value='{{last_value}}' />
 </div>
 </script>
 <script type="text/swig" id="time_question_template">
 <div class='well'>
   <h4 class='underline-header'>{{label}} {% if required %}<span class='text-danger'>*</span>{% endif %}</h4>
   {% if field_options.description %}<p class='text-muted'>{{field_options.description}}</p>{% endif %}
-  <input class="timepicker form-control" type="text" id="input_{{cid}}" value='{{last_value}}' />
+  <input class="timepicker form-control" type="text" id="input_{{cid}}" name="input_{{cid}}" value='{{last_value}}' />
 </div>
 </script>
 {% endraw %}

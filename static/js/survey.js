@@ -22,6 +22,7 @@ IAApp.addInitializer(function(options) {
 
 var SurveyView = Backbone.View.extend({
   template: "#survey_template",
+  end_template: "#end_template",
   events: {
     "click #next": "nextSection",
     "click #prev": "prevSection"
@@ -50,8 +51,8 @@ var SurveyView = Backbone.View.extend({
         $('.timepicker').timepicker();
       });
     } else {
-      // draw the end page
-
+      // draw the end page (TODO: save the data first, then show the end page)
+      this.$el.html(render(this.end_template, {content: survey.end_page}));
     }
   },
   prevSection: function(){
@@ -77,7 +78,9 @@ var SurveyView = Backbone.View.extend({
       var field = sections[this.count][index];
       var elem = $("[name='input_" + field.cid + "']");
       var value = elem.val();
-      if(field.field_type == "text" || field.field_type == "paragraph"){
+      if(field.field_type == 'text'||
+        field.field_type == 'paragraph'){
+        // check length bounds (on characters)
         if(field.field_options.minlength){
           if(value.length < field.field_options.minlength){
             // too short
@@ -91,6 +94,15 @@ var SurveyView = Backbone.View.extend({
             return false;
           }
         }
+      } else if(field.field_type == 'radio'){
+        // extract the correct value
+        value = $("[name='input_"+field.cid+"']:checked").val();
+      } else if(field.field_type == 'checkboxes'){
+        // extract the correct value
+        value = [];
+        $("[name='input_"+field.cid+"']:checked").each(function(){
+          value.push($(this).val());
+        });
       } else if(field.field_type == "number"){
         if(isNaN(value)){
           // not a number
@@ -98,8 +110,14 @@ var SurveyView = Backbone.View.extend({
           elem.focus();
           return false;
         }
-      } else if(field.field_type == "date"){
+      }
 
+      console.log(value);
+      // check if required and not filled out
+      if((value === undefined || value === '' || value.length === 0) && field.required){
+        alert("'" + field.label + "' is required. Please enter a response.");
+        elem.focus();
+        return false;
       }
     }
     return true;
@@ -119,7 +137,7 @@ var SurveyView = Backbone.View.extend({
         // find the checked item
         field.last_value = $("[name='input_"+field.cid+"']:checked").val();
       } else if(field.field_type == 'checkboxes'){
-        // loop over them all until you find a
+        // loop over them all and find the checked items
         var selected = [];
         $("[name='input_"+field.cid+"']:checked").each(function(){
           selected.push($(this).val());
