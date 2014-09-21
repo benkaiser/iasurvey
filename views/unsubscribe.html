@@ -1,0 +1,28 @@
+{% extends 'base/public_base.html' %}
+
+{% block title %}Surveys - Interns Australia{% endblock %}
+
+{% block content %}
+      <div class="context">
+        {% if error %}
+        <div class="alert alert-danger" role="alert">
+          <p>{{error}}</p>
+        </div>
+        {% endif %}
+        {% if success %}
+        <div class="alert alert-success" role="alert">
+          <p>{{success}}</p>
+        </div>
+        {% endif %}
+        <form class="form" role="form" method="post" action="/unsubscribe">
+          <h3>Email unsubscibe</h3>
+          <div class="form-group">
+            <label for="inputEmail">Email</label>
+            <!-- input Email -->
+            <input type="text" class="form-control" id="txtEmail" name="txtEmail">
+            </br>
+            <button type="submit" class="btn btn-primary" value="unsubscribe" onclick="submitForm()">Unsubscribe</button>
+          </div>
+        </form>
+      </div>
+{% endblock %}
