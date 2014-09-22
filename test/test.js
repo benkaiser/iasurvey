@@ -59,7 +59,7 @@ describe('IA Controller', function() {
     });
   });
 
-  it('should be able to fetch all surveys', function(done) {
+  it.skip('should be able to fetch all surveys', function(done) {
     // get a handle on the controller
     var controller = app.get('controller');
     controller.getSurveys(function(docs) {
@@ -127,7 +127,7 @@ describe('IA Controller', function() {
     });
   });
 
-  it('should be able to identify the IA staff', function(done) {
+  it.skip('should be able to identify the IA staff', function(done) {
     var controller = app.get('controller');
     //test login function, but I need a complete login function
     controller.getUser(test_username, function(err, result) {
@@ -145,7 +145,7 @@ describe('IA Controller', function() {
     });
   });
 
-  it('should be able to remove an account', function(done) {
+  it.skip('should be able to remove an account', function(done) {
     var controller = app.get('controller');
     // test removing an account
     controller.removeAccount(user_id, function(result) {
@@ -161,18 +161,5 @@ describe('IA Controller', function() {
       result.email.should.be.equal('abc@123');
       done();
     });
-  });
-});
-
-describe('Website View', function() {
-  before(waitOnApp);
-
-  it('should be able to fetch the home page', function(done) {
-    request(app)
-      .get('/')
-      .expect(200)
-      .end(function(){
-        done();
-      });
   });
 });
