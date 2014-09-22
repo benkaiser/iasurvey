@@ -58,6 +58,7 @@ describe('Login Mask', function() {
   it('should not be able to fetch the admin index without login', function(done) {
     request(app)
       .get('/admin')
+      .expect(302)
       .expect('Moved Temporarily. Redirecting to /admin/login')
       .end(function (err, res){
       should.not.exist(err);
@@ -68,6 +69,7 @@ describe('Login Mask', function() {
   it('should not be able to fetch the password-update page without login', function(done) {
     request(app)
       .get('/admin/password-update')
+      .expect(302)
       .expect('Moved Temporarily. Redirecting to /admin/login')
       .end(function (err, res){
       should.not.exist(err);
@@ -78,6 +80,7 @@ describe('Login Mask', function() {
   it('should not be able to fetch the survey manage page without login', function(done) {
     request(app)
       .get('/admin/surveys')
+      .expect(302)
       .expect('Moved Temporarily. Redirecting to /admin/login')
       .end(function (err, res){
       should.not.exist(err);
@@ -88,6 +91,7 @@ describe('Login Mask', function() {
   it('should not be able to fetch the survey create page without login', function(done) {
     request(app)
       .get('/admin/surveys/create')
+      .expect(302)
       .expect('Moved Temporarily. Redirecting to /admin/login')
       .end(function (err, res){
       should.not.exist(err);
@@ -98,6 +102,7 @@ describe('Login Mask', function() {
   it('should not be able to fetch the staff manage page without login', function(done) {
     request(app)
       .get('/admin/staff')
+      .expect(302)
       .expect('Moved Temporarily. Redirecting to /admin/login')
       .end(function (err, res){
       should.not.exist(err);
@@ -108,6 +113,7 @@ describe('Login Mask', function() {
   it('should not be able to fetch the staff create page without login', function(done) {
     request(app)
       .get('/admin/staff/create')
+      .expect(302)
       .expect('Moved Temporarily. Redirecting to /admin/login')
       .end(function (err, res){
       should.not.exist(err);
