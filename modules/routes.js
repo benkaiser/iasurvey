@@ -221,7 +221,10 @@ module.exports = function(app, io) {
     var userId = req.params.id;
     controller.getUserById(userId,
       function (user) {
-        res.render('account-edit', {user: user});
+        if(user)
+          res.render('account-edit', {user: user});
+        else
+          res.redirect('/admin/staff');
       }
     );
   });
