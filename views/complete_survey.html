@@ -32,7 +32,7 @@
 <div>
   <h1>{{title}}</h1>
 
-  <form id="current_form">
+  <form id="current_form" enctype='application/json'>
   {% for question in fields %}
   <div class='row'>
   <div class='col-sm-12'>
@@ -46,10 +46,35 @@
     {% if count > 0 %}
     <div class='btn btn-default' id="prev">Prev</div>
     {% endif %}
-    <div class='btn btn-primary' id="next">Next</div>
+    <input class='btn btn-primary' id="next" onclick="onClik();" value="Next"/>
   </p>
 </div>
 </script>
+<script type="application/javascript">
+
+$.fn.serializeObject = function()
+{
+   var o = {};
+   var a = this.serializeArray();
+   $.each(a, function() {
+       if (o[this.name]) {
+           if (!o[this.name].push) {
+               o[this.name] = [o[this.name]];
+           }
+           o[this.name].push(this.value || '');
+       } else {
+           o[this.name] = this.value || '';
+       }
+   });
+   return o;
+};
+
+function onClik(){
+  var result = JSON.stringify($('#current_form').serializeObject());
+  alert(result);
+}
+</script>
+
 <script type="text/swig" id="end_template">
 <div>
   <p>
