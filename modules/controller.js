@@ -241,8 +241,8 @@ Delete the email address from database
 /*
 Submit the survey result into database
 */
-  this.submitSurveyResult = function(data, callback){
-    this.db.result.save(data, function(err, doc){
+  this.SurveySubmit = function(data, callback) {
+    this.db.result.save(data, function(err, doc) {
       if(err)
         console.log(err);
       callback(doc);

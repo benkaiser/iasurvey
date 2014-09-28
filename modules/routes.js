@@ -23,17 +23,16 @@ module.exports = function(app, io) {
     });
   });
 
-  app.post('/survey/:id', function(req, res) {
-    console.log('entered');
-    var data = {
-      survey: req.params.id,
-      form: JSON.parse(req.body.form_json)
-    };
-    console.log(data);
-    controller.submitSurveyResult(data, function(data){
-      res.redirect('landing');
-    });
+  app.post('/survey/submit', function(req, res){
+    console.log('enter');
+    console.log(req.body);
+    if(req.body !== null){
+      controller.SurveySubmit(req.body, function(data){
+        res.redirect('landing');
+      });
+    }
   });
+
   // admin
   app.get('/admin', loginMask, function(req, res) {
     res.render('admin');

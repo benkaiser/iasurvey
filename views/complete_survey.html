@@ -70,9 +70,27 @@ $.fn.serializeObject = function()
 };
 
 function onClik(){
-  var result = JSON.stringify($('#current_form').serializeObject());
-  alert(result);
+  //var result = JSON.stringify($('#current_form').serializeObject());
+  //var obj = JSON.parse(result);
+  //var obj = {"name":"jack","age":25};
+  request("/survey/submit", "POST", $('#current_form').serializeObject(), success, fail);
 }
+
+function request(url, method, params, callback, fail){
+  $.ajax({
+        type: method,
+        contentType: "application/json;charset=UTF-8",
+        dataType: "json",
+        url: url,
+        data: params,
+        success : function(data){
+           alert(data.message);
+        },
+        error : function(data){
+           alert(data.message);
+        }
+    });
+  }
 </script>
 
 <script type="text/swig" id="end_template">
