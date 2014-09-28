@@ -46,53 +46,15 @@
     {% if count > 0 %}
     <div class='btn btn-default' id="prev">Prev</div>
     {% endif %}
-    <input class='btn btn-primary' id="next" onclick="onClik();" value="Next"/>
+    <div class='btn btn-primary' id="next">{% if count + 1 == length %}Finish{% else %}Next{% endif %}</div>
   </p>
 </div>
 </script>
-<script type="application/javascript">
-
-$.fn.serializeObject = function()
-{
-   var o = {};
-   var a = this.serializeArray();
-   $.each(a, function() {
-       if (o[this.name]) {
-           if (!o[this.name].push) {
-               o[this.name] = [o[this.name]];
-           }
-           o[this.name].push(this.value || '');
-       } else {
-           o[this.name] = this.value || '';
-       }
-   });
-   return o;
-};
-
-function onClik(){
-  //var result = JSON.stringify($('#current_form').serializeObject());
-  //var obj = JSON.parse(result);
-  //var obj = {"name":"jack","age":25};
-  request("/survey/submit", "POST", $('#current_form').serializeObject(), success, fail);
-}
-
-function request(url, method, params, callback, fail){
-  $.ajax({
-        type: method,
-        contentType: "application/json;charset=UTF-8",
-        dataType: "json",
-        url: url,
-        data: params,
-        success : function(data){
-           alert(data.message);
-        },
-        error : function(data){
-           alert(data.message);
-        }
-    });
-  }
+<script type="text/swig" id="save_template">
+<div>
+  <img src="/static/img/loading.gif" alt="loading" />
+</div>
 </script>
-
 <script type="text/swig" id="end_template">
 <div>
   <p>

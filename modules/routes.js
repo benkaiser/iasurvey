@@ -24,11 +24,9 @@ module.exports = function(app, io) {
   });
 
   app.post('/survey/submit', function(req, res){
-    console.log('enter');
-    console.log(req.body);
     if(req.body !== null){
       controller.SurveySubmit(req.body, function(data){
-        res.redirect('landing');
+        res.send("OK");
       });
     }
   });

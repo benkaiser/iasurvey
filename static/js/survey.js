@@ -23,6 +23,7 @@ IAApp.addInitializer(function(options) {
 var SurveyView = Backbone.View.extend({
   template: "#survey_template",
   end_template: "#end_template",
+  save_template: "#save_template",
   events: {
     "click #next": "nextSection",
     "click #prev": "prevSection"
@@ -42,7 +43,7 @@ var SurveyView = Backbone.View.extend({
       for(var cnt = 0; cnt < this.current_fields.length; cnt++){
         field_html.push(render("#" + this.current_fields[cnt].field_type + "_question_template", this.current_fields[cnt]));
       }
-      this.$el.html(render(this.template, {title: survey.title, fields: field_html, count: this.count}));
+      this.$el.html(render(this.template, {title: survey.title, fields: field_html, count: this.count, length: sections.length}));
       _.defer(function(){
         // are there any datepickers that need to be created?
         $('.datepicker').datepicker({
@@ -51,8 +52,34 @@ var SurveyView = Backbone.View.extend({
         $('.timepicker').timepicker();
       });
     } else {
-      // draw the end page (TODO: save the data first, then show the end page)
-      this.$el.html(render(this.end_template, {content: survey.end_page}));
+      if(this.data_saved){
+        // draw the end page
+        this.$el.html(render(this.end_template, {content: survey.end_page}));
+      } else {
+        // draw the saving view
+        this.$el.html(render(this.save_template, {content: survey.end_page}));
+        // create an array of the results
+        var results = [];
+        for(var x = 0; x < sections.length; x++){
+          for(var y = 0; y < sections[x].length; y++){
+            results.push({
+              cid: sections[x][y].cid,
+              response: sections[x][y].last_value
+            });
+          }
+        }
+        var surveyView = this;
+        // save the data
+        $.ajax({
+          type: "POST",
+          url: "/survey/submit",
+          data: {survey_id: survey._id, results: results},
+          success: function(){
+            surveyView.data_saved = true;
+            surveyView.render();
+          }
+        });
+      }
     }
   },
   prevSection: function(){
@@ -112,7 +139,6 @@ var SurveyView = Backbone.View.extend({
         }
       }
 
-      console.log(value);
       // check if required and not filled out
       if((value === undefined || value === '' || value.length === 0) && field.required){
         alert("'" + field.label + "' is required. Please enter a response.");
