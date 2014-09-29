@@ -37,6 +37,11 @@
         </div>
         <div class="panel-body">
           <div class="create_user">
+            {% if error %}
+            <div class="alert alert-danger" role="alert">
+            <p>{{error}}</p>
+            </div>
+            {% endif %}
             <form id="userCreateForm" class="form" role="form" method="post">
             <div class="form-group">
               <label for="inputUsername">Username</label>

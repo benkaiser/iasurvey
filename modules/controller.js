@@ -124,6 +124,18 @@ Update a existing user name to 'Changed' by user_id
     });
   };
 /*
+queryAccount
+Query all the existing accounts by username
+@para <String>user_id <function>callback
+*/
+  this.queryAccount = function(userName, callback) {
+    this.db.staff.findOne({username:userName}, function(err, doc) {
+      if(err)
+        console.log(err);
+      callback(doc);
+    })
+  }
+/*
 removeAccount
 Remove a user account by user_id
 @para <String>user_id <function>callback

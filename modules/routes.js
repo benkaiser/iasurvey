@@ -192,17 +192,25 @@ module.exports = function(app, io) {
         password = req.body.password,
         isAdmin,
         hashedPw = passwordHash.generate(password);
+
     if(req.body.isAdmin === undefined) {
       isAdmin = false;
     } else {
       isAdmin = true;
     }
-    controller.createAccount(
+    controller.queryAccount(userName, function(queryResult) {
+      if(queryResult === null) {
+        controller.createAccount(
       {username: userName, password: hashedPw, is_admin: isAdmin},
       function (saved) {
       console.log(JSON.stringify(saved) + " saved");
       res.redirect('/admin/staff');
+      });
+      } else {
+        res.render('user-create', {error: 'This username has existed!'});
+      }
     });
+    
   });
 
 /**
