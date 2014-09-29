@@ -2,7 +2,7 @@
 
 {% block title %}Surveys - Interns Australia{% endblock %}
 
-{% block content %}
+{% block head %}
 <script>
   function submitForm(){
     var newpw = document.getElementById("password");
@@ -13,11 +13,13 @@
       return
     }
     else{
-      form.submit();
+      form.submit();update
     }
-  }
+  }  
 </script>
+{% endblock %}
 
+{% block content %}
 <div class="row">
     <div class="col-md-3">
       <ul class="nav nav-pills nav-stacked" role="tablist">
@@ -35,32 +37,63 @@
           <div class="edit_user">
             <form class="form" role="form" id="userEditForm" method="post">
             <div class="form-group">
+              <div id="warnings"></div>
               <label for="Username">Username</label>
               <!-- input username -->
               <input class="form-control" type="text" name="uname" placeholder="User Name" value="{{user.username}}" readonly="readonly"/>
               </br>
               <label for="inputPassword">New Password</label>
               <!-- input password -->
-              <input class="form-control" type="password" id="password" placeholder="New Password" name="password"/>
+              <input class="form-control" type="password" id="password" placeholder="New Password" name="password" onchange="changeContent()"/>
               <br/>
               <label for="confirmPassword">Confirm Password</label>
               <!-- confirm password -->
-              <input class="form-control" type="password" placeholder="Confirm Password" id="confirmPwd"/>
+              <input class="form-control" type="password" placeholder="Confirm Password" id="confirmPwd" onchange="changeContent()"s/>
               <br/>
               <!--checkbox -->
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" name="isAdmin" value="Admin" {% if user.is_admin %}checked="checked"{% endif %}>Administrator
+                  <input type="checkbox" name="isAdmin" value="Admin" id="isAdmin"{% if user.is_admin %}checked="checked"{% endif %} onchange="changeContent()">Administrator
                 </label>
               </div>
               </br>
-              <button type="button" class='btn btn-primary' value="Update" onclick="submitForm()"/>Update</button>
+              <button type="button" id="updateBtn" class='btn btn-primary' value="Update" onclick="submitForm()"/>Update</button>
               <a href="/admin/staff" class='btn btn-default'>Back</a>
             </div>
-            </form>
+            </form> 
          </div>
         </div>
         </div>
       </div>
     </div>
+
+<script>
+    document.getElementById("updateBtn").disabled = true;
+
+    function changeContent() {
+      {% if user.is_admin %}
+      if(document.getElementById("password").value !== "" || document.getElementById("confirmPwd").value !== "" || document.getElementById("isAdmin").checked == false){
+        document.getElementById("updateBtn").disabled = false;
+        document.getElementById("warnings").innerHTML = "";
+      }
+      else {
+        document.getElementById("updateBtn").disabled = true;
+        document.getElementById("warnings").innerHTML = "No change has been made";
+        document.getElementById("warnings").style.color = "red";
+      }
+      {% else %}  
+
+      if(document.getElementById("password").value !== "" || document.getElementById("confirmPwd").value !== "" || document.getElementById("isAdmin").checked == true){
+        document.getElementById("updateBtn").disabled = false;
+        document.getElementById("warnings").innerHTML = "";
+      }
+      else {
+        document.getElementById("updateBtn").disabled = true;
+      document.getElementById("warnings").innerHTML = "No change has been made";
+        document.getElementById("warnings").style.color = "red";
+      }
+      {% endif %}  
+
+    }
+</script>
 {% endblock %}
