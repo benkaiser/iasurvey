@@ -5,10 +5,16 @@
 {% block content %}
 <script>
   function submitForm(){
+    var username = document.getElementById("uname");
     var password = document.getElementById("password");
     var confirmPwd = document.getElementById("confirmPwd");
     var form = document.getElementById("userCreateForm");
-    if(password.value !== confirmPwd.value){
+
+    if(username.value === '') {
+      alert("Sorry! Username cannot be empty!");
+      return;
+    }
+    else if (password.value !== confirmPwd.value){
       alert("Oops! New Password and Confirm Password do not match");
       return;
     }
@@ -18,7 +24,7 @@
     }
     else{
       form.submit();
-    }
+    } 
   }
 </script>
 
@@ -46,7 +52,7 @@
             <div class="form-group">
               <label for="inputUsername">Username</label>
               <!-- input username -->
-              <input type="text" class="form-control" placeholder="User Name" name="uname">
+              <input type="text" class="form-control" placeholder="User Name" name="uname" id="uname">
               </br>
               <label for="inputPassword">Password</label>
               <!-- input password -->
