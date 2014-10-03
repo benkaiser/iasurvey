@@ -133,8 +133,8 @@ Query all the existing accounts by username
       if(err)
         console.log(err);
       callback(doc);
-    })
-  }
+    });
+  };
 /*
 removeAccount
 Remove a user account by user_id
@@ -258,6 +258,16 @@ Submit the survey result into database
       if(err)
         console.log(err);
       callback(doc);
+    });
+  };
+/*
+getResults
+Fetch survey result from database
+@para <Object>where <function>callback
+*/
+  this.getResults = function(where, callback) {
+    this.db.result.find(where, function(err, docs) {
+      callback(docs);
     });
   };
 };

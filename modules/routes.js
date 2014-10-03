@@ -162,6 +162,14 @@ module.exports = function(app, io) {
   });
 
 /**
+ * IA staff can view survey results
+ */
+  app.get('/admin/results', loginMask, function(req, res) {
+  controller.getResults({}, function(results){
+    res.render('results', {results: results});
+  });
+});
+/**
  * staff get handler
  * Direct to /staff or redirect to login page
  */
@@ -210,7 +218,7 @@ module.exports = function(app, io) {
         res.render('user-create', {error: 'This username has existed!'});
       }
     });
-    
+
   });
 
 /**
