@@ -165,10 +165,16 @@ module.exports = function(app, io) {
  * IA staff can view survey results
  */
   app.get('/admin/results', loginMask, function(req, res) {
-  controller.getResults({}, function(results){
-    res.render('results', {results: results});
+    controller.getSurveys({}, function(surveys){
+      res.render('results', {surveys: surveys});
+    });
   });
-});
+
+  app.get('/admin/results/:id', loginMask, function(req, res) {
+    controller.getSurveyResult(req.params.id, function(results) {
+      res.render('survey_results', {results: results});
+    });
+  });
 /**
  * staff get handler
  * Direct to /staff or redirect to login page
