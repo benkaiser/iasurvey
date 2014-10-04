@@ -10,6 +10,7 @@ var user_id = '';
 var test_username = 'tester';
 var test_password = 'test';
 var test_password_hash = passwordHash.generate(test_password);
+var test_email = '123@abc.com'
 
 // used to wait for app before starting test
 var waitOnApp = function(done){
@@ -107,11 +108,24 @@ describe('Tests for Controllers', function() {
   it('should be able to create a result', function(done) {
     var controller = app.get('controller');
     // test adding a result for a existing survey
-    controller.createResult({test_id: survey_id, email: 'abc@123'}, function(result) {
+    controller.createResult({test_id: survey_id, email: test_email}, function(result) {
       result.should.have.property('_id');
       result_id = result._id;
       done();
     });
+  });
+
+  it('should be able to submit a survey result', function(done) {
+    var controller = app.get('controller');
+    //test submitting a new survey result
+    controller.SurveySubmit({SurveyID: survey_id, Type: 'Interns', Answers: 'test answers', Email: test_email}, function(result) {
+      result.should.have.property('_id');
+      result.should.have.property('SurveyID');
+      result.should.have.property('Type');
+      result.should.have.property('Answers');
+      result.should.have.property('Email');
+      done();
+    })
   });
 
   it('should be able to fetch all users', function(done) {
@@ -161,6 +175,25 @@ describe('Tests for Controllers', function() {
     //test querying an existing account with its ID
     controller.getUserById(user_id, function(result) {
       result.password.should.be.equal(test_password_hash);
+      done();
+    });
+  });
+
+  it('should be able to insert an email to the database', function(done) {
+    var controller = app.get('controller');
+    //test adding a new email to the database
+    controller.insertEmail('123@qwe.com', function(err, result) {
+      result.email.should.be.equal('123@qwe.com');
+      done();
+    });
+  });
+
+  it('should be able to delete an email from the database', function(done) {
+    var controller = app.get('controller');
+    // test deleting an existing email from the database
+    controller.deleteEmail('123@qwe.com', function(err, result) {
+      should.not.exist(err);
+      result.n.should.be.greaterThan(0);
       done();
     });
   });
