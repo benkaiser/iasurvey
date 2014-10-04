@@ -261,13 +261,19 @@ Submit the survey result into database
     });
   };
 /*
-getResults
-Fetch survey result from database
-@para <Object>where <function>callback
+get all survey result
 */
   this.getResults = function(where, callback) {
     this.db.result.find(where, function(err, docs) {
       callback(docs);
+    });
+  };
+/*
+get result of a selected survey
+*/
+  this.getSurveyResult = function(_id, callback) {
+    this.db.result.findOne({survey_id: _id}, function(err, doc) {
+      callback(doc);
     });
   };
 };
