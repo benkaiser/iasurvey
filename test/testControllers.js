@@ -5,7 +5,7 @@ var app = require('../app.js');
 var request = require('supertest');
 var passwordHash = require('password-hash');
 var survey_id = '';
-var result_id = '';
+var surveyResult_id = '';
 var user_id = '';
 var test_username = 'tester';
 var test_password = 'test';
@@ -79,7 +79,7 @@ describe('Tests for Controllers', function() {
   it('should be able to fetch all surveys', function(done) {
     // get a handle on the controller
     var controller = app.get('controller');
-    controller.getSurveys({},function(docs) {
+    controller.getSurveys({}, function(docs) {
       // ensure it was an array returned
       docs.should.be.instanceof(Array);
       done();
@@ -110,7 +110,6 @@ describe('Tests for Controllers', function() {
     // test adding a result for a existing survey
     controller.createResult({test_id: survey_id, email: test_email}, function(result) {
       result.should.have.property('_id');
-      result_id = result._id;
       done();
     });
   });
@@ -118,14 +117,25 @@ describe('Tests for Controllers', function() {
   it('should be able to submit a survey result', function(done) {
     var controller = app.get('controller');
     //test submitting a new survey result
-    controller.SurveySubmit({SurveyID: survey_id, Type: 'Interns', Answers: 'test answers', Email: test_email}, function(result) {
+    controller.SurveySubmit({survey_id: survey_id, type: 'Interns', answers: 'test answers', email: test_email}, function(result) {
       result.should.have.property('_id');
-      result.should.have.property('SurveyID');
-      result.should.have.property('Type');
-      result.should.have.property('Answers');
-      result.should.have.property('Email');
+      result.should.have.property('survey_id');
+      result.should.have.property('type');
+      result.should.have.property('answers');
+      result.should.have.property('email');
+      surveyResult_id = result._id;
       done();
     })
+  });
+
+  it('should be able to fetch all survey result', function(done) {
+    // get a handle on the controller
+    var controller = app.get('controller');
+    controller.getResults({}, function(docs) {
+      // ensure it was an array returned
+      docs.should.be.instanceof(Array);
+      done();
+    });
   });
 
   it('should be able to fetch all users', function(done) {
@@ -179,11 +189,62 @@ describe('Tests for Controllers', function() {
     });
   });
 
+  it('should be able to update an account', function(done) {
+    var controller = app.get('controller');
+    //test change the name of an existing account
+    controller.updateAccount(user_id, {username: 'ChangedTest'}, function(result) {
+      result.should.be.equal(true);
+      done();
+    });
+  });
+
+  it('should be able to return an err when delete an account not exist', function(done) {
+    var controller = app.get('controller');
+    controller.removeAccount('123456789012', function(err, result) {
+      result.should.be.equal(0);
+      done();
+    });
+  });
+
+  it('should be able to delete an existing account', function(done) {
+    var controller = app.get('controller');
+    controller.removeAccount(user_id, function(err, result) {
+      result.should.be.equal(1);
+      done();
+    });
+  });
+
   it('should be able to insert an email to the database', function(done) {
     var controller = app.get('controller');
     //test adding a new email to the database
     controller.insertEmail('123@qwe.com', function(err, result) {
       result.email.should.be.equal('123@qwe.com');
+      done();
+    });
+  });
+
+  it('should be an error when the user enters an invalid email', function(done) {
+    var controller = app.get('controller');
+    controller.verifyExist('123456', function(err, result) {
+      should.exist(err);
+      done();
+    });
+  });
+
+  it('should be able to find a valid email from the database', function(done) {
+    var controller = app.get('controller');
+    controller.verifyExist('123@qwe.com', function(err, result) {
+      result.should.have.property('_id');
+      result.should.have.property('email');
+      done();
+    });
+  });
+
+  it('should be able to find that one valid email does not exist in the database', function(done) {
+    var controller = app.get('controller');
+    controller.verifyExist('notexist@qwe.com', function(err, result) {
+      should.not.exist(err);
+      should.not.exist(result);
       done();
     });
   });

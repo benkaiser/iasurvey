@@ -163,8 +163,8 @@ getUserByName
 this part is to get user information by search username
 @para <String>name <function>callback
 */
-  this.getUserByName = function(name,callback){
-    this.db.staff.findOne({username: name}, function(err,result){
+  this.getUserByName = function(name, callback) {
+    this.db.staff.findOne({username: name}, function(err,result) {
       if (err){
         console.log(err);
         callback(err, null);
@@ -177,8 +177,8 @@ getAllUser
 this part is to get user information by search username
 @para <String>name <function>callback
 */
-  this.getAllUser = function(callback){
-    this.db.staff.find(function(err,result){
+  this.getAllUser = function(callback) {
+    this.db.staff.find(function(err, result) {
       if (err){
         console.log(err);
         return null;
@@ -192,7 +192,7 @@ this part is to get user information by search username
 @para <String>name <function>callback
 */
   this.getUserById = function(user_id,callback){
-    this.db.staff.findOne({_id: this.db.ObjectId(user_id)}, function(err,result){
+    this.db.staff.findOne({_id: this.db.ObjectId(user_id)}, function(err,result) {
       if (err){
         console.log(err);
         return null;
@@ -232,7 +232,7 @@ Verify the email input legal or not and current email address whether in list
 Insert the email address into database
 */
   this.insertEmail = function(email, callback){
-    this.db.subscribe.insert({email: email}, function(err, result){
+    this.db.subscribe.insert({email: email}, function(err, result) {
       if(err){
         console.log('Insert error' + err);
         callback(err, null);
@@ -244,7 +244,7 @@ Insert the email address into database
 Delete the email address from database
 */
   this.deleteEmail = function(email, callback) {
-    this.db.subscribe.remove({email: email}, function(err, result){
+    this.db.subscribe.remove({email: email}, function(err, result) {
       if(err)
         console.log(err);
       callback(err, result);
