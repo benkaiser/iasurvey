@@ -33,6 +33,11 @@
   <h1>{{title}}</h1>
 
   <form id="current_form" enctype='application/json'>
+  <div class="progress">
+    <div class="progress-bar" role="progressbar" aria-valuenow={{percent}} aria-valuemin="0" aria-valuemax="100" style="width: {{percent}}%;">
+      {{percent}}%
+    </div>
+  </div>
   {% for question in fields %}
   <div class='row'>
   <div class='col-sm-12'>
@@ -50,6 +55,7 @@
   </p>
 </div>
 </script>
+
 <script type="text/swig" id="save_template">
 <div>
   <img src="/static/img/loading.gif" alt="loading" />

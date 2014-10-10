@@ -38,12 +38,13 @@ var SurveyView = Backbone.View.extend({
       // draw the current question page
       // grab the current fields
       this.current_fields = sections[this.count];
+      var progress = parseInt(this.count/sections.length*100);
       // render each of them
       var field_html = [];
       for(var cnt = 0; cnt < this.current_fields.length; cnt++){
         field_html.push(render("#" + this.current_fields[cnt].field_type + "_question_template", this.current_fields[cnt]));
       }
-      this.$el.html(render(this.template, {title: survey.title, fields: field_html, count: this.count, length: sections.length}));
+      this.$el.html(render(this.template, {title: survey.title, fields: field_html, count: this.count, length: sections.length, percent: progress}));
       _.defer(function(){
         // are there any datepickers that need to be created?
         $('.datepicker').datepicker({

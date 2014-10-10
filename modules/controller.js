@@ -261,14 +261,6 @@ Submit the survey result into database
     });
   };
 /*
-get all survey result
-*/
-  this.getResults = function(where, callback) {
-    this.db.result.find(where, function(err, docs) {
-      callback(docs);
-    });
-  };
-/*
 get result of a selected survey
 */
   this.getSurveyResult = function(_id, callback) {

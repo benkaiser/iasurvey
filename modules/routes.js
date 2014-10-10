@@ -170,11 +170,6 @@ module.exports = function(app, io) {
     });
   });
 
-  app.get('/admin/results/:id', loginMask, function(req, res) {
-    controller.getSurveyResult(req.params.id, function(results) {
-      res.render('survey_results', {results: results});
-    });
-  });
 /**
  * staff get handler
  * Direct to /staff or redirect to login page
