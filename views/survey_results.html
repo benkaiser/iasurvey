@@ -36,14 +36,22 @@
 <script type="text/swig" id="results_template">
 <div>
   <h2>Results</h2>
-  <table>
+  <table class="table table-condensed">
     <thead>
-    {% for field in survey.form.fields %}
-      <th>{{field.label}}</th>
+    <tr>
+    {% for field in survey.form.clean_fields %}
+      <th title="{{field.label}}">Q{{loop.index}}</th>
     {% endfor %}
+    </tr>
     </thead>
     <tbody>
-
+    {% for result in survey.results %}
+      <tr>
+      {% for response in result.results %}
+      <td>{{response.response}}</td>
+      {% endfor %}
+      </tr>
+    {% endfor %}
     </tbody>
   </table>
 </div>

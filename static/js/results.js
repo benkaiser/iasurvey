@@ -51,6 +51,7 @@ var ResultsView = Backbone.View.extend({
   },
   render: function() {
     console.log(survey);
+    survey.form.clean_fields = removeSections(survey.form.fields);
     this.$el.html(render(this.template, {survey: survey}));
   },
   export: function(){
@@ -60,6 +61,17 @@ var ResultsView = Backbone.View.extend({
     console.log("Chart");
   }
 });
+
+// remove the section fields in the page
+function removeSections(fields){
+  var new_fields = [];
+  for(var x = 0; x < fields.length; x++){
+    if(fields[x].field_type != "section_break"){
+      new_fields.push(fields[x]);
+    }
+  }
+  return new_fields;
+}
 
 // this function is used to split the survey onto multiple pages
 function splitBySections(fields){
