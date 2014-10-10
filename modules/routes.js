@@ -165,11 +165,20 @@ module.exports = function(app, io) {
  * IA staff can view survey results
  */
   app.get('/admin/results', loginMask, function(req, res) {
-    controller.getSurveys({}, function(surveys){
-      res.render('results', {surveys: surveys});
+    controller.getSurveys({$or: [{status: 'deactive'}, {status: 'active'}]}, function(surveys){
+      controller.tieResultsToSurveys(surveys, function(surveys_with_results){
+        res.render('results', {surveys: surveys_with_results});
+      });
     });
   });
 
+  app.get('/admin/results/:id', loginMask, function(req, res) {
+    controller.getSurveys({_id: db.ObjectId(req.params.id)}, function(surveys){
+      controller.tieResultsToSurveys(surveys, function(surveys_with_results){
+        res.render('survey_results', {survey: surveys_with_results[0]});
+      });
+    });
+  });
 /**
  * staff get handler
  * Direct to /staff or redirect to login page

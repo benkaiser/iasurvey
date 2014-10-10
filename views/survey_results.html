@@ -1,0 +1,52 @@
+{% extends 'base/backend_base.html' %}
+
+{% block title %}Results - Interns Australia{% endblock %}
+
+{% block content %}
+  <form id="query_container"></form>
+  <div id="results_container"></form>
+  <script type="text/javascript">var survey = JSON.parse("{{survey|safe|json|addslashes}}");</script>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+  head.load(
+    "/static/css/libs/datepicker3.css",
+    "/static/css/libs/bootstrap-timepicker.min.css"
+  );
+  head.js(
+    "/static/js/libs/underscore-min.js",
+    "/static/js/libs/backbone-min.js",
+    "/static/js/libs/backbone.marionette.min.js",
+    "/static/js/libs/swig.min.js",
+    "/static/js/libs/sift.min.js",
+    "/static/js/libs/bootstrap-datepicker.js",
+    "/static/js/libs/bootstrap-timepicker.min.js",
+    "/static/js/results.js"
+    );
+</script>
+{# swig templates #}
+{% raw %}
+<script type="text/swig" id="query_template">
+<div>
+  <h1>Query</h1>
+  <div class="btn btn-primary" id="query">Query</div>
+  <div class="btn btn-primary" id="show_all">Show All Results</div>
+</div>
+</script>
+<script type="text/swig" id="results_template">
+<div>
+  <h2>Results</h2>
+  <table>
+    <thead>
+    {% for field in survey.form.fields %}
+      <th>{{field.label}}</th>
+    {% endfor %}
+    </thead>
+    <tbody>
+
+    </tbody>
+  </table>
+</div>
+</script>
+{% endraw %}
+{% endblock %}

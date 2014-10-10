@@ -1,3 +1,5 @@
+var async = require('async');
+
 /*
 this module manages the data in the surveys and feeds them to the routes
 @para <express>app <socket.io>io
@@ -258,6 +260,28 @@ Submit the survey result into database
       if(err)
         console.log(err);
       callback(doc);
+    });
+  };
+/*
+get all survey result
+*/
+  this.getResults = function(where, callback) {
+    this.db.result.find(where, function(err, docs) {
+      callback(docs);
+    });
+  };
+/*
+add a `results` attribute to the surveys with all the results
+*/
+  this.tieResultsToSurveys = function(surveys, callback){
+    var controller = this;
+    async.each(surveys, function(survey, finish) {
+      controller.getResults({survey_id: survey._id.toString()}, function(results){
+        survey.results = results;
+        finish();
+      });
+    }, function(err){
+      callback(surveys);
     });
   };
 /*
