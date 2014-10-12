@@ -60,7 +60,8 @@ Client-side
 - [jquery](http://jquery.com/) fast, small, and feature-rich javascript library that makes DOM-traversal easy
 - [Bootstrap](http://getbootstrap.com/) as a good-looking CSS framework
 - [head.js](http://headjs.com/) load css and js asynchronously, speeding up page-load
-- [Messenger](http://github.hubspot.com/messenger/) simple notification library for javascript
+- [sift.js](https://github.com/crcn/sift.js) for querying the results array
+- [html5csv](https://github.com/DrPaulBrewer/html5csv) for generating and triggering the csv download from the results page
 
 All other frameworks used are either part of the above, dependencies of the above or perform a function to trivial to mention.
 
