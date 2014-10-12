@@ -193,6 +193,26 @@ var ResultsView = Backbone.View.extend({
   },
   export: function(){
     console.log("Export");
+    console.log(this.options.results);
+    // generate a csv file of the results
+    var csvArr = [];
+    // add the questions
+    var questions = [];
+    for(var i = 0; i < survey.form.clean_fields.length; i++){
+      questions.push(survey.form.clean_fields[i].label);
+    }
+    csvArr.push(questions);
+    // add all the responses
+    for(var x = 0; x < this.options.results.length; x++){
+      var results = this.options.results[x];
+      var line = [];
+      for(var response in results){
+        line.push(results[response].toString());
+      }
+      csvArr.push(line);
+    }
+    console.log(csvArr);
+    CSV.begin(csvArr).download("results.csv").go();
   },
   chart: function(){
     console.log("Chart");
