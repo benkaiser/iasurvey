@@ -239,13 +239,20 @@ module.exports = function(app, io) {
  */
   app.get('/admin/staff/delete/:id', loginMask, adminMask, function(req, res) {
     var userChoosen = req.params.id;
-    controller.removeAccount(userChoosen,
-      function (err, numRemoved) {
-      console.log(numRemoved+" Removed");
-      if(!err){
-        res.redirect('/admin/staff');
+    controller.getUserById(userChoosen,
+      function (result) {
+        if(result.username == req.session.username)
+          res.redirect('/admin');
+        else
+          controller.removeAccount(userChoosen,
+            function (err, numRemoved) {
+            console.log(numRemoved+" Removed");
+            if(!err){
+              res.redirect('/admin/staff');
+            }
+          });
       }
-    });
+    );
   });
 
 /**
