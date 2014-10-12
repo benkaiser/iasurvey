@@ -1,6 +1,6 @@
 {% extends 'base/backend_base.html' %}
 
-{% block title %}Surveys - Interns Australia{% endblock %}
+{% block title %}Create User - Interns Australia{% endblock %}
 
 {% block content %}
 <script>
@@ -24,7 +24,7 @@
     }
     else{
       form.submit();
-    } 
+    }
   }
 </script>
 
@@ -60,7 +60,7 @@
               <br/>
               <label for="confirmPassword">Confirm Password</label>
               <!-- confirm password -->
-              <input type="password" placeholder="Confirm Password" class="form-control" id="confirmPwd"/>
+              <input name='confirmPwd' type="password" placeholder="Confirm Password" class="form-control" id="confirmPwd"/>
               <br/>
               <!--checkbox -->
               <div class="checkbox">

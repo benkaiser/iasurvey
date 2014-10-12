@@ -1,6 +1,6 @@
 {% extends 'base/backend_base.html' %}
 
-{% block title %}Surveys - Interns Australia{% endblock %}
+{% block title %}Account Update - Interns Australia{% endblock %}
 
 {% block head %}
 <script>
@@ -15,7 +15,7 @@
     else{
       form.submit();update
     }
-  }  
+  }
 </script>
 {% endblock %}
 
@@ -48,7 +48,7 @@
               <br/>
               <label for="confirmPassword">Confirm Password</label>
               <!-- confirm password -->
-              <input class="form-control" type="password" placeholder="Confirm Password" id="confirmPwd" onchange="changeContent()"s/>
+              <input name="confirmPwd" class="form-control" type="password" placeholder="Confirm Password" id="confirmPwd" onchange="changeContent()"s/>
               <br/>
               <!--checkbox -->
               <div class="checkbox">
@@ -60,7 +60,7 @@
               <button type="button" id="updateBtn" class='btn btn-primary' value="Update" onclick="submitForm()"/>Update</button>
               <a href="/admin/staff" class='btn btn-default'>Back</a>
             </div>
-            </form> 
+            </form>
          </div>
         </div>
         </div>
@@ -81,7 +81,7 @@
         document.getElementById("warnings").innerHTML = "No change has been made";
         document.getElementById("warnings").style.color = "red";
       }
-      {% else %}  
+      {% else %}
 
       if(document.getElementById("password").value !== "" || document.getElementById("confirmPwd").value !== "" || document.getElementById("isAdmin").checked == true){
         document.getElementById("updateBtn").disabled = false;
@@ -92,7 +92,7 @@
       document.getElementById("warnings").innerHTML = "No change has been made";
         document.getElementById("warnings").style.color = "red";
       }
-      {% endif %}  
+      {% endif %}
 
     }
 </script>

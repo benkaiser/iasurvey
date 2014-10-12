@@ -1,6 +1,6 @@
 {% extends 'base/backend_base.html' %}
 
-{% block title %}Surveys - Interns Australia{% endblock %}
+{% block title %}Manage Staff - Interns Australia{% endblock %}
 
 {% block content %}
   <div class="row">
@@ -29,12 +29,12 @@
               </tr>
             </thead>
             <tbody>
-            {% for person in users %}          
+            {% for person in users %}
             <tr>
               <td>{{person.username}}</td>
               <td>{{person.is_admin}}</td>
-              <td><a class='btn btn-primary' href="/admin/account-edit/{{person._id|safe}}">Edit</a></td>
-              <td>{% if person.username != username %}<a class='btn btn-danger' href="/admin/staff/delete/{{person._id|safe}}">Delete</a>{% endif %}</td>
+              <td><a name="{{person.username}}E" class='btn btn-primary' href="/admin/account-edit/{{person._id|safe}}">Edit</a></td>
+              <td>{% if person.username != username %}<a name="{{person.username}}D" class='btn btn-danger' href="/admin/staff/delete/{{person._id|safe}}">Delete</a>{% endif %}</td>
             </tr>
             {% endfor %}
             </tbody>
