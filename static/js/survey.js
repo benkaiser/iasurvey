@@ -38,7 +38,7 @@ var SurveyView = Backbone.View.extend({
       // draw the current question page
       // grab the current fields
       this.current_fields = sections[this.count];
-      var progress = parseInt(this.count/sections.length*100);
+      var progress = parseInt((this.count + 1) / (sections.length + 1) * 100);
       // render each of them
       var field_html = [];
       for(var cnt = 0; cnt < this.current_fields.length; cnt++){
