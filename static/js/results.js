@@ -227,7 +227,6 @@ var ChartView = Backbone.View.extend({
     // wait for the DOM to be rendered (all elements added)
     _.defer(function(){
       var questions_answers = bindResults(survey, chartview.options.results);
-      console.log(questions_answers);
       // draw the charts
       for(var q_a in questions_answers){
         q_a = questions_answers[q_a];
@@ -245,30 +244,40 @@ var ChartView = Backbone.View.extend({
     data.addColumn('string', 'Option');
     data.addColumn('number', 'Number of Responses');
 
+    var rows = [], total, x, y;
     switch(q_a.question.field_type){
+      case 'radio':
+        // radio has the same logic as dropdown
       case 'dropdown':
-        console.log("Dropdown!");
-        var rows = [];
-        for(var x = 0; x < q_a.question.field_options.options; x++){
+        for(x = 0; x < q_a.question.field_options.options.length; x++){
           // count the responses
-          var total = 0;
-          for(var y = 0; y < q_a.response; y++){
-            if(q_a.response[y] == q_a.question.field_options.options[x]){
+          total = 0;
+          for(y = 0; y < q_a.response.length; y++){
+            if(q_a.response[y] == q_a.question.field_options.options[x].label){
               total++;
             }
           }
-          rows.push(q_a.question.field_options.options[x], total);
+          rows.push([q_a.question.field_options.options[x].label, total]);
         }
-        data.addRows(rows);
         break;
+      case 'checkboxes':
+        for(x = 0; x < q_a.question.field_options.options.length; x++){
+          // count the responses
+          total = 0;
+          for(y = 0; y < q_a.response.length; y++){
+            if(_.contains(q_a.response[y], q_a.question.field_options.options[x].label)){
+              total++;
+            }
+          }
+          rows.push([q_a.question.field_options.options[x].label, total]);
+        }
     }
+    data.addRows(rows);
     // Set chart options
-    var options = {'title': q_a,
-                   'width':400,
-                   'height':300};
+    var options = {'title': q_a.question.label, 'width': "100%", 'height': 400, 'legend': 'none', vAxis: {title: "# of Responses"}, hAxis: {title: "Option"}};
 
     // Instantiate and draw our chart, passing in some options
-    var chart = new google.visualization.PieChart(document.getElementById('chart_' + q_a.question.cid));
+    var chart = new google.visualization.ColumnChart(document.getElementById('chart_' + q_a.question.cid));
     chart.draw(data, options);
   }
 });

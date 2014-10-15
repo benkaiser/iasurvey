@@ -106,7 +106,7 @@
   {% for question in survey.form.clean_fields %}
     {% if question.field_type == 'dropdown' || question.field_type == 'checkboxes' || question.field_type == 'radio' %}
       {# question is chartable #}
-      <h4>{{question.label}}</h4>
+      <h4>Q{{loop.index}} - {{question.label}}</h4>
       <div id="chart_{{question.cid}}"></div>
     {% endif %}
   {% endfor %}
