@@ -4,7 +4,8 @@
 
 {% block content %}
   <form id="query_container"></form>
-  <div id="results_container"></form>
+  <div id="results_container"></div>
+  <div id="charts_container"></div>
   <script type="text/javascript">var survey = JSON.parse("{{survey|safe|json|addslashes}}");</script>
 {% endblock %}
 {% block scripts %}
@@ -14,6 +15,7 @@
     "/static/css/libs/bootstrap-timepicker.min.css"
   );
   head.js(
+    "https://www.google.com/jsapi",
     "/static/js/libs/underscore-min.js",
     "/static/js/libs/backbone-min.js",
     "/static/js/libs/backbone.marionette.min.js",
@@ -97,6 +99,18 @@
   </table>
   <div class="btn btn-primary" id="chart">Chart</div>
   <div class="btn btn-primary" id="export">Export CSV file</div>
+</div>
+</script>
+<script type="text/swig" id="charts_template">
+<div>
+  <h2>Charts</h2>
+  {% for question in survey.form.clean_fields %}
+    {% if question.field_type == 'dropdown' || question.field_type == 'checkboxes' || question.field_type == 'radio' %}
+      {# question is chartable #}
+      <h4>{{question.label}}</h4>
+      <div id="chart_{{question.cid}}"></div>
+    {% endif %}
+  {% endfor %}
 </div>
 </script>
 <script type="text/swig" id="detail_template">

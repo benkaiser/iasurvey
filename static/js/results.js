@@ -1,3 +1,6 @@
+// load google charts api
+google.load('visualization', '1.0', {'packages':['corechart']});
+
 // utility functions
 function render(template, data){
   return swig.render($(template).html(), {locals: data});
@@ -54,7 +57,8 @@ IARes = new Backbone.Marionette.Application();
 // set the regions on the page
 IARes.addRegions({
   queryRegion: "#query_container",
-  resultsRegion: "#results_container"
+  resultsRegion: "#results_container",
+  chartRegion: "#charts_container"
 });
 
 var sections;
@@ -192,8 +196,6 @@ var ResultsView = Backbone.View.extend({
     new DetailView({result: this.options.results[index]});
   },
   export: function(){
-    console.log("Export");
-    console.log(this.options.results);
     // generate a csv file of the results
     var csvArr = [];
     // add the questions
@@ -215,7 +217,30 @@ var ResultsView = Backbone.View.extend({
     CSV.begin(csvArr).download("results.csv").go();
   },
   chart: function(){
-    console.log("Chart");
+    IARes.chv = new ChartView({results: this.options.results});
+    IARes.chartRegion.show(IARes.chv);
+  }
+});
+
+var ChartView = Backbone.View.extend({
+  template: "#charts_template",
+  render: function(){
+    var chartview = this;
+    this.$el.html(render(this.template, {survey: survey, results: this.options.results}));
+    // wait for the DOM to be rendered (all elements added)
+    _.defer(function(){
+      var questions_answers = bindResults(survey, chartview.options.results);
+      console.log(questions_answers);
+      // draw the charts
+      for(var q_a in questions_answers){
+        q_a = questions_answers[q_a];
+        if(q_a.question.field_type == 'dropdown' ||
+          q_a.question.field_type == 'radio' ||
+          q_a.question.field_type == 'checkboxes'){
+          console.log(q_a);
+        }
+      }
+    });
   }
 });
 
@@ -240,6 +265,18 @@ function removeSections(fields){
     }
   }
   return new_fields;
+}
+
+function bindResults(survey, results){
+  var new_results = [];
+  for(var x = 0; x < survey.form.clean_fields.length; x++){
+    var responses = [];
+    for(var y = 0; y < results.length; y++){
+      responses.push(results[y][survey.form.clean_fields[x].cid]);
+    }
+    new_results.push({response: responses, question: survey.form.clean_fields[x]});
+  }
+  return new_results;
 }
 
 function bindQuestions(survey, results){
