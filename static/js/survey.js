@@ -84,13 +84,11 @@ var SurveyView = Backbone.View.extend({
     }
   },
   prevSection: function(){
-    if(this.checkValidity()){
-      // save values in current section
-      this.extractValues();
-      // move to previous section
-      this.count--;
-      this.render();
-    }
+    // save values in current section
+    this.extractValues();
+    // move to previous section
+    this.count--;
+    this.render();
   },
   nextSection: function(){
     if(this.checkValidity()){
