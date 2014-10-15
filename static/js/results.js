@@ -163,11 +163,15 @@ var QueryView = Backbone.View.extend({
     // render the results
     IARes.rv = new ResultsView({results: sifted});
     IARes.resultsRegion.show(IARes.rv);
+    // make sure charts view is hidden
+    IARes.chartRegion.close();
   },
   showAll: function(){
     // just send them through without filtering them
     IARes.rv = new ResultsView({results: sift_results});
     IARes.resultsRegion.show(IARes.rv);
+    // make sure charts view is hidden
+    IARes.chartRegion.close();
   },
   saveAddQueryOption: function(){
     this.querySave();
