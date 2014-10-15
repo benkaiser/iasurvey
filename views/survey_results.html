@@ -15,7 +15,6 @@
     "/static/css/libs/bootstrap-timepicker.min.css"
   );
   head.js(
-    "https://www.google.com/jsapi",
     "/static/js/libs/underscore-min.js",
     "/static/js/libs/backbone-min.js",
     "/static/js/libs/backbone.marionette.min.js",
@@ -123,5 +122,6 @@
   {% endfor %}
 </div>
 </script>
+<script src='https://www.google.com/jsapi?autoload={"modules":[{"name":"visualization","version":"1","packages":["corechart","table"]}]}' type="text/javascript"></script>
 {% endraw %}
 {% endblock %}

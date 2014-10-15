@@ -1,6 +1,3 @@
-// load google charts api
-google.load('visualization', '1.0', {'packages':['corechart']});
-
 // utility functions
 function render(template, data){
   return swig.render($(template).html(), {locals: data});
@@ -237,10 +234,42 @@ var ChartView = Backbone.View.extend({
         if(q_a.question.field_type == 'dropdown' ||
           q_a.question.field_type == 'radio' ||
           q_a.question.field_type == 'checkboxes'){
-          console.log(q_a);
+          chartview.renderChart(q_a);
         }
       }
     });
+  },
+  renderChart: function(q_a){
+
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Option');
+    data.addColumn('number', 'Number of Responses');
+
+    switch(q_a.question.field_type){
+      case 'dropdown':
+        console.log("Dropdown!");
+        var rows = [];
+        for(var x = 0; x < q_a.question.field_options.options; x++){
+          // count the responses
+          var total = 0;
+          for(var y = 0; y < q_a.response; y++){
+            if(q_a.response[y] == q_a.question.field_options.options[x]){
+              total++;
+            }
+          }
+          rows.push(q_a.question.field_options.options[x], total);
+        }
+        data.addRows(rows);
+        break;
+    }
+    // Set chart options
+    var options = {'title': q_a,
+                   'width':400,
+                   'height':300};
+
+    // Instantiate and draw our chart, passing in some options
+    var chart = new google.visualization.PieChart(document.getElementById('chart_' + q_a.question.cid));
+    chart.draw(data, options);
   }
 });
 
