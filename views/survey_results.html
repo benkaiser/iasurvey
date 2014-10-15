@@ -103,6 +103,7 @@
 <script type="text/swig" id="charts_template">
 <div>
   <h2>Charts</h2>
+  <p>Change chart type: <div class='btn btn-default' id="piechart">Pie Chart</div> <div class='btn btn-default' id="barchart">Bar Chart</div> <div class='btn btn-default' id="columnchart">Column Chart</div></p>
   {% for question in survey.form.clean_fields %}
     {% if question.field_type == 'dropdown' || question.field_type == 'checkboxes' || question.field_type == 'radio' %}
       {# question is chartable #}

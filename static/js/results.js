@@ -221,25 +221,33 @@ var ResultsView = Backbone.View.extend({
 
 var ChartView = Backbone.View.extend({
   template: "#charts_template",
+  events: {
+    "click #piechart": "setPieChart",
+    "click #columnchart": "setColumnChart",
+    "click #barchart": "setBarChart",
+  },
   render: function(){
     var chartview = this;
     this.$el.html(render(this.template, {survey: survey, results: this.options.results}));
     // wait for the DOM to be rendered (all elements added)
     _.defer(function(){
-      var questions_answers = bindResults(survey, chartview.options.results);
-      // draw the charts
-      for(var q_a in questions_answers){
-        q_a = questions_answers[q_a];
-        if(q_a.question.field_type == 'dropdown' ||
-          q_a.question.field_type == 'radio' ||
-          q_a.question.field_type == 'checkboxes'){
-          chartview.renderChart(q_a);
-        }
-      }
+      chartview.renderCharts();
     });
   },
-  renderChart: function(q_a){
-
+  renderCharts: function(type){
+    type = (type) ? type : 'bar';
+    var questions_answers = bindResults(survey, this.options.results);
+    // draw the charts
+    for(var q_a in questions_answers){
+      q_a = questions_answers[q_a];
+      if(q_a.question.field_type == 'dropdown' ||
+        q_a.question.field_type == 'radio' ||
+        q_a.question.field_type == 'checkboxes'){
+        this.renderChart(q_a, type);
+      }
+    }
+  },
+  renderChart: function(q_a, type){
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Option');
     data.addColumn('number', 'Number of Responses');
@@ -274,12 +282,35 @@ var ChartView = Backbone.View.extend({
     }
     data.addRows(rows);
     // Set chart options
-    var options = {'title': q_a.question.label, 'width': "100%", 'height': 400, 'legend': 'none', vAxis: {title: "# of Responses"}, hAxis: {title: "Option"}};
+    var options = {'title': q_a.question.label, 'width': "100%", 'height': 400, vAxis: {title: "# of Responses"}, hAxis: {title: "Option"}};
 
+    var chart;
     // Instantiate and draw our chart, passing in some options
-    var chart = new google.visualization.ColumnChart(document.getElementById('chart_' + q_a.question.cid));
+    switch(type){
+      case 'bar':
+        chart = new google.visualization.BarChart(document.getElementById('chart_' + q_a.question.cid));
+        var temp = options.vAxis;
+        options.vAxis = options.hAxis;
+        options.hAxis = temp;
+        break;
+      case 'pie':
+        chart = new google.visualization.PieChart(document.getElementById('chart_' + q_a.question.cid));
+        break;
+      case 'column':
+        chart = new google.visualization.ColumnChart(document.getElementById('chart_' + q_a.question.cid));
+        break;
+    }
     chart.draw(data, options);
-  }
+  },
+  setPieChart: function(){
+    this.renderCharts("pie");
+  },
+  setColumnChart: function(){
+    this.renderCharts("column");
+  },
+  setBarChart: function(){
+    this.renderCharts("bar");
+  },
 });
 
 var DetailView = Backbone.View.extend({
