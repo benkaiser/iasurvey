@@ -1,7 +1,7 @@
 /**
  * This module creates all the individial routes for the server
  * @para <express>app <socket.io>io
- * @return <>function
+ * @return function
  */
 var db = null;
 var controller = null;
@@ -10,19 +10,29 @@ var passwordHash = require('password-hash');
 module.exports = function(app, io) {
   db = app.get('db');
   controller = app.get('controller');
-  // homepage
+  /**
+   * Homepage get handler
+   * Rending the landing page for participants to select a proper survey
+   */
   app.get('/', function(req, res) {
     controller.getSurveys({status: 'active'}, function(surveys){
       res.render('landing', {surveys: surveys});
     });
   });
-
+  /**
+   * survey get handler
+   * fetch selected survey to participants
+   * @para id
+   */
   app.get('/survey/:id', function(req, res) {
     controller.getSurveyBy_id(req.params.id, function(survey) {
       res.render('complete_survey', {survey: survey});
     });
   });
-
+  /**
+   * survey submit post handler
+   * save survey result to database
+   */
   app.post('/survey/submit', function(req, res){
     if(req.body !== null){
       controller.SurveySubmit(req.body, function(data){
@@ -31,14 +41,18 @@ module.exports = function(app, io) {
     }
   });
 
-  // admin
+  /**
+   * admin get handler
+   * apply loginMask to prevent non-login user access
+   */
   app.get('/admin', loginMask, function(req, res) {
     res.render('admin');
   });
 
   /**
-   * login routes and post
-   *
+   * login routes
+   * get login page
+   * if request from logout button, this route will delete current user's session
    */
   app.get('/admin/login', function(req, res) {
     // if they want to be logged out
@@ -53,7 +67,11 @@ module.exports = function(app, io) {
       res.render('login');
     }
   });
-
+  /**
+   * login post handler
+   * @para txtUserName, txtUserPwd, pwdRem
+   * build session {loggedIn:boolean,username:string,isAdmin:boolean}
+   */
   app.post('/admin/login', function(req, res) {
     var userName = req.body.txtUserName,
         userPwd = req.body.txtUserPwd,
@@ -83,17 +101,29 @@ module.exports = function(app, io) {
          }
     });
   });
-
+  /**
+   * surveys show get handler
+   * get all surveys
+   * apply loginMask to prevent non-login user access
+   */
   app.get('/admin/surveys', loginMask, function(req, res) {
     controller.getSurveys({}, function(surveys){
       res.render('surveys', {surveys: surveys});
     });
   });
-
+  /**
+   * surveys create handler
+   * rending survery create page
+   */
   app.get('/admin/surveys/create', loginMask, function(req, res) {
     res.render('survey_create');
   });
-
+  /**
+   * surveys edit handler
+   * this route will render or redirect to different pages according to different actions
+   * apply loginMask to prevent non-login user access
+   * @para id
+   */
   app.get('/admin/surveys/edit/:id', loginMask, function(req, res) {
     controller.getSurveyBy_id(req.params.id, function(doc){
       if(doc) {
@@ -112,7 +142,12 @@ module.exports = function(app, io) {
       }
     });
   });
-
+  /**
+   * surveys create/edit post handler
+   * apply loginMask to prevent non-login user access
+   * @para title, edit, prompt, end_page_html, form_json
+   * Storing: title, prompt, end_page, form, status
+   */
   app.post('/admin/surveys/create', loginMask, function(req, res) {
     if(req.body.title) {
       // form was submitted and data present, save the data
@@ -139,21 +174,33 @@ module.exports = function(app, io) {
       res.redirect('/admin/surveys');
     }
   });
-
+  /**
+   * surveys publish get handler
+   * apply loginMask to prevent non-login user access
+   * @para id
+   */
   app.get('/admin/surveys/publish/:id', loginMask, function(req, res){
     controller.setSurveyStatus(req.params.id, 'active', function(){
       // render the manage page again with the updated data
       res.redirect('/admin/surveys');
     });
   });
-
+  /**
+   * surveys deactivate get handler
+   * apply loginMask to prevent non-login user access
+   * @para id
+   */
   app.get('/admin/surveys/deactivate/:id', loginMask, function(req, res){
     controller.setSurveyStatus(req.params.id, 'deactive', function(){
       // render the manage page again with the updated data
       res.redirect('/admin/surveys');
     });
   });
-
+  /**
+   * surveys activate get handler
+   * apply loginMask to prevent non-login user access
+   * @para id
+   */
   app.get('/admin/surveys/activate/:id', loginMask, function(req, res){
     controller.setSurveyStatus(req.params.id, 'active', function(){
       // render the manage page again with the updated data
@@ -161,9 +208,11 @@ module.exports = function(app, io) {
     });
   });
 
-/**
- * IA staff can view survey results
- */
+  /**
+   * results get handler
+   * IA staff can view survey results
+   * apply loginMask to prevent non-login user access
+   */
   app.get('/admin/results', loginMask, function(req, res) {
     controller.getSurveys({$or: [{status: 'deactive'}, {status: 'active'}]}, function(surveys){
       controller.tieResultsToSurveys(surveys, function(surveys_with_results){
@@ -172,6 +221,12 @@ module.exports = function(app, io) {
     });
   });
 
+  /**
+   * results get handler
+   * get survey by id
+   * apply loginMask to prevent non-login user access
+   * @para id
+   */
   app.get('/admin/results/:id', loginMask, function(req, res) {
     controller.getSurveys({_id: db.ObjectId(req.params.id)}, function(surveys){
       controller.tieResultsToSurveys(surveys, function(surveys_with_results){
@@ -179,10 +234,12 @@ module.exports = function(app, io) {
       });
     });
   });
-/**
- * staff get handler
- * Direct to /staff or redirect to login page
- */
+  /**
+   * staff get handler
+   * Direct to /staff or redirect to login page
+   * apply loginMask to prevent non-login user access
+   * apply adminMask to prevent non-admin user access
+   */
   app.get('/admin/staff', loginMask, adminMask, function(req, res) {
     controller.getAllUser(
       function (users) {
@@ -191,20 +248,25 @@ module.exports = function(app, io) {
     );
   });
 
-/**
- * user-create direct function
- * Direct to /user-create or redirect to login page
- */
+  /**
+   * user-create direct function
+   * Direct to /user-create or redirect to login page
+   * apply loginMask to prevent non-login user access
+   * apply adminMask to prevent non-admin user access
+   */
   app.get('/admin/staff/create', loginMask, adminMask, function(req, res) {
     res.render('user-create');
   });
 
-/**
- * user-create post handler
- * Storing {user_name:userName, first_name:firstName, last_name:lastName, email:email}
- * into database
- * @throw save faliure error infomation
- */
+  /**
+   * user-create post handler
+   * Storing {user_name:userName, first_name:firstName, last_name:lastName, email:email}
+   * into database
+   * apply loginMask to prevent non-login user access
+   * apply adminMask to prevent non-admin user access
+   * @para uname, password, isAdmin
+   * @throw save faliure error infomation
+   */
   app.post('/admin/staff/create', loginMask, adminMask, function(req, res) {
     var userName = req.body.uname,
         password = req.body.password,
@@ -231,12 +293,15 @@ module.exports = function(app, io) {
 
   });
 
-/**
- * user-delete post handler
- * Storing {user_name:userName, first_name:firstName, last_name:lastName, email:email}
- * into database
- * @throw delete faliure error infomation
- */
+  /**
+   * user-delete post handler
+   * Storing {user_name:userName, first_name:firstName, last_name:lastName, email:email}
+   * into database
+   * apply loginMask to prevent non-login user access
+   * apply adminMask to prevent non-admin user access
+   * @para id
+   * @throw delete faliure error infomation
+   */
   app.get('/admin/staff/delete/:id', loginMask, adminMask, function(req, res) {
     var userChoosen = req.params.id;
     controller.getUserById(userChoosen,
@@ -255,9 +320,13 @@ module.exports = function(app, io) {
     );
   });
 
-/**
- * staff post handler
- */
+  /**
+   * account-edit handler
+   * apply loginMask to prevent non-login user access
+   * apply adminMask to prevent non-admin user access
+   * @para id
+   * edit choosen
+   */
   app.get('/admin/account-edit/:id', loginMask, adminMask, function(req, res) {
     var userId = req.params.id;
     controller.getUserById(userId,
@@ -269,9 +338,13 @@ module.exports = function(app, io) {
       }
     );
   });
-/**
- * account-edit post handler
- */
+  /**
+   * account-edit post handler
+   * apply loginMask to prevent non-login user access
+   * apply adminMask to prevent non-admin user access
+   * @para id, uname, password, isAdmin
+   * Storing {username:userName, password:passwordHash.generate(password), is_admin:isAdmin}
+   */
   app.post('/admin/account-edit/:id', loginMask, adminMask, function(req, res) {
     var userId = req.params.id,
         userName = req.body.uname,
@@ -296,16 +369,19 @@ module.exports = function(app, io) {
       }
     );
   });
-/**
- * password-update get handler
- * Direct to /staff or redirect to login page
- */
+  /**
+   * password-update get handler
+   * Direct to /staff or redirect to login page
+   * apply loginMask to prevent non-login user access
+   */
   app.get('/admin/password-update', loginMask, function(req, res) {
       res.render('password-update');
   });
-/**
- * password-update post handler
- */
+  /**
+   * password-update post handler
+   * apply loginMask to prevent non-login user access
+   * @para username, oldpw, newpw
+   */
   app.post('/admin/password-update', loginMask, function(req, res) {
     var username = req.body.username,
         oldPw = req.body.oldpw,
@@ -329,15 +405,17 @@ module.exports = function(app, io) {
       }
     );
   });
-/**
- * survey participants can subscribe further information
- */
+  /**
+   * subscribe get handler
+   * survey participants can subscribe further information
+   */
   app.get('/subscribe', function(req,res){
     res.render('subscribe');
   });
-/**
- * get user's email address and save
- */
+  /**
+   * get user's email address and save
+   * @para txtEmail, isAgree
+   */
   app.post('/subscribe', function(req, res){
     var email = req.body.txtEmail;
     if(req.body.isAgree === undefined){
@@ -361,15 +439,18 @@ module.exports = function(app, io) {
       });
     }
   });
-/**
- * survey participants can unsubscribe from a link in the received email
- */
+  /**
+   * unsubscribe get handler
+   * survey participants can unsubscribe
+   * from a link in the received email
+   */
   app.get('/unsubscribe', function(req, res){
     res.render('unsubscribe');
   });
-/**
- * remove user's email address from subscription list
- */
+  /**
+   * remove user's email address from subscription list
+   * @para txtEmail
+   */
   app.post('/unsubscribe', function(req, res){
     var email = req.body.txtEmail;
     if(email.length === 0){
@@ -394,6 +475,11 @@ module.exports = function(app, io) {
   });
 };
 
+/**
+ * loginMask
+ * redirect non-login user to login page
+ * Prevent a malicious url visit
+ */
 var loginMask = function(req, res, next){
   if(req.session.loggedIn) {
     res.locals.loggedIn = true;
@@ -404,7 +490,11 @@ var loginMask = function(req, res, next){
     res.redirect('/admin/login');
   }
 };
-
+/**
+ * adminMask
+ * redirect non-admin user to staff management page
+ * Prevent a malicious url visit
+ */
 var adminMask = function(req, res, next){
   if(!req.session.isAdmin) {
     res.redirect('/admin');

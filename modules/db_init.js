@@ -1,6 +1,8 @@
 var passwordHash = require('password-hash');
-// initialise the db if it hasn't already
-
+/**
+   * this module initialise the db if it hasn't already
+   * @para <mongojs>db <function>callback
+   */
 module.exports = function(db, callback) {
   db.staff.count(function(err, count) {
     if (!err && count === 0) {
