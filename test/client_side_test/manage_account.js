@@ -1,4 +1,6 @@
-var BUrl = 'http://localhost:2000';
+// get a hold of the environment variable
+var envVars = require('system').env;
+var BUrl = 'http://localhost:' + (envVars.PORT || 2000);
 
 casper.test.begin('Test for administration functions', 24, function suite(test) {
 
