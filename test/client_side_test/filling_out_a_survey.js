@@ -1,4 +1,5 @@
-var BUrl = 'http://localhost:2000';
+var envVars = require('system').env;
+var BUrl = 'http://localhost:' + (envVars.PORT || 2000);
 
 casper.test.begin('Test for fulling out a survey', 19, function suite(test) {
 
