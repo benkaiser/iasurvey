@@ -1,8 +1,6 @@
-// get a hold of the environment variable
-var envVars = require('system').env;
-var BUrl = 'http://localhost:' + (envVars.PORT || 2000);
+var BUrl = 'http://localhost:2000';
 
-casper.test.begin('Test for administration functions', 24, function suite(test) {
+casper.test.begin('Test for account management', 33, function suite(test) {
 
   casper.start(BUrl+'/admin/login', function() {
     test.assertTitle("Admin - Interns Australia",
@@ -77,11 +75,19 @@ casper.test.begin('Test for administration functions', 24, function suite(test) 
     });
   });
 
+  casper.thenOpen(BUrl+'/admin', function() {
+    this.click('a[id="staLi"]');
+    this.wait(300, function() {
+      test.assertUrlMatch(BUrl+"/admin/staff",
+      "(8) Should be able to get the staff management page with the header link");
+    });
+  });
+
   casper.then(function() {
     this.waitForSelector('a[href="/admin/staff/create"]').thenClick('a[href="/admin/staff/create"]');
     this.wait(300, function() {
       test.assertUrlMatch(BUrl+"/admin/staff/create",
-      "(8) Should be able to get the account creating page with the link");
+      "(9) Should be able to get the account creating page with the link");
     });
   });
 
@@ -89,7 +95,7 @@ casper.test.begin('Test for administration functions', 24, function suite(test) 
     this.waitForSelector('a[id="backButton"]').thenClick('a[id="backButton"]');
     this.wait(300, function() {
       test.assertUrlMatch(BUrl+"/admin/staff",
-      "(9) Should be able to get back to the staff management page with the button");
+      "(10) Should be able to get back to the staff management page with the button");
     });
     this.waitForSelector('a[href="/admin/staff/create"]').thenClick('a[href="/admin/staff/create"]');
   });
@@ -104,7 +110,7 @@ casper.test.begin('Test for administration functions', 24, function suite(test) 
     this.click('button[value="Create"]');
     this.wait(300, function() {
       test.assertUrlMatch(BUrl+"/admin/staff/create",
-      "(10) Should not be able to create an account when the username is empty and stay in account creating page");
+      "(11) Should not be able to create an account when the username is empty and stay in account creating page");
     });
   });
 
@@ -118,7 +124,7 @@ casper.test.begin('Test for administration functions', 24, function suite(test) 
     this.click('button[value="Create"]');
     this.wait(300, function() {
       test.assertUrlMatch(BUrl+"/admin/staff/create",
-      "(11) Should not be able to create an account when the password is empty and stay in account creating page");
+      "(12) Should not be able to create an account when the password is empty and stay in account creating page");
     });
   });
 
@@ -132,7 +138,7 @@ casper.test.begin('Test for administration functions', 24, function suite(test) 
     this.click('button[value="Create"]');
     this.wait(300, function() {
       test.assertUrlMatch(BUrl+"/admin/staff/create",
-      "(12) Should not be able to create an account without password confirmed and stay in account creating page");
+      "(13) Should not be able to create an account without password confirmed and stay in account creating page");
     });
   });
 
@@ -146,7 +152,7 @@ casper.test.begin('Test for administration functions', 24, function suite(test) 
     this.click('button[value="Create"]');
     this.wait(300, function() {
       test.assertUrlMatch(BUrl+"/admin/staff/create",
-      "(13) Should not be able to create an account with an existing username and stay in account creating page");
+      "(14) Should not be able to create an account with an existing username and stay in account creating page");
     });
   });
 
@@ -160,7 +166,7 @@ casper.test.begin('Test for administration functions', 24, function suite(test) 
     this.click('button[value="Create"]');
     this.wait(300, function() {
       test.assertUrlMatch(BUrl+"/admin/staff",
-      "(14) Should be able to create an account with enough info (tester1 is an admin)");
+      "(15) Should be able to create an account with enough info (tester1 is an admin)");
     });
   });
 
@@ -168,7 +174,7 @@ casper.test.begin('Test for administration functions', 24, function suite(test) 
     this.waitForSelector('a[href="/admin/login?logout"]').thenClick('a[href="/admin/login?logout"]');
     this.wait(300, function() {
       test.assertTitle("Admin - Interns Australia",
-      "(15) Should be able to logoff");
+      "(16) Should be able to logoff");
     });
   });
 
@@ -180,7 +186,7 @@ casper.test.begin('Test for administration functions', 24, function suite(test) 
     this.click('button[id="btnSub"]');
     this.wait(300, function() {
       test.assertUrlMatch(BUrl+"/admin",
-      "(16) Should be able to login with the new account");
+      "(17) Should be able to login with the new account");
     });
   });
 
@@ -188,7 +194,7 @@ casper.test.begin('Test for administration functions', 24, function suite(test) 
     this.waitForSelector('a[href="/admin/staff"]').thenClick('a[href="/admin/staff"]');
     this.wait(300, function() {
       test.assertUrlMatch(BUrl+"/admin/staff",
-      "(17) Should be able to get the staff management page with the header");
+      "(18) Should be able to get the staff management page with the header");
     });
   });
 
@@ -196,7 +202,7 @@ casper.test.begin('Test for administration functions', 24, function suite(test) 
     this.waitForSelector('a[name="tester1E"]').thenClick('a[name="tester1E"]');
     this.wait(300, function() {
     test.assertExists('input[value="tester1"]',
-    "(18) Should be able to get the staff management page for 'tester1'");
+    "(19) Should be able to get the staff management page for 'tester1'");
     });
   });
 
@@ -208,7 +214,7 @@ casper.test.begin('Test for administration functions', 24, function suite(test) 
     this.click('button[id="updateBtn"]');
     this.wait(300, function() {
       test.assertTitle("Account Update - Interns Australia",
-      "(19) Should not be able to update an account without confirm");
+      "(20) Should not be able to update an account without confirm");
     });
   });
 
@@ -220,7 +226,7 @@ casper.test.begin('Test for administration functions', 24, function suite(test) 
     this.click('button[id="updateBtn"]');
     this.wait(300, function() {
       test.assertTitle("Account Update - Interns Australia",
-      "(20) Should not be able to update an account without password");
+      "(21) Should not be able to update an account without password");
     });
   });
 
@@ -233,7 +239,7 @@ casper.test.begin('Test for administration functions', 24, function suite(test) 
     this.click('button[id="updateBtn"]');
     this.wait(300, function() {
       test.assertUrlMatch(BUrl+"/admin/staff",
-      "(21) Should be able to change the password and admin state of an existing account");
+      "(22) Should be able to change the password and admin state of an existing account");
     });
   });
 
@@ -251,9 +257,83 @@ casper.test.begin('Test for administration functions', 24, function suite(test) 
     this.click('button[id="btnSub"]');
     this.wait(300, function() {
       test.assertUrlMatch(BUrl+"/admin",
-      "(22) Should be able to login with new password");
+      "(23) Should be able to login with new password");
       test.assertDoesntExist('a[id="staffButton"]',
-      "(23) Should not display staff management button to a normal user");
+      "(24) Should not display staff management button to a normal user");
+    });
+  });
+
+  casper.then(function() {
+    this.click('a[href="/admin/password-update"]');
+    this.wait(300, function() {
+      test.assertUrlMatch(BUrl+"/admin/password-update",
+      "(25) Should be able to get the change password page");
+    });
+    this.wait(300, function() {
+      this.click('a[id="btnBack"]')
+      test.assertUrlMatch(BUrl+"/admin",
+      "(26) Should be able to get back with the back button");
+    });
+  });
+
+  //右上角的改密码（未完成）
+  casper.then(function() {
+    this.click('a[href="/admin/password-update"]');
+    this.wait(300, function() {
+      this.fill('form[id="pwform"]', {
+        'oldpw': '',
+        'newpw': '1234',
+        'confirmpw': '1234'
+      }, false);
+      this.click('button[value="Submit"]');
+    });
+    this.wait(300, function() {
+      test.assertTextExists('Please enter the correct old password',
+      "(27) Should not be able to change password with the old password blank");
+    })
+  });
+
+  casper.then(function() {
+    this.click('a[href="/admin"]');
+    this.waitForSelector('a[id="surveyButton"]').thenClick('a[id="surveyButton"]');
+    this.wait(300, function() {
+      test.assertUrlMatch(BUrl+"/admin/surveys",
+      "(2n) Should be able to get survey management page with the button");
+    });
+  });
+
+  casper.then(function() {
+    this.click('a[href="/admin"]');
+    this.waitForSelector('a[id="surLi"]').thenClick('a[id="surLi"]');
+    this.wait(300, function() {
+      test.assertUrlMatch(BUrl+"/admin/surveys",
+      "(2n) Should be able to get survey management page with the header link");
+    });
+  });
+
+  casper.then(function() {
+    this.click('a[href="/admin/surveys/create"]');
+    this.wait(300, function() {
+      test.assertUrlMatch(BUrl+"/admin/surveys",
+      "(2n) Should be able to get survey create page");
+    });
+  });
+
+  casper.then(function() {
+    this.click('a[href="/admin"]');
+    this.waitForSelector('a[id="resultButton"]').thenClick('a[id="resultButton"]');
+    this.wait(300, function() {
+      test.assertUrlMatch(BUrl+"/admin/results",
+      "(2n) Should be able to get survey results page with the button");
+    });
+  });
+
+  casper.then(function() {
+    this.click('a[href="/admin"]');
+    this.waitForSelector('a[id="resLi"]').thenClick('a[id="resLi"]');
+    this.wait(300, function() {
+      test.assertUrlMatch(BUrl+"/admin/results",
+      "(2n) Should be able to get survey results page with the  header link");
     });
   });
 
@@ -273,7 +353,7 @@ casper.test.begin('Test for administration functions', 24, function suite(test) 
     this.waitForSelector('a[name="tester1D"]').thenClick('a[name="tester1D"]');
     this.wait(300, function() {
       test.assertDoesntExist('a[name="tester1D"]',
-      "(24) Should not be able to find the account deleted");
+      "(2n) Should not be able to find the account deleted");
     });
   });
 

@@ -29,10 +29,10 @@
         {% if loggedIn %}
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li><a href="/admin/surveys">Manage Surveys</a></li>
-            <li><a href="/admin/results">View Results</a></li>
+            <li><a id="surLi" href="/admin/surveys">Manage Surveys</a></li>
+            <li><a id="resLi" href="/admin/results">View Results</a></li>
             {% if isAdmin %}
-            <li><a href="/admin/staff">Manage Staff</a></li>
+            <li><a id="staLi" href="/admin/staff">Manage Staff</a></li>
             {% endif %}
           </ul>
           <ul class="nav navbar-nav navbar-right">
