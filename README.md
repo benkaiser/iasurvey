@@ -22,7 +22,7 @@ PORT XXXX node app.js
 ```
 where `XXXX` is the port number you wish to run the application on (defaults to 2000)
 
-## Testing
+## Unit Testing
 
 To run the tests you will first need to install mocha with:
 ```
@@ -38,6 +38,28 @@ Then to run the tests (located in the `test/` directory)
 mocha
 ```
 
+## Integration Testing
+
+To run the tests on windows 7 x64, you need to download and install
+```
+phantomjs 1.9.7
+casperjs 1.1.0-beta3
+python 2.7.8
+```
+And import the data from two json files, locate in `data/surveys` enter:
+```
+mongoimport -d iasurvey -c survey every_question_type.json
+```
+Locate in `data/result` enter:
+```
+mongoimport -d iasurvey -c survey tresult.json
+```
+Then, locate in `test/client_side_test`, enter the commond below to run the tests
+```
+casperjs test manage_account.js
+casperjs test filling_out_a_survey.js
+casperjs test view_result.js
+```
 ## Documentation for libraries used
 
 Server-side

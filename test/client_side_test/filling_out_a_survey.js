@@ -1,7 +1,7 @@
 var envVars = require('system').env;
 var BUrl = 'http://localhost:' + (envVars.PORT || 2000);
 
-casper.test.begin('Test for fulling out a survey', 19, function suite(test) {
+casper.test.begin('Test for fulling out a survey', 18, function suite(test) {
 
   casper.start(BUrl, function() {
     this.wait(300, function() {
@@ -11,7 +11,9 @@ casper.test.begin('Test for fulling out a survey', 19, function suite(test) {
   });
 
   casper.then(function() {
-    this.click('a[href="/survey/541acea580382a3a562ccfc7"]');
+    this.wait(300, function() {
+      this.click('a[href="/survey/541acea580382a3a562ccfc7"]');
+    });
     this.wait(300, function() {
       test.assertTextExists('Every Question Type',
       "(2) Should be able to view a test");
@@ -57,7 +59,7 @@ casper.test.begin('Test for fulling out a survey', 19, function suite(test) {
 
   casper.then(function() {
     this.fill('form[id="current_form"]', {
-      'input_c2': 'test for textbox',
+      'input_c2': 'a',
       'input_c6': 'test for paragraph'
     }, false);
     this.click('input[value="Op2 (selected)"]');
@@ -172,12 +174,13 @@ casper.test.begin('Test for fulling out a survey', 19, function suite(test) {
 
   casper.then(function() {
     this.fill('div[id="surveyContainer"]', {
-      'input_c33': '123',
+      'input_c33': '5',
       'input_c23': '',
       'input_c27': '11:20 PM'
     }, false);
     this.click('div[id="next"]');
     this.wait(300, function() {
+
       test.assertTextExists('Congratulations!',
       "(18) Should allow user continue when required questions are answered and optional ones are blank");
     });
