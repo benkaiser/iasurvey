@@ -40,24 +40,38 @@ mocha
 
 ## Integration Testing
 
-To run the tests on windows 7 x64, you need to download and install
+To run the integration tests on windows 7 x64, you need to download and install
 ```
 phantomjs 1.9.7
 casperjs 1.1.0-beta3
 python 2.7.8
 ```
-And import the data from two json files, locate in `data/surveys` enter:
+And import the data from json file when it is needed. Once the test program stops, please reset the server and try again.
+
+(1) To run the test for account management function, direct to `test/client_side_test` and run:
+```
+casperjs test manage_account.js
+```
+(2) To run the test for filling out a survey, direct to `data/surveys` and enter to import the data first:
 ```
 mongoimport -d iasurvey -c survey every_question_type.json
 ```
-Locate in `data/result` enter:
+Then direct to `test/client_side_test` and run:
+```
+casperjs test filling_out_a_survey.js
+```
+(3) To run the test for viewing the result of surveys, you need to drop the data you have now and import one from a json file
+Open Mongodb and enter:
+```
+use iasurvey
+db.result.drop()
+```
+Then, run the command in `data/result` to import the result data:
 ```
 mongoimport -d iasurvey -c survey tresult.json
 ```
-Then, locate in `test/client_side_test`, enter the commond below to run the tests
+At last, locate in `test/client_side_test`, enter:
 ```
-casperjs test manage_account.js
-casperjs test filling_out_a_survey.js
 casperjs test view_result.js
 ```
 ## Documentation for libraries used
@@ -84,6 +98,8 @@ Client-side
 - [head.js](http://headjs.com/) load css and js asynchronously, speeding up page-load
 - [sift.js](https://github.com/crcn/sift.js) for querying the results array
 - [html5csv](https://github.com/DrPaulBrewer/html5csv) for generating and triggering the csv download from the results page
+- [phantomjs](http://phantomjs.org) for integration testing environment
+- [casperjs](http://casperjs.org) for runing the integration testing programs
 
 All other frameworks used are either part of the above, dependencies of the above or perform a function to trivial to mention.
 
