@@ -46,12 +46,14 @@ phantomjs 1.9.7
 casperjs 1.1.0-beta3
 python 2.7.8
 ```
-And import the data from json file when it is needed. Once the test program stops, please reset the server and try again.
+And import the data from json file when it is needed.
 
 (1) To run the test for account management function, direct to `test/client_side_test` and run:
 ```
 casperjs test manage_account.js
 ```
+If you cancel the test during the program is running, please delete the account created by the test program, so that the test program can work again
+
 (2) To run the test for filling out a survey, direct to `data/surveys` and enter to import the data first:
 ```
 mongoimport -d iasurvey -c survey every_question_type.json
