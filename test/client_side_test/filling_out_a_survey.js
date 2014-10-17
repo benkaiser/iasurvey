@@ -37,9 +37,10 @@ casper.test.begin('Test for fulling out a survey', 18, function suite(test) {
       'input_c2': '',
       'input_c6': 'test for paragraph'
     }, false);
-    this.click('input[id="input_c16"]');
+    this.click('input[value="Op1 (R)"]');
     this.click('div[id="next"]');
     this.wait(300, function() {
+      //this.capture("sss.png");
       test.assertTextExists('Text?',
       "(4) Should not allow user continue when the required textbox is blank");
     });
@@ -62,8 +63,8 @@ casper.test.begin('Test for fulling out a survey', 18, function suite(test) {
       'input_c2': 'a',
       'input_c6': 'test for paragraph'
     }, false);
-    this.click('input[value="Op2 (selected)"]');
-    this.click('input[value="Op3 (selected)"]');
+    this.click('input[value="Op2 (C)"]');
+    this.click('input[value="Op3 (C)"]');
     this.click('div[id="next"]');
     this.wait(300, function() {
       test.assertTextExists('Checkbox?',
@@ -72,8 +73,7 @@ casper.test.begin('Test for fulling out a survey', 18, function suite(test) {
   });
 
   casper.then(function() {
-    this.click('input[value="Op1"]');
-    this.click('input[value="Op2 (selected)"]');
+    this.click('input[value="Op3 (C)"]');
     this.evaluate(function() {
         document.querySelector('select[id="input_c25"]').selectedIndex = 0;
     });
@@ -180,18 +180,9 @@ casper.test.begin('Test for fulling out a survey', 18, function suite(test) {
     }, false);
     this.click('div[id="next"]');
     this.wait(300, function() {
-
       test.assertTextExists('Congratulations!',
       "(18) Should allow user continue when required questions are answered and optional ones are blank");
     });
-  });
-
-  casper.thenOpen(BUrl+'/admin/login',function() {
-    this.fill('div[class="sign_in"]', {
-      'txtUserName': 'admin',
-      'txtUserPwd': 'iaadminpass'
-    }, false);
-    this.click('button[id="btnSub"]');
   });
 
   casper.run(function() {

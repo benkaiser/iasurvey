@@ -89,7 +89,7 @@
   {% for option in  field_options.options %}
     <div class="checkbox">
       <label>
-        <input type="checkbox" id="input_{{cid}}"  name="input_{{cid}}"
+        <input type="checkbox" id="Cinput_{{cid}}"  name="input_{{cid}}"
         {% if last_value %}
           {% for val in last_value %}
             {% if val == option.label %}checked{% endif %}
@@ -110,7 +110,7 @@
   {% for option in  field_options.options %}
     <div class="checkbox">
       <label>
-        <input type="radio" id="input_{{cid}}"  name="input_{{cid}}"
+        <input type="radio" id="Rinput_{{cid}}"  name="input_{{cid}}"
         {% if last_value %}
           {% if last_value == option.label %}checked{% endif %}
         {% else %}

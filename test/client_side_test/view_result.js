@@ -1,10 +1,9 @@
 var envVars = require('system').env;
 var BUrl = 'http://localhost:' + (envVars.PORT || 2000);
 
-casper.test.begin('Test for viewing a result', 12, function suite(test) {
+casper.test.begin('Test for viewing a result \n# (Pic) means there Should be a screenshot for the chart under to confirm"/test/client_side_test"', 12, function suite(test) {
 
   casper.start(BUrl+'/admin/login', function() {
-    casper.echo('# (Pic) means there Should be a screenshot for the chart under to confirm"/test/client_side_test" ');
     this.fill('div[class="sign_in"]', {
       'txtUserName': 'admin',
       'txtUserPwd': 'iaadminpass'
@@ -16,9 +15,7 @@ casper.test.begin('Test for viewing a result', 12, function suite(test) {
   });
 
   casper.then(function() {
-    this.wait(300, function() {
-      this.click('a[href="/admin/results/541acea580382a3a562ccfc7"]');
-    });
+    this.click('a[href="/admin/results/541acea580382a3a562ccfc7"]');
     this.wait(300, function() {
       test.assertUrlMatch(BUrl+"/admin/results/541acea580382a3a562ccfc7",
       "(1) Should be able to get the result view page");
