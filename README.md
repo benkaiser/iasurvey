@@ -18,7 +18,7 @@ npm install # install the dependencies of the project
 
 To run the server:
 ```
-PORT XXXX node app.js
+PORT=XXXX node app.js
 ```
 where `XXXX` is the port number you wish to run the application on (defaults to 2000)
 
